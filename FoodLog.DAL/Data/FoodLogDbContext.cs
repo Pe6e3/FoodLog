@@ -27,154 +27,127 @@ public class FoodLogDbContext : DbContext
             .WithMany(e => e.Categories);
 
 
+
         modelBuilder.Entity<Category>()
             .HasData(
-                new Category { Name = "Фрукты" },
-                new Category { Name = "Сухофрукты" },
-                new Category { Name = "Зелень / Овощи" },
-                new Category { Name = "Соки / Чай" },
-                new Category { Name = "Вода" },
-                new Category { Name = "Орехи / Злаки / Семена" },
-                new Category { Name = "Термичка растительная" },
-                new Category { Name = "Молочка" },
-                new Category { Name = "Яйцо" },
-                new Category { Name = "Рыба / Морепродукты" },
-                new Category { Name = "Мясо" },
-                new Category { Name = "Термичка на ПЖП" },
-                new Category { Name = "Кофе" },
-                new Category { Name = "Кондитерка" }
+                new Category { Guid = Guid.NewGuid(), Name = "Фрукты" },
+                new Category { Guid = Guid.NewGuid(), Name = "Сухофрукты" },
+                new Category { Guid = Guid.NewGuid(), Name = "Зелень / Овощи" },
+                new Category { Guid = Guid.NewGuid(), Name = "Соки / Чай" },
+                new Category { Guid = Guid.NewGuid(), Name = "Вода" },
+                new Category { Guid = Guid.NewGuid(), Name = "Орехи / Злаки / Семена" },
+                new Category { Guid = Guid.NewGuid(), Name = "Термичка растительная" },
+                new Category { Guid = Guid.NewGuid(), Name = "Молочка" },
+                new Category { Guid = Guid.NewGuid(), Name = "Яйцо" },
+                new Category { Guid = Guid.NewGuid(), Name = "Рыба / Морепродукты" },
+                new Category { Guid = Guid.NewGuid(), Name = "Мясо" },
+                new Category { Guid = Guid.NewGuid(), Name = "Термичка на ПЖП" },
+                new Category { Guid = Guid.NewGuid(), Name = "Кофе" },
+                new Category { Guid = Guid.NewGuid(), Name = "Кондитерка" }
             );
+
         modelBuilder.Entity<Product>()
     .HasData(
         new Product
         {
+            Guid = Guid.NewGuid(),
+
             Name = "Яблоко",
             Caloriers = 52,
             Prot = 0.3,
             Carb = 11.4,
             Fat = 0.4,
             HarmScore = 10, // Примерный уровень вреда (на усмотрение)
-            Categories = new List<Category>
-            {
-                new Category { Name = "Фрукты" }
-            }
         },
         new Product
         {
+            Guid = Guid.NewGuid(),
             Name = "Миндаль",
             Caloriers = 576,
             Prot = 21,
             Carb = 6,
             Fat = 49,
             HarmScore = 20, // Примерный уровень вреда (на усмотрение)
-            Categories = new List<Category>
-            {
-                new Category { Name = "Орехи / Злаки / Семена" }
-            }
         },
         new Product
         {
+            Guid = Guid.NewGuid(),
             Name = "Томат",
             Caloriers = 18,
             Prot = 0.9,
             Carb = 3.9,
             Fat = 0.2,
             HarmScore = 5, // Примерный уровень вреда (на усмотрение)
-            Categories = new List<Category>
-            {
-                new Category { Name = "Зелень / Овощи" }
-            }
         },
         new Product
         {
+            Guid = Guid.NewGuid(),
             Name = "Йогурт",
             Caloriers = 59,
             Prot = 3.5,
             Carb = 4.7,
             Fat = 3.0,
             HarmScore = 15, // Примерный уровень вреда (на усмотрение)
-            Categories = new List<Category>
-            {
-                new Category { Name = "Молочка" }
-            }
         },
         new Product
         {
+            Guid = Guid.NewGuid(),
             Name = "Лосось",
             Caloriers = 208,
             Prot = 20,
             Carb = 0,
             Fat = 14.3,
             HarmScore = 25, // Примерный уровень вреда (на усмотрение)
-            Categories = new List<Category>
-            {
-                new Category { Name = "Рыба / Морепродукты" }
-            }
         },
-                new Product
-                {
-                    Name = "Банан",
-                    Caloriers = 96,
-                    Prot = 1.0,
-                    Carb = 21.0,
-                    Fat = 0.2,
-                    HarmScore = 10, // Примерный уровень вреда (на усмотрение)
-                    Categories = new List<Category>
-            {
-                new Category { Name = "Фрукты" }
-            }
-                },
+       new Product
+       {
+           Guid = Guid.NewGuid(),
+           Name = "Банан",
+           Caloriers = 96,
+           Prot = 1.0,
+           Carb = 21.0,
+           Fat = 0.2,
+           HarmScore = 10, // Примерный уровень вреда (на усмотрение)
+       },
         new Product
         {
+            Guid = Guid.NewGuid(),
             Name = "Апельсин",
             Caloriers = 43,
             Prot = 0.9,
             Carb = 8.2,
             Fat = 0.2,
             HarmScore = 5, // Примерный уровень вреда (на усмотрение)
-            Categories = new List<Category>
-            {
-                new Category { Name = "Фрукты" }
-            }
         },
         new Product
         {
+            Guid = Guid.NewGuid(),
             Name = "Виноград",
             Caloriers = 69,
             Prot = 0.6,
             Carb = 17.6,
             Fat = 0.2,
             HarmScore = 8, // Примерный уровень вреда (на усмотрение)
-            Categories = new List<Category>
-            {
-                new Category { Name = "Фрукты" }
-            }
         },
         new Product
         {
+            Guid = Guid.NewGuid(),
             Name = "Груша",
             Caloriers = 57,
             Prot = 0.4,
             Carb = 12.7,
             Fat = 0.1,
             HarmScore = 7, // Примерный уровень вреда (на усмотрение)
-            Categories = new List<Category>
-            {
-                new Category { Name = "Фрукты" }
-            }
         },
         new Product
         {
+            Guid = Guid.NewGuid(),
             Name = "Киви",
             Caloriers = 61,
             Prot = 1.1,
             Carb = 14.6,
             Fat = 0.5,
             HarmScore = 6, // Примерный уровень вреда (на усмотрение)
-            Categories = new List<Category>
-            {
-                new Category { Name = "Фрукты" }
-            }
         }
     );
 

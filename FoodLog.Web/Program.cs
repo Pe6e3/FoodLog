@@ -7,7 +7,13 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<FoodLogDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FoodLogContext")));
+
+
+
 builder.Services.AddRazorPages();
+//builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => {
@@ -15,9 +21,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = new PathString("/Home/AccessDenied");
     });
 
-builder.Services.AddDbContext<FoodLogDbContext>(options =>
-  options.UseSqlServer(builder.Configuration.GetConnectionString("FoodLogDbContext")));
-//builder.Services.AddScoped<UnitOfWork>();
 
 
 var app = builder.Build();
