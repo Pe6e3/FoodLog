@@ -1,0 +1,35 @@
+﻿@using FoodLog.DAL.Entities
+@model List<Product>
+
+<div class="container">
+
+    <table class="cinereousTable">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Калории</th>
+                <th>Белки</th>
+                <th>Жиры</th>
+                <th>Углеводы</th>
+                <th>Оценка вреда</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Caloriers</td>
+                    <td>@product.Prot</td>
+                    <td>@product.Fat</td>
+                    <td>@product.Carb</td>
+                    <td>@product.HarmScore</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
