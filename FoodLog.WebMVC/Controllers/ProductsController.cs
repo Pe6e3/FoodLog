@@ -15,9 +15,21 @@ namespace FoodLog.DAL.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Product> products = await _db.Products.ToListAsync();
+            List<Product> products = await _db.Products.OrderByDescending(x=>x.Caloriers).ToListAsync();
 
             return View(products);
         }
+
+
+        public async Task<IActionResult> Create() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Product product)
+        {
+            await _db.Products.AddAsync(product);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
