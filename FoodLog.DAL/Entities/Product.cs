@@ -10,4 +10,6 @@ public class Product : BaseEntity
     public double HarmScore { get; set; }
     public virtual List<Category>? Categories { get; set; }
 
+
+
 }
