@@ -110,6 +110,71 @@ public class FoodLogDbContext : DbContext
             {
                 new Category { Name = "Рыба / Морепродукты" }
             }
+        },
+                new Product
+                {
+                    Name = "Банан",
+                    Caloriers = 96,
+                    Prot = 1.0,
+                    Carb = 21.0,
+                    Fat = 0.2,
+                    HarmScore = 10, // Примерный уровень вреда (на усмотрение)
+                    Categories = new List<Category>
+            {
+                new Category { Name = "Фрукты" }
+            }
+                },
+        new Product
+        {
+            Name = "Апельсин",
+            Caloriers = 43,
+            Prot = 0.9,
+            Carb = 8.2,
+            Fat = 0.2,
+            HarmScore = 5, // Примерный уровень вреда (на усмотрение)
+            Categories = new List<Category>
+            {
+                new Category { Name = "Фрукты" }
+            }
+        },
+        new Product
+        {
+            Name = "Виноград",
+            Caloriers = 69,
+            Prot = 0.6,
+            Carb = 17.6,
+            Fat = 0.2,
+            HarmScore = 8, // Примерный уровень вреда (на усмотрение)
+            Categories = new List<Category>
+            {
+                new Category { Name = "Фрукты" }
+            }
+        },
+        new Product
+        {
+            Name = "Груша",
+            Caloriers = 57,
+            Prot = 0.4,
+            Carb = 12.7,
+            Fat = 0.1,
+            HarmScore = 7, // Примерный уровень вреда (на усмотрение)
+            Categories = new List<Category>
+            {
+                new Category { Name = "Фрукты" }
+            }
+        },
+        new Product
+        {
+            Name = "Киви",
+            Caloriers = 61,
+            Prot = 1.1,
+            Carb = 14.6,
+            Fat = 0.5,
+            HarmScore = 6, // Примерный уровень вреда (на усмотрение)
+            Categories = new List<Category>
+            {
+                new Category { Name = "Фрукты" }
+            }
         }
     );
 
