@@ -1,7 +1,11 @@
 ﻿@using FoodLog.DAL.Entities
 @model List<Product>
 
+
 <div class="container">
+<div class="d-flex justify-content-end mb-2">
+    <a class="btn btn-outline-danger" asp-controller="Products" asp-action="Create"> Новый продукт </a>
+</div>
 
     <table class="cinereousTable">
         <thead>
@@ -12,6 +16,7 @@
                 <th>Жиры</th>
                 <th>Углеводы</th>
                 <th>Оценка вреда</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -24,13 +29,13 @@
                     <td>@product.Fat</td>
                     <td>@product.Carb</td>
                     <td>@product.HarmScore</td>
+                    <td>
+                        <a asp-action="Delete" asp-route-prodGuid="@product.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 
 </div>
-
-<hr />
-<a class="btn btn-outline-danger" asp-controller="Products" asp-action="Create"> Новый продукт </a>
 <link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />

@@ -16,7 +16,6 @@ namespace FoodLog.DAL.Controllers
         public async Task<IActionResult> Index()
         {
             List<Product> products = await _db.Products.OrderByDescending(x=>x.Caloriers).ToListAsync();
-
             return View(products);
         }
 
@@ -28,6 +27,17 @@ namespace FoodLog.DAL.Controllers
         {
             await _db.Products.AddAsync(product);
             _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(Guid prodGuid)
+        {
+            Product? product = await _db.Products.FirstOrDefaultAsync(x => x.Guid == prodGuid);
+               if (product is null)
+                return RedirectToAction(nameof(Index));
+
+            _db.Set<Product>().Remove(product);
+            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

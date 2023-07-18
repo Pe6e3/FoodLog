@@ -1,0 +1,35 @@
+﻿@using FoodLog.DAL.Entities
+@model List<Category>
+
+<div class="container ">
+    <div class="d-flex justify-content-center mb-2">
+        <a class="btn btn-outline-danger" asp-controller="Categories" asp-action="Create"> Новая категория </a>
+    </div>
+
+    <div class="row d-flex justify-content-center">
+
+        <table class="cinereousTable w-25 ">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>@category.Name</td>
+                        <td>
+                            <a asp-action="Delete" asp-route-catGuid="@category.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
