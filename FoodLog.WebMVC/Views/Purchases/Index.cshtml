@@ -2,38 +2,40 @@
 @model IEnumerable<Purchase>
 
 <div class="container">
-    <div class="d-flex justify-content-end mb-2">
+    <div class="d-flex justify-content-center mb-2">
         <a class="btn btn-outline-danger" asp-controller="Purchases" asp-action="Create">Новая покупка</a>
     </div>
+    <div class="row d-flex justify-content-center">
 
-    <table class="cinereousTable">
-        <thead>
-            <tr>
-                <th>Идентификатор продукта</th>
-                <th>Дата</th>
-                <th>Вес</th>
-                <th>Цена</th>
-                <th>Общая стоимость</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var purchase in Model)
-            {
+        <table class="cinereousTable w-50">
+            <thead>
                 <tr>
-                    <td>@purchase.ProductGuid</td>
-                    <td>@purchase.Date</td>
-                    <td>@purchase.Weight</td>
-                    <td>@purchase.Price</td>
-                    <td>@purchase.Cost</td>
-                    <td>
-                        <a asp-action="Delete" asp-route-purchaseGuid="@purchase.Guid">
-                            <i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i>
-                        </a>
-                    </td>
+                    <th>Продукт</th>
+                    <th>Вес</th>
+                    <th>Цена</th>
+                    <th>Cтоимость</th>
+                    <th>Дата</th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var purchase in Model)
+                {
+                    <tr>
+                        <td>@purchase.Product.Name</td>
+                        <td>@purchase.Weight</td>
+                        <td>@purchase.Price</td>
+                        <td>@purchase.Cost</td>
+                        <td>@purchase.Date.ToShortDateString()</td>
+                        <td>
+                            <a asp-action="Delete" asp-route-purchaseGuid="@purchase.Guid">
+                                <i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 <link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
