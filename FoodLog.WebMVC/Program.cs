@@ -1,3 +1,4 @@
+using FoodLog.BLL;
 using FoodLog.DAL.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,8 @@ builder.Services.AddDbContext<FoodLogDbContext>(options =>
 
 
 builder.Services.AddRazorPages();
-//builder.Services.AddScoped<UnitOfWork>();
+builder.Services.AddScoped<UnitOfWork>();
+
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => {
