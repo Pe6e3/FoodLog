@@ -1,5 +1,6 @@
 ﻿using FoodLog.BLL.Repositories;
 using FoodLog.DAL.Data;
+using FoodLog.DAL.Interfaces;
 
 namespace FoodLog.BLL;
 
@@ -13,9 +14,17 @@ public class UnitOfWork
 
     private ProductRepository _productRepository;
     private CategoryRepository _categoryRepository;
+    private ConsumptionRepository _consumptionRepository;
+    private PurchaseRepository _purchaseRepository;
+    private StorageProductRepository _storageProductRepository;
+    private TrashRepository _trashRepository;
 
     public ProductRepository ProductRepository => _productRepository ??= new ProductRepository(_db);
     public CategoryRepository CategoryRepository => _categoryRepository ??= new CategoryRepository(_db);
+    public ConsumptionRepository ConsumptionRepository => _consumptionRepository ??= new ConsumptionRepository(_db);
+    public PurchaseRepository PurchaseRepository => _purchaseRepository ??= new PurchaseRepository(_db);
+    public StorageProductRepository StorageProductRepository => _storageProductRepository ??= new StorageProductRepository(_db);
+    public TrashRepository TrashRepository => _trashRepository ??= new TrashRepository(_db);
 
 
 
