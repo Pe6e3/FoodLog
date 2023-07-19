@@ -1,43 +1,37 @@
-﻿using FoodLog.DAL.Data;
+﻿using FoodLog.BLL;
+using FoodLog.DAL.Data;
 using FoodLog.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodLog.WebMVC.Controllers;
 
-public class CategoriesController :Controller
+public class CategoriesController : Controller
 {
-    private readonly FoodLogDbContext _db;
-    public CategoriesController(FoodLogDbContext db)
+    private readonly UnitOfWork _uow;
+    public CategoriesController(UnitOfWork uow)
     {
-        _db = db;
+        _uow = uow;
     }
 
     public async Task<IActionResult> Index()
     {
-        List<Category> categories = await _db.Categories.ToListAsync();
+        IEnumerable<Category> categories = await _uow.CategoryRepository.GetEntity();
         return View(categories);
-
     }
     public async Task<IActionResult> Create() => View();
 
     [HttpPost]
     public async Task<IActionResult> Create(Category category)
     {
-        await _db.Categories.AddAsync(category);
-        _db.SaveChanges();
+        await _uow.CategoryRepository.Insert(category);
         return RedirectToAction(nameof(Index));
     }
 
 
     public async Task<IActionResult> Delete(Guid catGuid)
     {
-        Category? category = await _db.Categories.FirstOrDefaultAsync(x => x.Guid == catGuid);
-        if (category is null)
-            return RedirectToAction(nameof(Index));
-
-        _db.Set<Category>().Remove(category);
-        await _db.SaveChangesAsync();
+        await _uow.CategoryRepository.Delete(catGuid);
         return RedirectToAction(nameof(Index));
     }
 

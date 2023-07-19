@@ -1,22 +1,23 @@
-﻿using FoodLog.DAL.Data;
-using FoodLog.DAL.Entities;
+﻿using FoodLog.BLL;
 using Microsoft.AspNetCore.Mvc;
+using FoodLog.DAL.Data;
+using FoodLog.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodLog.DAL.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly FoodLogDbContext _db;
-        public ProductsController(FoodLogDbContext db)
+        private readonly UnitOfWork _uow;
+        public ProductsController(UnitOfWork uow)
         {
-            _db = db;
+            _uow = uow;
         }
 
         public async Task<IActionResult> Index()
         {
-            List<Product> products = await _db.Products.OrderByDescending(x=>x.Caloriers).ToListAsync();
-            return View(products);
+            IEnumerable<Product> products = await _uow.ProductRepository.GetEntity();
+            return View(products.OrderByDescending(x => x.Caloriers));
         }
 
 
@@ -25,19 +26,13 @@ namespace FoodLog.DAL.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
-            await _db.Products.AddAsync(product);
-            _db.SaveChanges();
+            await _uow.ProductRepository.Insert(product);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(Guid prodGuid)
         {
-            Product? product = await _db.Products.FirstOrDefaultAsync(x => x.Guid == prodGuid);
-               if (product is null)
-                return RedirectToAction(nameof(Index));
-
-            _db.Set<Product>().Remove(product);
-            await _db.SaveChangesAsync();
+            await _uow.ProductRepository.Delete(prodGuid);
             return RedirectToAction(nameof(Index));
         }
 
