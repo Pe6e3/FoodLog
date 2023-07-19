@@ -14,7 +14,7 @@ namespace FoodLog.DAL.Controllers
             _uow = uow;
         }
 
-        public async Task<IActionResult> Index() => View(await _uow.PurchaseRepository.GetEntity());
+        public async Task<IActionResult> Index() => View(await _uow.PurchaseRepository.GetEntity(Include: "Product"));
 
 
         public async Task<IActionResult> Create()
@@ -41,8 +41,9 @@ namespace FoodLog.DAL.Controllers
         }
 
 
-        public async Task<IActionResult> Delete(Guid prodGuid)
+        public async Task<IActionResult> Delete(Guid purchaseGuid)
         {
+            await _uow.PurchaseRepository.Delete(purchaseGuid);
             return RedirectToAction(nameof(Index));
         }
 
