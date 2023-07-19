@@ -7,4 +7,6 @@ public class StorageProduct : BaseEntity
     public virtual Product Product { get; set; } = null!;
 
     public double CurrentWeight { get; set; }
+    public double CurrentCost { get; set; }
+
 }

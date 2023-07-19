@@ -1,0 +1,35 @@
+﻿@using FoodLog.WebMVC.ViewModels;
+@model IEnumerable<StorageLineVM>
+
+<div class="container">
+    <div class="d-flex justify-content-end mb-2">
+        <a class="btn btn-outline-danger" asp-controller="StorageProducts" asp-action="Create">Добавить продукт на склад</a>
+    </div>
+
+    <table class="cinereousTable">
+        <thead>
+            <tr>
+                <th>Наименование продукта</th>
+                <th>Текущий вес</th>
+                <th>Стоимость</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var storageProduct in Model)
+            {
+                <tr>
+                    <td>@storageProduct.ProductName</td>
+                    <td>@storageProduct.CurrentWeight</td>
+                    <td>@storageProduct.CurrentCost</td>
+                    <td>
+                        <a asp-action="Delete" asp-route-storageProductGuid="@storageProduct.Guid">
+                            <i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
