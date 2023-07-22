@@ -8,7 +8,7 @@
     ViewData["Title"] = "Добавить съеденный продукт";
 }
 
-<div class="container">
+<div class="container createNew">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h2 class="text-center my-5">Добавить съеденный продукт</h2>
@@ -38,7 +38,7 @@
 
                 <div class="form-group row my-2">
                     <label for="TrashPercentage" class="col-sm-4 col-form-label">Списано в %</label>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <input type="text" class="form-control" id="TrashPercentage" name="TrashPercentage" value="">
                     </div>
                 </div>
@@ -80,16 +80,25 @@
 <script>
     $(document).ready(function () {
         // Обработчик события изменения выбора продукта
-        $("#ProductGuid").change(function () {
-            var selectedProductGuid = $(this).val();
-            var allProductsJson = @Html.Raw(JsonConvert.SerializeObject(ViewBag.AllProducts));
-            var selectedProduct = allProductsJson.find(product => product.Guid === selectedProductGuid);
+        var selectedProductGuid;
+        var allProductsJson;
+        var selectedProduct;
+        var brutto;
+        var netto;
+        var trashPercent;
+        var trashWeight
 
-            // Если продукт найден, обновляем значение поля ввода TrashPercentage
-            if (selectedProduct) {
-                $("#TrashPercentage").val(selectedProduct.TrashPercentage);
-            }
-            updateTrashWeight();
+        $("#ProductGuid").change(function () {                // Если выбираем продукт
+            selectedProductGuid = $(this).val();
+            allProductsJson = @Html.Raw(JsonConvert.SerializeObject(ViewBag.AllProducts));
+            selectedProduct = allProductsJson.find(product => product.Guid === selectedProductGuid);
+
+            $("#TrashPercentage").val(selectedProduct.TrashPercentage);
+
+            if (!isNaN(brutto))
+                updateTrashWeight();
+            updateNetto();
+
         });
 
         // Обработчик события изменения значения поля "Вес из магазина"
@@ -99,33 +108,81 @@
 
         // Обработчик события изменения значения поля "Списано в г"
         $("#TrashWeight").on("input", function () {
-            updateNettoWeight();
+            updateTrashPercentage();
+            updateNetto();
         });
 
-        function updateTrashWeight() {
-            var bruttoValue = parseFloat($("#Brutto").val());
-            var trashPercentageValue = parseFloat($("#TrashPercentage").val());
+        // Обработчик события изменения значения поля "Списано в %"
+        $("#TrashPercentage").on("input", function () {
+            updateTrashWeightFromPercentage();
+        });
 
-            if (!isNaN(bruttoValue) && !isNaN(trashPercentageValue)) {
-                var trashWeightValue = (bruttoValue * trashPercentageValue) / 100;
-                $("#TrashWeight").val(trashWeightValue.toFixed(0));
-                updateNettoWeight();
+        function updateTrashWeight() {                           // Если меняем "Списано в г" (и при выборе продукта)
+            brutto = parseFloat($("#Brutto").val());                        // Получаем "Вес из магазина""
+            trashPercent = parseFloat($("#TrashPercentage").val());         // Получаем "Списание в %"
+
+            if (!isNaN(brutto) && !isNaN(trashPercent)) {                   // Выполняется, если "Вес из Магазина" и "Списание в %" заполнены (и являются числами)
+                trashWeight = (brutto * trashPercent) / 100;
+                $("#TrashWeight").val(trashWeight.toFixed(0));
+                updateNetto();
             } else {
-                $("#TrashWeight").val("");
-                updateNettoWeight();
+                // ?
             }
         }
 
-        function updateNettoWeight() {
-            var bruttoValue = parseFloat($("#Brutto").val());
-            var trashWeightValue = parseFloat($("#TrashWeight").val());
+        function updateTrashPercentage() {                      // Если меняем "Списано в %"
+            brutto = parseFloat($("#Brutto").val());
+            trashWeight = parseFloat($("#TrashWeight").val());
 
-            if (!isNaN(bruttoValue) && !isNaN(trashWeightValue)) {
-                var nettoWeightValue = bruttoValue - trashWeightValue;
-                $("#Netto").val(nettoWeightValue.toFixed(0));
+            if (!isNaN(brutto) && !isNaN(trashWeight)) {
+                trashPercent = (trashWeight / brutto) * 100;
+                $("#TrashPercentage").val(trashPercent.toFixed(0));
+            } else {
+                $("#TrashPercentage").val("");
+            }
+        }
+
+        function updateTrashWeightFromPercentage() {           // Меняем "Списано в г" если изменили "Списано в %"
+            brutto = parseFloat($("#Brutto").val());
+            trashPercent = parseFloat($("#TrashPercentage").val());
+
+            if (!isNaN(brutto) && !isNaN(trashPercent)) {
+                trashWeight = (brutto * trashPercent) / 100;
+                $("#TrashWeight").val(trashWeight.toFixed(0));
+                updateNetto();
+            } else {
+                $("#TrashWeight").val("");
+                updateNetto();
+            }
+        }
+
+        function updateNetto() {
+            brutto = parseFloat($("#Brutto").val());
+            trashWeight = parseFloat($("#TrashWeight").val());
+
+            if (!isNaN(brutto) && !isNaN(trashWeight)) {
+                netto = brutto - trashWeight;
+                $("#Netto").val(netto.toFixed(0));
             } else {
                 $("#Netto").val("");
             }
         }
     });
 </script>
+
+
+
+<style>
+    .createNew * input {
+        min-width: 60px;
+        max-width: 300px;
+    }
+
+    /*.createNew * label {
+                                min-width: 300px;
+                            }*/
+
+    .createNew * form {
+        min-width: 600px;
+    }
+</style>
