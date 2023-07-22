@@ -31,15 +31,15 @@ namespace FoodLog.DAL.Controllers
         public async Task<IActionResult> Create(Purchase purchase)
         {
             if (purchase.Cost == 0 && purchase.Price != 0)
-                purchase.Cost = purchase.Price * purchase.Weight / 1000;
-            if (purchase.Cost != 0 && purchase.Price != 0 && purchase.Cost != (purchase.Price * purchase.Weight / 1000))
+                purchase.Cost = Math.Round((purchase.Price * purchase.Weight / 1000), 1);
+            if (purchase.Cost != 0 && purchase.Price != 0 && purchase.Cost != Math.Round((purchase.Price * purchase.Weight / 1000), 1))
             {
                 ModelState.AddModelError(string.Empty, "Стоимость не равна цене умноженной на вес");
                 ViewBag.AllProducts = await _uow.ProductRepository.GetEntity();
                 return View(purchase);
             }
             if (purchase.Cost != 0 && purchase.Price == 0)
-                purchase.Price = purchase.Cost / (purchase.Weight / 1000);
+                purchase.Price = Math.Round(purchase.Cost / (purchase.Weight / 1000), 1);
             await _uow.PurchaseRepository.Insert(purchase);
 
             // добавляем купленный товар на склад

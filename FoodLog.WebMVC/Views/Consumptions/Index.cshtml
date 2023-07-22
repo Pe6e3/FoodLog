@@ -1,0 +1,43 @@
+﻿@using FoodLog.DAL.Entities;
+@*Список всех съеденных продуктов Consumption.cs*@
+
+@model List<Consumption>
+
+
+<div class="container">
+    <div class="d-flex justify-content-end mb-2">
+        <a class="btn btn-outline-danger" asp-controller="Consumptions" asp-action="Create"> Добавить съеденный продукт </a>
+    </div>
+
+    <table class="cinereousTable">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Название</th>
+                <th>Чистый вес</th>
+                <th>Вес с магазина</th>
+                <th>Списано г</th>
+                <th>Списано Списано в %</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var consumption in Model)
+            {
+                <tr>
+                    <td>@consumption.Date.ToShortDateString()</td>
+                    <td>@consumption.Product.Name </td>
+                    <td>@consumption.Netto</td>
+                    <td>@consumption.Brutto</td>
+                    <td>@consumption.TrashWeight</td>
+                    <td>@consumption.TrashPercentage</td>
+                    <td>
+                        <a asp-action="Delete" asp-route-consumGuid="@consumption.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
