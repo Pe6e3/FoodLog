@@ -3,15 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using FoodLog.DAL.Data;
 using FoodLog.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace FoodLog.DAL.Controllers
 {
     public class PurchasesController : Controller
     {
         private readonly UnitOfWork _uow;
-        public PurchasesController(UnitOfWork uow)
+        private readonly IMapper _mapper;
+
+        public PurchasesController(UnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index() => View(await _uow.PurchaseRepository.GetEntity(Include: "Product"));
@@ -37,14 +41,22 @@ namespace FoodLog.DAL.Controllers
             if (purchase.Cost != 0 && purchase.Price == 0)
                 purchase.Price = purchase.Cost / (purchase.Weight / 1000);
             await _uow.PurchaseRepository.Insert(purchase);
+
+            // добавляем купленный товар на склад
+            var storageProduct = new StorageProduct();
+            _mapper.Map(purchase, storageProduct);
+            await _uow.StorageProductRepository.Insert(storageProduct);
+
             return RedirectToAction(nameof(Index));
         }
 
 
+
         public async Task<IActionResult> Delete(Guid purchaseGuid)
         {
-            await _uow.PurchaseRepository.Delete(purchaseGuid);
+            await _uow.PurchaseRepository.DeletePurchase(purchaseGuid);
             return RedirectToAction(nameof(Index));
+
         }
 
     }

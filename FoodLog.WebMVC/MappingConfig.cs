@@ -10,17 +10,22 @@ namespace Portal.Web
         public MappingConfig()
         {
             CreateMap<StorageLineVM, StorageProduct>()
-                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.Guid))
+                .ForMember(dest => dest.SourceGuid, opt => opt.MapFrom(src => src.Guid))
                 .ForMember(dest => dest.CurrentCost, opt => opt.MapFrom(src => src.CurrentCost))
                 .ForMember(dest => dest.CurrentWeight, opt => opt.MapFrom(src => src.CurrentWeight))
-                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.Guid));
+                .ForMember(dest => dest.ProductGuid, opt => opt.MapFrom(src => src.ProductGuid));
 
             CreateMap<StorageProduct, StorageLineVM>()
                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.Guid))
                .ForMember(dest => dest.CurrentCost, opt => opt.MapFrom(src => src.CurrentCost))
                .ForMember(dest => dest.CurrentWeight, opt => opt.MapFrom(src => src.CurrentWeight))
-               .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.Guid))
+               .ForMember(dest => dest.ProductGuid, opt => opt.MapFrom(src => src.ProductGuid))
                .ForPath(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name));
+
+            CreateMap<Purchase, StorageProduct>()
+                .ForMember(dest => dest.ProductGuid, opt => opt.MapFrom(src => src.ProductGuid))
+                .ForMember(dest => dest.CurrentWeight, opt => opt.MapFrom(src => src.Weight))
+                .ForMember(dest => dest.CurrentCost, opt => opt.MapFrom(src => src.Cost));
 
         }
     }

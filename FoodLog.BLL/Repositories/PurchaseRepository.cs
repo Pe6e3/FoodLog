@@ -11,4 +11,19 @@ public class PurchaseRepository : GenericRepository<Purchase>, IPurchaseReposito
     {
         _db = db;
     }
+
+    public async Task DeletePurchase(Guid purchaseGuid)
+    {
+
+        Purchase? purchase = await _db.Purchases.FindAsync(purchaseGuid);
+        if (purchase != null)
+            _db.Purchases.Remove(purchase);
+
+        var storageProduct = await _db.StorageProducts.FindAsync(purchaseGuid);
+        if (storageProduct != null)
+            _db.StorageProducts.Remove(storageProduct);
+
+        await _db.SaveChangesAsync();
+
+    }
 }
