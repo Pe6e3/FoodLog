@@ -4,6 +4,7 @@ using FoodLog.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodLog.DAL.Migrations
 {
     [DbContext(typeof(FoodLogDbContext))]
-    partial class FoodLogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230722114020_TrashToProduct")]
+    partial class TrashToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,72 +57,72 @@ namespace FoodLog.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Guid = new Guid("c4d8e686-6b1b-4ec9-bac8-bd18d9cbde68"),
+                            Guid = new Guid("7859bc18-20cd-404c-a017-24cf013de4b6"),
                             Name = "Фрукты"
                         },
                         new
                         {
-                            Guid = new Guid("69a9dd6a-2f4c-42d7-8e85-e27d1c6fbc58"),
+                            Guid = new Guid("619cf767-cb0b-4702-b3d7-5bdcf93c5249"),
                             Name = "Сухофрукты"
                         },
                         new
                         {
-                            Guid = new Guid("32f4c6db-3b55-4feb-ac38-c3414d576eb9"),
+                            Guid = new Guid("8a575b99-b5c0-456b-b079-27f8de80d2e0"),
                             Name = "Зелень / Овощи"
                         },
                         new
                         {
-                            Guid = new Guid("050c5e19-5d8a-4237-b95c-44c607f347c7"),
+                            Guid = new Guid("83d57a96-b5f2-4d98-b35f-adf0ee79f7d9"),
                             Name = "Соки / Чай"
                         },
                         new
                         {
-                            Guid = new Guid("4f81ec13-4baa-41d3-90a6-46d231e453f5"),
+                            Guid = new Guid("9eb87c00-cb7c-4e44-b7b1-010b48934634"),
                             Name = "Вода"
                         },
                         new
                         {
-                            Guid = new Guid("f293b527-d3e9-4934-82b1-3e23cb5168f8"),
+                            Guid = new Guid("7b603421-1164-4fde-9e84-b5b2db040527"),
                             Name = "Орехи / Злаки / Семена"
                         },
                         new
                         {
-                            Guid = new Guid("2741cdca-14b5-493c-acf7-ebcef7609fc6"),
+                            Guid = new Guid("d751ac0a-7873-43ea-876b-e70eadb153ae"),
                             Name = "Термичка растительная"
                         },
                         new
                         {
-                            Guid = new Guid("35653f61-532f-4b3e-ba7d-8378e1c41298"),
+                            Guid = new Guid("49f65064-c2e1-4408-8c4b-905cfce8caa0"),
                             Name = "Молочка"
                         },
                         new
                         {
-                            Guid = new Guid("3467dc34-3e26-4761-87f4-4bc5d3894ba9"),
+                            Guid = new Guid("040b8220-e4d3-456f-8b69-3218a09babf3"),
                             Name = "Яйцо"
                         },
                         new
                         {
-                            Guid = new Guid("af605676-3023-41e9-b74a-3be6bc0f9b2a"),
+                            Guid = new Guid("bee6acb2-c34c-4cee-8de6-4bb747d3207c"),
                             Name = "Рыба / Морепродукты"
                         },
                         new
                         {
-                            Guid = new Guid("e82153f3-d157-4801-8445-b000dc69f539"),
+                            Guid = new Guid("cc79a78b-f440-4804-a636-5e56e6c8c0a5"),
                             Name = "Мясо"
                         },
                         new
                         {
-                            Guid = new Guid("a1b23c2b-717c-4955-9ac2-0a784b45ae41"),
+                            Guid = new Guid("2c78633a-7aa0-4e22-bbed-b59803a172f6"),
                             Name = "Термичка на ПЖП"
                         },
                         new
                         {
-                            Guid = new Guid("bc37afc4-37dc-4ac3-a8e8-f6dbf8269017"),
+                            Guid = new Guid("02fef8d7-f271-4c5a-8049-8cacef962fcd"),
                             Name = "Кофе"
                         },
                         new
                         {
-                            Guid = new Guid("c4f96b08-f1da-44c9-83d9-62d4f9adda94"),
+                            Guid = new Guid("ab543e54-6f44-4414-9415-e4c39d10744b"),
                             Name = "Кондитерка"
                         });
                 });
@@ -189,18 +192,18 @@ namespace FoodLog.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Guid = new Guid("5506d2f1-ac6b-43ab-b7cc-22eac527b9f9"),
+                            Guid = new Guid("4f196026-c778-4092-9cf9-2f1eda5c728d"),
                             Caloriers = 52.0,
                             Carb = 11.4,
                             Fat = 0.40000000000000002,
                             HarmScore = 10.0,
                             Name = "Яблоко",
                             Prot = 0.29999999999999999,
-                            TrashPercentage = 10.0
+                            TrashPercentage = 0.0
                         },
                         new
                         {
-                            Guid = new Guid("e84f87c6-9a34-4916-951f-2218090dcde8"),
+                            Guid = new Guid("e75b7faf-2bbd-4005-acfe-db455b0195a4"),
                             Caloriers = 576.0,
                             Carb = 6.0,
                             Fat = 49.0,
@@ -211,18 +214,18 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("0bd554bc-2d10-4e08-af76-dc4ff530e518"),
+                            Guid = new Guid("98311e67-170f-4ea8-b959-78b3b9bd50f6"),
                             Caloriers = 18.0,
                             Carb = 3.8999999999999999,
                             Fat = 0.20000000000000001,
                             HarmScore = 5.0,
                             Name = "Томат",
                             Prot = 0.90000000000000002,
-                            TrashPercentage = 5.0
+                            TrashPercentage = 0.0
                         },
                         new
                         {
-                            Guid = new Guid("85b796de-868c-45b5-bcb2-99afb4db0778"),
+                            Guid = new Guid("182dd487-6c72-4ee7-a4ce-74d8ed546098"),
                             Caloriers = 59.0,
                             Carb = 4.7000000000000002,
                             Fat = 3.0,
@@ -233,7 +236,7 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("e9a7fdd4-a773-4fc6-82dd-43a4ecc9e153"),
+                            Guid = new Guid("e738ba3e-1093-4c1e-876f-ee89b187b29c"),
                             Caloriers = 208.0,
                             Carb = 0.0,
                             Fat = 14.300000000000001,
@@ -244,58 +247,58 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("c7caa6e3-ec69-437c-8f96-3eaeb7058a65"),
+                            Guid = new Guid("777d0d30-5e43-4d23-9e57-82ba5eb36680"),
                             Caloriers = 96.0,
                             Carb = 21.0,
                             Fat = 0.20000000000000001,
                             HarmScore = 10.0,
                             Name = "Банан",
                             Prot = 1.0,
-                            TrashPercentage = 36.0
+                            TrashPercentage = 0.0
                         },
                         new
                         {
-                            Guid = new Guid("52ed2ec6-8c30-4929-b36f-8b9cff514e4d"),
+                            Guid = new Guid("e2bbaab1-1e1b-417f-83f9-7161890a9a61"),
                             Caloriers = 43.0,
                             Carb = 8.1999999999999993,
                             Fat = 0.20000000000000001,
                             HarmScore = 5.0,
                             Name = "Апельсин",
                             Prot = 0.90000000000000002,
-                            TrashPercentage = 40.0
+                            TrashPercentage = 0.0
                         },
                         new
                         {
-                            Guid = new Guid("6de915ea-438d-4dc4-bfff-ddbe5790fa6f"),
+                            Guid = new Guid("4e18a39b-ff44-486b-abad-e6616707aa91"),
                             Caloriers = 69.0,
                             Carb = 17.600000000000001,
                             Fat = 0.20000000000000001,
                             HarmScore = 8.0,
                             Name = "Виноград",
                             Prot = 0.59999999999999998,
-                            TrashPercentage = 10.0
+                            TrashPercentage = 0.0
                         },
                         new
                         {
-                            Guid = new Guid("c3606d3b-4b5a-436a-ac09-51ca26dfff01"),
+                            Guid = new Guid("e9580667-80b6-46b8-b9fd-fe052ef79d1d"),
                             Caloriers = 57.0,
                             Carb = 12.699999999999999,
                             Fat = 0.10000000000000001,
                             HarmScore = 7.0,
                             Name = "Груша",
                             Prot = 0.40000000000000002,
-                            TrashPercentage = 3.0
+                            TrashPercentage = 0.0
                         },
                         new
                         {
-                            Guid = new Guid("f858e891-8159-43f5-b104-c8e242119257"),
+                            Guid = new Guid("f77c6bb1-61cd-4432-bb32-669971e6ab15"),
                             Caloriers = 61.0,
                             Carb = 14.6,
                             Fat = 0.5,
                             HarmScore = 6.0,
                             Name = "Киви",
                             Prot = 1.1000000000000001,
-                            TrashPercentage = 12.0
+                            TrashPercentage = 0.0
                         });
                 });
 

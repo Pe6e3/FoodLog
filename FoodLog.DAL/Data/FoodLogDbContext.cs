@@ -58,6 +58,7 @@ public class FoodLogDbContext : DbContext
             Carb = 11.4,
             Fat = 0.4,
             HarmScore = 10, // Примерный уровень вреда (на усмотрение)
+            TrashPercentage = 10,
         },
         new Product
         {
@@ -68,6 +69,8 @@ public class FoodLogDbContext : DbContext
             Carb = 6,
             Fat = 49,
             HarmScore = 20, // Примерный уровень вреда (на усмотрение)
+            TrashPercentage = 0,
+
         },
         new Product
         {
@@ -78,6 +81,8 @@ public class FoodLogDbContext : DbContext
             Carb = 3.9,
             Fat = 0.2,
             HarmScore = 5, // Примерный уровень вреда (на усмотрение)
+            TrashPercentage = 5,
+
         },
         new Product
         {
@@ -88,6 +93,8 @@ public class FoodLogDbContext : DbContext
             Carb = 4.7,
             Fat = 3.0,
             HarmScore = 15, // Примерный уровень вреда (на усмотрение)
+            TrashPercentage = 0,
+
         },
         new Product
         {
@@ -98,6 +105,8 @@ public class FoodLogDbContext : DbContext
             Carb = 0,
             Fat = 14.3,
             HarmScore = 25, // Примерный уровень вреда (на усмотрение)
+            TrashPercentage = 0,
+
         },
        new Product
        {
@@ -108,6 +117,8 @@ public class FoodLogDbContext : DbContext
            Carb = 21.0,
            Fat = 0.2,
            HarmScore = 10, // Примерный уровень вреда (на усмотрение)
+           TrashPercentage = 36,
+
        },
         new Product
         {
@@ -118,6 +129,8 @@ public class FoodLogDbContext : DbContext
             Carb = 8.2,
             Fat = 0.2,
             HarmScore = 5, // Примерный уровень вреда (на усмотрение)
+            TrashPercentage = 40,
+
         },
         new Product
         {
@@ -128,6 +141,8 @@ public class FoodLogDbContext : DbContext
             Carb = 17.6,
             Fat = 0.2,
             HarmScore = 8, // Примерный уровень вреда (на усмотрение)
+            TrashPercentage = 10,
+
         },
         new Product
         {
@@ -138,6 +153,8 @@ public class FoodLogDbContext : DbContext
             Carb = 12.7,
             Fat = 0.1,
             HarmScore = 7, // Примерный уровень вреда (на усмотрение)
+            TrashPercentage = 3,
+
         },
         new Product
         {
@@ -148,6 +165,8 @@ public class FoodLogDbContext : DbContext
             Carb = 14.6,
             Fat = 0.5,
             HarmScore = 6, // Примерный уровень вреда (на усмотрение)
+            TrashPercentage = 12,
+
         }
     );
 

@@ -16,6 +16,7 @@
                 <th>Жиры</th>
                 <th>Углеводы</th>
                 <th>Оценка вреда</th>
+                <th>Процент на списание</th>
                 <th></th>
             </tr>
         </thead>
@@ -29,6 +30,7 @@
                     <td>@product.Fat</td>
                     <td>@product.Carb</td>
                     <td>@product.HarmScore</td>
+                    <td>@product.TrashPercentage</td>
                     <td>
                         <a asp-action="Delete" asp-route-prodGuid="@product.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a>
                     </td>
