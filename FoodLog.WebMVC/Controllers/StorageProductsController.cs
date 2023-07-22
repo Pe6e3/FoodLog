@@ -26,5 +26,26 @@ namespace FoodLog.WebMVC.Controllers
             
             return View(storageLineVMs);
         }
+
+        public async Task<IActionResult> Create()
+        {
+            ViewBag.AllProducts = await _uow.ProductRepository.GetEntity();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(StorageLineVM storageLineVM)
+        {
+            var storageProduct = new StorageProduct();
+            _mapper.Map(storageLineVM, storageProduct);
+            await _uow.StorageProductRepository.Insert(storageProduct);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(Guid storageProductGuid)
+        {
+            await _uow.StorageProductRepository.Delete(storageProductGuid);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
