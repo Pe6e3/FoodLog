@@ -30,6 +30,13 @@
                 </div>
 
                 <div class="form-group row my-2">
+                    <label for="Brutto" class="col-sm-4 col-form-label">Вес из магазина</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="Brutto" name="Brutto" required>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
                     <label for="TrashPercentage" class="col-sm-4 col-form-label">Списано в %</label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control" id="TrashPercentage" name="TrashPercentage" value="">
@@ -43,12 +50,6 @@
                     </div>
                 </div>
 
-                <div class="form-group row my-2">
-                    <label for="Brutto" class="col-sm-4 col-form-label">Вес из магазина</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" id="Brutto" name="Brutto" required>
-                    </div>
-                </div>
 
                 <div class="form-group row my-2">
                     <label for="Netto" class="col-sm-4 col-form-label">Чистый вес</label>
@@ -96,15 +97,34 @@
             updateTrashWeight();
         });
 
+        // Обработчик события изменения значения поля "Списано в г"
+        $("#TrashWeight").on("input", function () {
+            updateNettoWeight();
+        });
+
         function updateTrashWeight() {
             var bruttoValue = parseFloat($("#Brutto").val());
             var trashPercentageValue = parseFloat($("#TrashPercentage").val());
 
             if (!isNaN(bruttoValue) && !isNaN(trashPercentageValue)) {
                 var trashWeightValue = (bruttoValue * trashPercentageValue) / 100;
-                $("#TrashWeight").val(trashWeightValue.toFixed(2));
+                $("#TrashWeight").val(trashWeightValue.toFixed(0));
+                updateNettoWeight();
             } else {
                 $("#TrashWeight").val("");
+                updateNettoWeight();
+            }
+        }
+
+        function updateNettoWeight() {
+            var bruttoValue = parseFloat($("#Brutto").val());
+            var trashWeightValue = parseFloat($("#TrashWeight").val());
+
+            if (!isNaN(bruttoValue) && !isNaN(trashWeightValue)) {
+                var nettoWeightValue = bruttoValue - trashWeightValue;
+                $("#Netto").val(nettoWeightValue.toFixed(0));
+            } else {
+                $("#Netto").val("");
             }
         }
     });
