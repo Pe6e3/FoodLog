@@ -98,13 +98,13 @@
             if (!isNaN(brutto))
                 updateTrashWeight();
             updateNetto();
-
         });
 
         // Обработчик события изменения значения поля "Вес из магазина"
-        $("#Brutto").on("input", function () {
-            updateTrashWeight();
-        });
+        $("#Brutto").on("input", function () { updateTrashWeight(); });
+
+        // Обработчик события изменения значения поля "Чистый вес"
+        $("#Netto").on("input", function () { updateAllByNetto(); });
 
         // Обработчик события изменения значения поля "Списано в г"
         $("#TrashWeight").on("input", function () {
@@ -113,9 +113,7 @@
         });
 
         // Обработчик события изменения значения поля "Списано в %"
-        $("#TrashPercentage").on("input", function () {
-            updateTrashWeightFromPercentage();
-        });
+        $("#TrashPercentage").on("input", function () { updateTrashWeightFromPercentage(); });
 
         function updateTrashWeight() {                           // Если меняем "Списано в г" (и при выборе продукта)
             brutto = parseFloat($("#Brutto").val());                        // Получаем "Вес из магазина""
@@ -163,10 +161,28 @@
             if (!isNaN(brutto) && !isNaN(trashWeight)) {
                 netto = brutto - trashWeight;
                 $("#Netto").val(netto.toFixed(0));
-            } else {
-                $("#Netto").val("");
-            }
+            } 
         }
+        function updateAllByNetto() {
+
+            
+            netto = parseFloat($("#Netto").val());
+            console.log("Netto:", netto);
+
+            brutto = parseFloat($("#Brutto").val());
+            console.log("Brutto:", brutto);
+
+            trashWeight = brutto - netto;
+            console.log("trashWeight:", trashWeight);
+
+            trashPercent = trashWeight / brutto * 100;
+            console.log("trashPercent:", trashPercent);
+
+            $("#TrashWeight").val(trashWeight.toFixed(0));
+            $("#TrashPercentage").val(trashPercent.toFixed(0));
+
+        }
+
     });
 </script>
 
@@ -179,8 +195,8 @@
     }
 
     /*.createNew * label {
-                                min-width: 300px;
-                            }*/
+                                            min-width: 300px;
+                                        }*/
 
     .createNew * form {
         min-width: 600px;
