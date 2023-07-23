@@ -2,6 +2,7 @@
 
 @using FoodLog.DAL.Entities
 @using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Mvc;
 @model Consumption
 
 @{
@@ -89,14 +90,28 @@
     </div>
 
     <div class="rightwindow" id="storageContainer">
-        @await Component.InvokeAsync("_Storage")
-    </div>
+        @*        @await Component.InvokeAsync("_Storage")*@
+ 
+        <form asp-controller="=Consumptions">
+            <div id="storageProductsPartial">
 
+            </div>
+
+        </form>
+
+    </div>
 </div>
 
-
-
 <script src="/js/jquery.min.js"></script>
+<script>
+    $.ajax({
+        url: "StorageProductsPartial",
+        type:"Get",
+        success: function (response){
+            $("#storageProductsPartial").html(response)
+        }
+    })
+</script>
 
 @*Обработчик события изменения выбора продукта. (Не получается вынести в отдельный файл, т.к. данные берутся из ViewBag) *@
 <script>

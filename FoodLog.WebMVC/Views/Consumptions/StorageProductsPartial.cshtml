@@ -1,0 +1,28 @@
+﻿@*Список продуктов на складе List  StorageProduct.cs  *@
+@using FoodLog.WebMVC.ViewModels;
+@model IEnumerable<StorageLineVM>
+
+<div class="container">
+
+    <table class="cinereousTable">
+        <thead>
+            <tr>
+                <th>Наименование продукта</th>
+                <th>Текущий вес</th>
+                <th>Стоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var storageProduct in Model)
+            {
+                <tr>
+                    <td>@storageProduct.ProductName</td>
+                    <td>@storageProduct.CurrentWeight</td>
+                    <td>@storageProduct.CurrentCost</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
