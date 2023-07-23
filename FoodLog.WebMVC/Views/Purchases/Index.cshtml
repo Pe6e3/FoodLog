@@ -2,9 +2,7 @@
 @model IEnumerable<Purchase>
 
 <div class="container">
-    <div class="d-flex justify-content-center mb-2">
-        <a class="btn btn-outline-danger" asp-controller="Purchases" asp-action="Create">Новая покупка</a>
-    </div>
+ 
     <div class="row d-flex justify-content-center">
 
         <table class="cinereousTable w-50">
@@ -15,7 +13,7 @@
                     <th>Цена</th>
                     <th>Cтоимость</th>
                     <th>Дата</th>
-                    <th></th>
+                    <th>  <a asp-controller="Purchases" asp-action="Create"> <i class="fa-solid fa-circle-plus" style="font-size: 22px; color: green;"></i> </a></th>
                 </tr>
             </thead>
             <tbody>

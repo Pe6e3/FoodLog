@@ -7,79 +7,116 @@
 @{
     ViewData["Title"] = "Добавить съеденный продукт";
 }
+<div class="doublewindow">
+    <div class="leftwindow">
 
-<div class="container createNew">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2 class="text-center my-5">Добавить съеденный продукт</h2>
+        <div class="container createNew">
+            <div class="row justify-content-center">
+                <div class="col-md">
+                    <h2 class="text-center my-5">Добавить съеденный продукт</h2>
 
-            <form asp-action="Create" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <form asp-action="Create" method="post" style="display:contents">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" id="selectedProductGuid" value="@ViewBag.SelectedProductGuid" />
 
-                <div class="form-group row my-2">
-                    <label for="ProductGuid" class="col-sm-4 col-form-label">Продукт</label>
-                    <div class="col-sm-5">
-                        <select class="form-control" id="ProductGuid" name="ProductGuid" required>
-                            <option value="">Выберите продукт</option>
-                            @foreach (var product in ViewBag.AllProducts)
-                            {
-                                <option value="@product.Guid">@product.Name</option>
-                            }
-                        </select>
-                    </div>
+                        тест1
+
+                        @ViewBag.SelectedProductGuid
+
+                        тест2
+
+                        <div class="form-group row my-2">
+                            <label for="ProductGuid" class="col-sm col-form-label">Продукт</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="ProductGuid" name="ProductGuid" required>
+                                    <option value="">Выберите продукт</option>
+                                    @foreach (var product in ViewBag.AllProducts)
+                                    {
+                                        <option value="@product.Guid" data-guid="@product.Guid">@product.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group row my-2">
+                            <label for="Brutto" class="col-sm col-form-label">Вес из магазина</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="Brutto" name="Brutto" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row my-2">
+                            <label for="TrashPercentage" class="col-sm col-form-label">Списано в %</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="TrashPercentage" name="TrashPercentage" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group row my-2">
+                            <label for="TrashWeight" class="col-sm col-form-label">Списано в г</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="TrashWeight" name="TrashWeight">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row my-2">
+                            <label for="Netto" class="col-sm col-form-label">Чистый вес</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="Netto" name="Netto">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row my-2">
+                            <label for="Date" class="col-sm col-form-label">Дата</label>
+                            <div class="col-sm-6">
+                                <input type="date" class="form-control" id="Date" name="Date" value="@DateTime.Now.ToString("yyyy-MM-dd")" required>
+                            </div>
+                        </div>
+
+
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-outline-primary">Добавить</button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="form-group row my-2">
-                    <label for="Brutto" class="col-sm-4 col-form-label">Вес из магазина</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" id="Brutto" name="Brutto" required>
-                    </div>
-                </div>
-
-                <div class="form-group row my-2">
-                    <label for="TrashPercentage" class="col-sm-4 col-form-label">Списано в %</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" id="TrashPercentage" name="TrashPercentage" value="">
-                    </div>
-                </div>
-
-                <div class="form-group row my-2">
-                    <label for="TrashWeight" class="col-sm-4 col-form-label">Списано в г</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" id="TrashWeight" name="TrashWeight">
-                    </div>
-                </div>
-
-
-                <div class="form-group row my-2">
-                    <label for="Netto" class="col-sm-4 col-form-label">Чистый вес</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" id="Netto" name="Netto">
-                    </div>
-                </div>
-
-
-                <div class="form-group row my-2">
-                    <label for="Date" class="col-sm-4 col-form-label">Дата</label>
-                    <div class="col-sm-3">
-                        <input type="date" class="form-control" id="Date" name="Date" value="@DateTime.Now.ToString("yyyy-MM-dd")" required>
-                    </div>
-                </div>
-
-
-
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-outline-primary">Добавить</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
+
+    <div class="rightwindow" id="storageContainer">
+        @await Component.InvokeAsync("_Storage")
+    </div>
+
 </div>
 
+
+
 <script src="/js/jquery.min.js"></script>
+
+@*Обработчик события изменения выбора продукта. (Не получается вынести в отдельный файл, т.к. данные берутся из ViewBag) *@
 <script>
+
+    // Функция для обновления содержимого элемента #storageContainer с помощью AJAX
+    function updateStorageContainer(productGuid) {
+        $.ajax({
+            url: '/Consumptions/Create',
+            type: 'GET',
+            success: function (result) {
+                $("#storageContainer").html(result);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+
     $(document).ready(function () {
-        // Обработчик события изменения выбора продукта
         var selectedProductGuid;
         var allProductsJson;
         var selectedProduct;
@@ -94,6 +131,12 @@
             selectedProduct = allProductsJson.find(product => product.Guid === selectedProductGuid);
 
             $("#TrashPercentage").val(selectedProduct.TrashPercentage);
+
+            // Обновляем ViewBag.SelectedProductGuid с выбранным Guid продукта
+            $("#selectedProductGuid").val(selectedProductGuid);
+
+            console.log('@ViewBag.SelectedProductGuid');
+
 
             if (!isNaN(brutto))
                 updateTrashWeight();
@@ -161,44 +204,16 @@
             if (!isNaN(brutto) && !isNaN(trashWeight)) {
                 netto = brutto - trashWeight;
                 $("#Netto").val(netto.toFixed(0));
-            } 
+            }
         }
         function updateAllByNetto() {
-
-            
             netto = parseFloat($("#Netto").val());
-            console.log("Netto:", netto);
-
             brutto = parseFloat($("#Brutto").val());
-            console.log("Brutto:", brutto);
-
             trashWeight = brutto - netto;
-            console.log("trashWeight:", trashWeight);
-
             trashPercent = trashWeight / brutto * 100;
-            console.log("trashPercent:", trashPercent);
-
             $("#TrashWeight").val(trashWeight.toFixed(0));
             $("#TrashPercentage").val(trashPercent.toFixed(0));
-
         }
 
     });
 </script>
-
-
-
-<style>
-    .createNew * input {
-        min-width: 60px;
-        max-width: 300px;
-    }
-
-    /*.createNew * label {
-                                            min-width: 300px;
-                                        }*/
-
-    .createNew * form {
-        min-width: 600px;
-    }
-</style>

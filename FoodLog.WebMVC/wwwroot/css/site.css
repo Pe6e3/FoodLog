@@ -39,3 +39,34 @@ nav, nav *.nav-link {
     color: var(--navColor);
     text-decoration: none;
 }
+
+.createNew * input {
+    min-width: 60px;
+    max-width: 300px;
+}
+
+
+.createNew * form {
+    min-width: 600px;
+}
+
+
+.doublewindow {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.leftwindow {
+    grid-area: 1 / 1 / 2 / 2;
+    border: solid 5px red;
+}
+
+.rightwindow {
+    grid-area: 1 / 2 / 2 / 3;
+    border: solid 5px blue;
+}
+
+ 

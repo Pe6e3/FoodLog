@@ -1,10 +1,8 @@
-﻿@using FoodLog.WebMVC.ViewModels;
+﻿@*Список продуктов на складе List  StorageProduct.cs  *@
+@using FoodLog.WebMVC.ViewModels;
 @model IEnumerable<StorageLineVM>
 
 <div class="container">
-    <div class="d-flex justify-content-end mb-2">
-        <a class="btn btn-outline-danger" asp-controller="StorageProducts" asp-action="Create">Добавить продукт на склад</a>
-    </div>
 
     <table class="cinereousTable">
         <thead>
@@ -12,7 +10,7 @@
                 <th>Наименование продукта</th>
                 <th>Текущий вес</th>
                 <th>Стоимость</th>
-                <th></th>
+                <th>  <a asp-controller="StorageProducts" asp-action="Create"> <i class="fa-solid fa-circle-plus" style="font-size: 22px; color: green;"></i> </a></th>
             </tr>
         </thead>
         <tbody>

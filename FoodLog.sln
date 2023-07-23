@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodLog.BLL", "FoodLog.BLL\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodLog.API", "FoodLog.API\FoodLog.API.csproj", "{4BEAC121-E0C8-4EA8-88B1-22DCCFF6FDF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodLog.WebMVC", "FoodLog.WebMVC\FoodLog.WebMVC.csproj", "{176A65AD-A02C-4AE6-A634-C88E683127FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodLog.WebMVC", "FoodLog.WebMVC\FoodLog.WebMVC.csproj", "{176A65AD-A02C-4AE6-A634-C88E683127FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
