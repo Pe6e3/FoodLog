@@ -125,10 +125,7 @@
 
         getStorage();
 
-        function getStorage(filter = "") {                   // Обновляем блок Склад
-            if (filter = isNaN) {
-                filter = "";
-            }
+        function getStorage(filter="") {                   // Обновляем блок Склад
             $.get('@Url.Action("Index", "StorageProducts")', { filter: filter }, function (content) {
                 $("#storageProductsPartial").html(content);
             });
