@@ -25,10 +25,10 @@ public class ConsumptionsController : Controller
 
     public async Task<IActionResult> Create()
     {
-        ViewBag.Filter = "Test";
         ViewBag.AllProducts = await _uow.ProductRepository.GetEntity();
         return View();
     }
+
 
     [HttpPost]
     public async Task<IActionResult> Create(Consumption consumption)

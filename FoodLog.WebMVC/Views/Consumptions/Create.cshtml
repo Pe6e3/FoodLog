@@ -93,27 +93,6 @@
 <script src="/js/jquery.min.js"></script>
 <script>
 
-
-
-
-
-    @*Обработчик события изменения выбора продукта. (Не получается вынести в отдельный файл, т.к. данные берутся из ViewBag) *@
-
-        // Функция для обновления содержимого элемента #storageContainer с помощью AJAX
-        function updateStorageContainer(productGuid) {
-            $.ajax({
-                url: '/Consumptions/Create',
-                type: 'GET',
-                success: function (result) {
-                    $("#storageContainer").html(result);
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-
-
     $(document).ready(function () {
         var selectedProductGuid;
         var allProductsJson;
@@ -126,11 +105,10 @@
         getStorage();
 
         function getStorage(filter = "") {                   // Обновляем блок Склад
-            $.get('@Url.Action("Index", "StorageProducts")', { filter: filter }, function (content) {
+            $.get('@Url.Action("IndexPartial", "StorageProducts")', { filter: filter }, function (content) {
                 $("#storageProductsPartial").html(content);
             });
         }
-
 
         $("#ProductGuid").change(function () {                // Если выбираем продукт
             selectedProductGuid = $(this).val();
@@ -138,15 +116,10 @@
             selectedProduct = allProductsJson.find(product => product.Guid === selectedProductGuid);
 
             $("#TrashPercentage").val(selectedProduct.TrashPercentage);
-
-            // Обновляем ViewBag.SelectedProductGuid с выбранным Guid продукта
-            $("#selectedProductGuid").val(selectedProductGuid);
-
-            if (!isNaN(brutto))
-                updateTrashWeight();
             updateNetto();
             getStorage(selectedProduct.Name);
-
+            if (!isNaN(brutto))
+                updateTrashWeight();
         });
 
         // Обработчик события изменения значения поля "Вес из магазина"
@@ -155,16 +128,17 @@
         // Обработчик события изменения значения поля "Чистый вес"
         $("#Netto").on("input", function () { updateAllByNetto(); });
 
+        // Обработчик события изменения значения поля "Списано в %"
+        $("#TrashPercentage").on("input", function () { updateTrashWeightFromPercentage(); });
+
         // Обработчик события изменения значения поля "Списано в г"
         $("#TrashWeight").on("input", function () {
             updateTrashPercentage();
             updateNetto();
         });
 
-        // Обработчик события изменения значения поля "Списано в %"
-        $("#TrashPercentage").on("input", function () { updateTrashWeightFromPercentage(); });
 
-        function updateTrashWeight() {                           // Если меняем "Списано в г" (и при выборе продукта)
+        function updateTrashWeight() {                                      // Если меняем "Списано в г" (и при выборе продукта)
             brutto = parseFloat($("#Brutto").val());                        // Получаем "Вес из магазина""
             trashPercent = parseFloat($("#TrashPercentage").val());         // Получаем "Списание в %"
 
@@ -172,12 +146,10 @@
                 trashWeight = (brutto * trashPercent) / 100;
                 $("#TrashWeight").val(trashWeight.toFixed(0));
                 updateNetto();
-            } else {
-                // ?
-            }
+            } 
         }
 
-        function updateTrashPercentage() {                      // Если меняем "Списано в %"
+        function updateTrashPercentage() {                                  // Если меняем "Списано в %"
             brutto = parseFloat($("#Brutto").val());
             trashWeight = parseFloat($("#TrashWeight").val());
 
@@ -189,7 +161,7 @@
             }
         }
 
-        function updateTrashWeightFromPercentage() {           // Меняем "Списано в г" если изменили "Списано в %"
+        function updateTrashWeightFromPercentage() {                        // Меняем "Списано в г" если изменили "Списано в %"
             brutto = parseFloat($("#Brutto").val());
             trashPercent = parseFloat($("#TrashPercentage").val());
 
@@ -220,10 +192,6 @@
             $("#TrashWeight").val(trashWeight.toFixed(0));
             $("#TrashPercentage").val(trashPercent.toFixed(0));
         }
-
-
-
-
     });
 </script>
 

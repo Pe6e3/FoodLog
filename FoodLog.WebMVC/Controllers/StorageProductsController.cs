@@ -18,15 +18,25 @@ namespace FoodLog.WebMVC.Controllers
         }
 
 
-        public async Task<IActionResult> Index(string filter="")
+        public async Task<IActionResult> Index()
+        {
+            IEnumerable<StorageProduct> storageProducts = await _uow.StorageProductRepository.GetEntity("Product");
+            IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
+            _mapper.Map(storageProducts, storageLineVMs);
+
+            return View(storageLineVMs);
+        }
+
+        public async Task<IActionResult> IndexPartial(string filter = "")
         {
             IEnumerable<StorageProduct> storageProducts = await _uow.StorageProductRepository.GetEntity("Product");
             IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
             _mapper.Map(storageProducts, storageLineVMs);
             ViewBag.Filter = filter;
 
-            return View(storageLineVMs);
+            return PartialView(storageLineVMs);
         }
+
 
         public async Task<IActionResult> Create()
         {
