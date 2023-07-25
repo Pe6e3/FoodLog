@@ -5,7 +5,8 @@
 @model IEnumerable<StorageLineVM>
 
 <div class="container">
-    <input type="hidden" id="productNameFilter" placeholder="Введите название продукта" value="@ViewBag.Filter">
+    <h2 class="mb-4">Продукты на складе</h2>
+    <input type="hidden" id="productNameFilter" value="@ViewBag.Filter">
 
     <table class="cinereousTable">
         <thead>

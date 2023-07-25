@@ -13,7 +13,7 @@
         <div class="container createNew" style="max-width:500px;">
             <div class="row justify-content-center">
                 <div class="col-md">
-                    <h2 class="text-center my-5">Добавить съеденный продукт</h2>
+                    <h2 class="text-center mb-4">Добавить съеденный продукт</h2>
 
                     <form asp-action="Create" method="post" style="display:contents">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -23,7 +23,7 @@
                             <label for="ProductGuid" class="col-sm col-form-label">Продукт</label>
                             <div class="col-sm-8">
                                 <select class="form-control" id="ProductGuid" name="ProductGuid" required>
-                                    <option value="">Выберите продукт</option>
+                                    <option value=""> </option>
                                     @foreach (var product in ViewBag.AllProducts)
                                     {
                                         <option value="@product.Guid" data-guid="@product.Guid">@product.Name</option>
@@ -66,7 +66,7 @@
 
                         <div class="form-group row my-2">
                             <label for="Date" class="col-sm col-form-label">Дата</label>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <input type="date" class="form-control" id="Date" name="Date" value="@DateTime.Now.ToString("yyyy-MM-dd")" required>
                             </div>
                         </div>
@@ -114,10 +114,22 @@
             selectedProductGuid = $(this).val();
             allProductsJson = @Html.Raw(JsonConvert.SerializeObject(ViewBag.AllProducts));
             selectedProduct = allProductsJson.find(product => product.Guid === selectedProductGuid);
+            var productFilter;
 
-            $("#TrashPercentage").val(selectedProduct.TrashPercentage);
+            if (selectedProduct == null) {
+                productFilter = "";
+                clearAll();
+
+            } else {
+                productFilter = selectedProduct.Name;
+                $("#TrashPercentage").val(selectedProduct.TrashPercentage);
+            }
+
             updateNetto();
-            getStorage(selectedProduct.Name);
+
+
+
+            getStorage(productFilter);
             if (!isNaN(brutto))
                 updateTrashWeight();
         });
@@ -137,6 +149,12 @@
             updateNetto();
         });
 
+        function clearAll() {
+            $("#TrashWeight").val("");
+            $("#TrashPercentage").val("");
+            $("#Brutto").val("");
+            $("#Netto").val("");
+        }
 
         function updateTrashWeight() {                                      // Если меняем "Списано в г" (и при выборе продукта)
             brutto = parseFloat($("#Brutto").val());                        // Получаем "Вес из магазина""
@@ -146,7 +164,7 @@
                 trashWeight = (brutto * trashPercent) / 100;
                 $("#TrashWeight").val(trashWeight.toFixed(0));
                 updateNetto();
-            } 
+            }
         }
 
         function updateTrashPercentage() {                                  // Если меняем "Списано в %"

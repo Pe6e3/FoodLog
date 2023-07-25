@@ -1,12 +1,12 @@
 :root {
-    --bgColor: gray;
+    /*    --bgColor: gray;
     --navColor: white;
-    --navBgColor: darkslategray;
-    /*    
-    --bgColor: floralwhite
+    --navBgColor: darkslategray;*/
+
+    --bgColor: honeydew;
     --navColor: black;
     --navBgColor: antiquewhite;
-    ;*/
+    ;
 }
 
 html {
@@ -61,12 +61,10 @@ nav, nav *.nav-link {
 
 .leftwindow {
     grid-area: 1 / 1 / 2 / 2;
-    border: solid 5px red;
 }
 
 .rightwindow {
     grid-area: 1 / 2 / 2 / 3;
-    border: solid 5px blue;
 }
 
  
