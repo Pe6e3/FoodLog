@@ -1,0 +1,43 @@
+﻿@*Добавить съеденный продукт Consumption.cs*@
+
+@using FoodLog.DAL.Entities
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Mvc;
+@model Consumption
+
+@{
+    ViewData["Title"] = "Добавить съеденный продукт";
+}
+<div class="doublewindow">
+    <div class="leftwindow">
+        <div id="createForm"></div>
+    </div>
+
+    <div class="rightwindow" id="storageContainer">
+        <div id="storageProductsPartial"></div>
+    </div>
+</div>
+
+
+
+
+<script src="/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function getStorage() {                   // Обновляем блок Склад
+            $.get('@Url.Action("Index", "StorageProducts")', function (content) {
+                $("#storageProductsPartial").html(content);
+            });
+        }
+
+        function getCreateForm() {                   // Обновляем блок Форма создания потребления
+            $.get('@Url.Action("Create", "Consumptions")', function (content) {
+                $("#createForm").html(content);
+            });
+        }
+
+        getCreateForm();
+        getStorage();
+    });
+</script>
+

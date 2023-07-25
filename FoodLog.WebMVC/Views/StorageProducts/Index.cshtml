@@ -3,6 +3,7 @@
 @model IEnumerable<StorageLineVM>
 
 <div class="container">
+    <input type="text" id="productNameFilter" placeholder="Введите название продукта">
 
     <table class="cinereousTable">
         <thead>
@@ -10,7 +11,7 @@
                 <th>Наименование продукта</th>
                 <th>Текущий вес</th>
                 <th>Стоимость</th>
-                <th>  <a asp-controller="StorageProducts" asp-action="Create"> <i class="fa-solid fa-circle-plus" style="font-size: 22px; color: green;"></i> </a></th>
+                <th><a asp-controller="StorageProducts" asp-action="Create"> <i class="fa-solid fa-circle-plus" style="font-size: 22px; color: green;"></i> </a></th>
             </tr>
         </thead>
         <tbody>
@@ -31,3 +32,35 @@
     </table>
 </div>
 <link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
+
+
+<script src="/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Функция для фильтрации таблицы по названию продукта
+        function filterTableByProductName() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("productNameFilter");
+            filter = input.value.toUpperCase();
+            table = document.querySelector(".cinereousTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Обработчик события ввода в поле фильтра
+        $("#productNameFilter").on("input", function () {
+            filterTableByProductName();
+        });
+    });
+</script>

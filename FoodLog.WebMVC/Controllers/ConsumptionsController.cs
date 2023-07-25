@@ -22,6 +22,10 @@ public class ConsumptionsController : Controller
         IEnumerable<Consumption> consumptions = await _uow.ConsumptionRepository.GetEntity("Product");
         return View(consumptions);
     }
+
+    public async Task<IActionResult> CreateTest() => View();
+
+
     public async Task<IActionResult> Create()
     {
         ViewBag.AllProducts = await _uow.ProductRepository.GetEntity();
