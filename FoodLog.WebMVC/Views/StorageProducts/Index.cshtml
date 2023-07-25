@@ -3,7 +3,7 @@
 @model IEnumerable<StorageLineVM>
 
 <div class="container">
-    <input type="text" id="productNameFilter" placeholder="Введите название продукта">
+    <input type="text" id="productNameFilter" placeholder="Введите название продукта" value="@ViewBag.Filter">
 
     <table class="cinereousTable">
         <thead>
@@ -37,6 +37,7 @@
 <script src="/js/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
+        filterTableByProductName(); //запускаем фильтр при загрузке, т.к. могут быть переданы данные для фильтрации сразу
         // Функция для фильтрации таблицы по названию продукта
         function filterTableByProductName() {
             var input, filter, table, tr, td, i, txtValue;

@@ -23,7 +23,12 @@ public class ConsumptionsController : Controller
         return View(consumptions);
     }
 
-    public async Task<IActionResult> CreateTest() => View();
+    public async Task<IActionResult> CreateTest()
+    {
+        ViewBag.Filter = "Test";
+        ViewBag.AllProducts = await _uow.ProductRepository.GetEntity();
+     return   View();
+    }
 
 
     public async Task<IActionResult> Create()
