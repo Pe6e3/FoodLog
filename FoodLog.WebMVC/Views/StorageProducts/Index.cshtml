@@ -31,7 +31,7 @@
         </tbody>
     </table>
 </div>
-<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
+<link rel="stylesheet" href="/css/table.css" asp-append-version="true" />
 
 
 <script src="/js/jquery.min.js"></script>
@@ -58,9 +58,14 @@
             }
         }
 
+
         // Обработчик события ввода в поле фильтра
         $("#productNameFilter").on("input", function () {
             filterTableByProductName();
         });
+
+
+
+
     });
 </script>
