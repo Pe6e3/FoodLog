@@ -51,12 +51,14 @@ namespace FoodLog.WebMVC.Controllers
                     consumeArray[i] = storageRemains[i];
                 else consumeArray[i] = consumeWeigth;
                 consumeWeigth -= consumeArray[i];
-                Console.WriteLine($"{i}й элемент тек-го остатка: {storageRemains[i]}");
-                Console.WriteLine($"{i}й элемент нового массива: {consumeArray[i]}");
-
+                //Console.WriteLine($"{i}й продукт: {consumeArray[i]}/{storageRemains[i]}");
             }
+            //Console.WriteLine($"Остаток: {consumeWeigth}");
+            if (consumeWeigth!=0)
+                return Json(new { message = "На складе недостаточно продукта"});
+
             ViewBag.ConsumeArray = consumeArray;
-            return Json(new { message = $"Первый элемент: {consumeArray[0]}" });
+            return Json(new { message = consumeArray});
         }
 
 

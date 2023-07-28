@@ -127,8 +127,6 @@
 
             updateNetto();
 
-
-
             getStorage(productFilter);
             if (!isNaN(brutto))
                 updateTrashWeight();
@@ -210,8 +208,58 @@
             $("#TrashWeight").val(trashWeight.toFixed(0));
             $("#TrashPercentage").val(trashPercent.toFixed(0));
         }
+
+        // Добавляем обработчик события отправки формы
+        $("form").submit(function (event) {
+            event.preventDefault(); // Предотвращаем отправку формы, чтобы выполнить кастомную обработку
+
+            // Создаем объект модели Consumption и заполняем его данными из формы
+            var consumptionData = {
+                ProductGuid: $("#ProductGuid").val(),
+                Brutto: parseFloat($("#Brutto").val()),
+                TrashPercentage: parseFloat($("#TrashPercentage").val()),
+                TrashWeight: parseFloat($("#TrashWeight").val()),
+                Netto: parseFloat($("#Netto").val()),
+                Date: $("#Date").val()
+            };
+
+            // Отправляем данные на серверный экшн CalculateConsume
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CalculateConsume", "StorageProducts")",
+                data: JSON.stringify(consumptionData), // Преобразуем данные в формат JSON
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    // Здесь вы можете обрабатывать ответ с сервера, если это необходимо
+                    // Например, обновить отображение таблицы с продуктами на складе
+                    console.log(data);
+
+                    // Получаем таблицу и все строки в ней
+                    var table = $("#storageProductsTable");
+                    var rows = table.find("tr");
+
+                    // Перебираем каждую строку таблицы, начиная со второй (индекс 1),
+                    // так как первая строка - заголовок таблицы и ее мы пропускаем
+                    for (var i = 1; i < rows.length; i++) {
+                        // Получаем текущую строку
+                        var row = $(rows[i]);
+
+
+                        // Получаем ячейку в третьем столбце текущей строки и
+                        // заполняем ее значением из массива consumeArray
+                        var consumeValue = data.message[i - 1];
+                        console.log(i + "/" + rows.length + " (" + consumeValue + ")");
+                        row.find("td:eq(2)").text(consumeValue); // eq(2) - это индекс 2, который соответствует третьему столбцу
+                    }
+                }
+
+            });
+        });
     });
+
 </script>
+
 
 
 
