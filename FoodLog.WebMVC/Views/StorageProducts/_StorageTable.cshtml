@@ -28,7 +28,7 @@
                     cost[count] = (double)storageProduct.CurrentCost * @ViewBag?.ConsumeArray[count] / 100;
                     remain[count] = (double)storageProduct.CurrentWeight - ViewBag?.ConsumeArray[count];
 
-                    <tr>
+                    <tr data-product-id="@storageProduct.Guid">
                         <td>@storageProduct.ProductName</td>
                         <td>@storageProduct.CurrentWeight</td>
                         <td>@ViewBag?.ConsumeArray[count] </td>

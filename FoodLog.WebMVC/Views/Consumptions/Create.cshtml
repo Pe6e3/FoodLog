@@ -223,7 +223,6 @@
                 Date: $("#Date").val()
             };
 
-            // Отправляем данные на серверный экшн CalculateConsume
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("CalculateConsume", "StorageProducts")",
@@ -238,24 +237,34 @@
                     // Получаем таблицу и все строки в ней
                     var table = $("#storageProductsTable");
                     var rows = table.find("tr");
+                    // Перебираем каждую строку таблицы
+                    rows.each(function () {
+                        var row = $(this);
+                        var productId = row.data("product-id"); // Получаем идентификатор продукта из атрибута data
 
-                    // Перебираем каждую строку таблицы, начиная со второй (индекс 1),
-                    // так как первая строка - заголовок таблицы и ее мы пропускаем
-                    for (var i = 1; i < rows.length; i++) {
-                        // Получаем текущую строку
-                        var row = $(rows[i]);
+                        // Проверяем, видима ли текущая строка
+                        if (row.is(":visible")) {
+                            // Получаем индекс текущей строки в видимых строках
+                            var visibleRowIndex = rows.filter(":visible").index(row);
 
+                            // Получаем значение из массива consumeArray по соответствующему индексу
+                            var consumeValue = data.message[visibleRowIndex - 1];
+                            console.log(productId + ": " + consumeValue);
 
-                        // Получаем ячейку в третьем столбце текущей строки и
-                        // заполняем ее значением из массива consumeArray
-                        var consumeValue = data.message[i - 1];
-                        console.log(i + "/" + rows.length + " (" + consumeValue + ")");
-                        row.find("td:eq(2)").text(consumeValue); // eq(2) - это индекс 2, который соответствует третьему столбцу
-                    }
+                            // Находим ячейку в третьем столбце текущей строки и
+                            // заполняем ее значением из массива consumeArray
+                            row.find("td:eq(2)").text(consumeValue); // eq(2) - это индекс 2, который соответствует третьему столбцу
+                        }
+                    });
+                },  
+
+                error: function (error) {
+                    // Здесь вы можете обрабатывать ошибки при выполнении запроса
+                    console.log("Ошибка при отправке данных на сервер:", error);
                 }
-
             });
         });
+
     });
 
 </script>
