@@ -33,8 +33,30 @@ namespace FoodLog.WebMVC.Controllers
             IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
             _mapper.Map(storageProducts, storageLineVMs);
             ViewBag.Filter = filter;
+            ViewBag.ConsumeArray = new double[10] { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
 
-            return PartialView(storageLineVMs);
+            return PartialView("_StorageTable", storageLineVMs);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CalculateConsume([FromBody] Consumption consumption)
+        {
+            double[] storageRemains = await _uow.StorageProductRepository.GetStorageRemains(consumption.ProductGuid);   // получаем массив со складскими остатками по данному продукту
+            double[] consumeArray = new double[storageRemains.Length];                                                  // создаем пустой массив с таким же размером - в него будем вписывать сколько списывать по факту
+            double consumeWeigth = consumption.Brutto;
+            for (int i = 0; i < storageRemains.Length; i++)
+            {
+                if (consumeWeigth > storageRemains[i])
+                    consumeArray[i] = storageRemains[i];
+                else consumeArray[i] = consumeWeigth;
+                consumeWeigth -= consumeArray[i];
+                Console.WriteLine($"{i}й элемент тек-го остатка: {storageRemains[i]}");
+                Console.WriteLine($"{i}й элемент нового массива: {consumeArray[i]}");
+
+            }
+            ViewBag.ConsumeArray = consumeArray;
+            return Json(new { message = $"Первый элемент: {consumeArray[0]}" });
         }
 
 

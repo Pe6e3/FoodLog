@@ -13,22 +13,36 @@
             <tr>
                 <th>Наименование продукта</th>
                 <th>Текущий вес</th>
+                <th>Потребляем</th>
+                <th>Останется</th>
                 <th>Стоимость</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var storageProduct in Model)
-            {
-                <tr>
-                    <td>@storageProduct.ProductName</td>
-                    <td>@storageProduct.CurrentWeight</td>
-                    <td>@storageProduct.CurrentCost</td>
-                </tr>
+            @{
+                int count = 0;
+                double[] remain = new double[Model.Count()];
+                double[] cost = new double[Model.Count()];
+                foreach (var storageProduct in Model)
+                {
+                    cost[count] = (double)storageProduct.CurrentCost * @ViewBag?.ConsumeArray[count] / 100;
+                    remain[count] = (double)storageProduct.CurrentWeight - ViewBag?.ConsumeArray[count];
+
+                    <tr>
+                        <td>@storageProduct.ProductName</td>
+                        <td>@storageProduct.CurrentWeight</td>
+                        <td>@ViewBag?.ConsumeArray[count] </td>
+                        <td>@remain[count] </td>
+                        <td>@cost[count++] </td>
+                    </tr>
+                }
             }
             <tr>
                 <td><strong>Итого:</strong></td>
                 <td><strong><span id="totalWeight">0</span> г</strong></td>
-                <td><strong><span id="totalCost">0</span></strong></td>
+                <td><strong><span id="totalConsume">0</span> г</strong></td>
+                <td><strong><span id="totalRemain">0</span> г</strong></td>
+                <td><strong><span id="totalCost">0</span> т</strong></td>
             </tr>
         </tbody>
     </table>
@@ -48,8 +62,10 @@
             table = document.querySelector(".cinereousTable");
             tr = table.getElementsByTagName("tr");
 
-            var totalWeight = 0; // Переменная для хранения суммы отображаемых значений "Текущий вес"
-            var totalCost = 0; // Переменная для хранения суммы отображаемых значений "Стоимость"
+            var totalWeight = 0;     // Переменная для хранения суммы отображаемых значений "Текущий вес"
+            var totalConsume = 0;    // Переменная для хранения суммы отображаемых значений "Потребляем"
+            var totalRemain = 0;     // Переменная для хранения суммы отображаемых значений "Останется"
+            var totalCost = 0;       // Переменная для хранения суммы отображаемых значений "Стоимость"
 
             for (i = 0; i < tr.length - 1; i++) {
                 td = tr[i].getElementsByTagName("td")[0];
@@ -62,9 +78,17 @@
                         var weight = parseFloat(tr[i].getElementsByTagName("td")[1].innerText);
                         totalWeight += isNaN(weight) ? 0 : weight;
 
+
+                        var consume = parseFloat(tr[i].getElementsByTagName("td")[2].innerText);
+                        totalConsume += isNaN(consume) ? 0 : consume;
+
+                        var remain = parseFloat(tr[i].getElementsByTagName("td")[3].innerText);
+                        totalRemain += isNaN(remain) ? 0 : remain;
+
                         // То же самое делаем для значения "Стоимость"
-                        var cost = parseFloat(tr[i].getElementsByTagName("td")[2].innerText);
+                        var cost = parseFloat(tr[i].getElementsByTagName("td")[4].innerText);
                         totalCost += isNaN(cost) ? 0 : cost;
+
                     } else {
                         tr[i].style.display = "none";
                     }
@@ -73,6 +97,8 @@
 
             // Обновляем отображение суммы в таблице
             document.getElementById("totalWeight").innerText = totalWeight.toFixed(0);
+            document.getElementById("totalConsume").innerText = totalConsume.toFixed(0);
+            document.getElementById("totalRemain").innerText = totalRemain.toFixed(0);
             document.getElementById("totalCost").innerText = totalCost.toFixed(0);
         }
 
