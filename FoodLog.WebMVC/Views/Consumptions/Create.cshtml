@@ -230,37 +230,22 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    // Здесь вы можете обрабатывать ответ с сервера, если это необходимо
-                    // Например, обновить отображение таблицы с продуктами на складе
-                    console.log(data);
 
-                    // Получаем таблицу и все строки в ней
-                    var table = $("#storageProductsTable");
-                    var rows = table.find("tr");
-                    // Перебираем каждую строку таблицы
-                    rows.each(function () {
+
+                    var table = $("#storageProductsTable");      // Получаем таблицу
+                    var rows = table.find("tr");                 // и все строки в ней
+                    rows.each(function () {                      // Перебираем каждую строку таблицы
                         var row = $(this);
-                        var productId = row.data("product-id"); // Получаем идентификатор продукта из атрибута data
+                        var productId = row.data("product-id");  // Получаем идентификатор продукта из атрибута data
 
-                        // Проверяем, видима ли текущая строка
-                        if (row.is(":visible")) {
-                            // Получаем индекс текущей строки в видимых строках
-                            var visibleRowIndex = rows.filter(":visible").index(row);
-
-                            // Получаем значение из массива consumeArray по соответствующему индексу
-                            var consumeValue = data.message[visibleRowIndex - 1];
+                        if (row.is(":visible")) {                // Проверяем, видима ли текущая строка
+                            var visibleRowIndex = rows.filter(":visible").index(row);  // Получаем индекс текущей строки в видимых строках
+                            var consumeValue = data.message[visibleRowIndex - 1]; // Получаем значение из массива consumeArray по соответствующему индексу
                             console.log(productId + ": " + consumeValue);
-
-                            // Находим ячейку в третьем столбце текущей строки и
-                            // заполняем ее значением из массива consumeArray
-                            row.find("td:eq(2)").text(consumeValue); // eq(2) - это индекс 2, который соответствует третьему столбцу
-                        }
+                            row.find("td:eq(2)").text(consumeValue);   // Находим ячейку в третьем столбце текущей строки и заполняем ее значением из массива consumeArray
+                        }                                              // eq(2) - это индекс 2, который соответствует третьему столбцу
                     });
-                },  
-
-                error: function (error) {
-                    // Здесь вы можете обрабатывать ошибки при выполнении запроса
-                    console.log("Ошибка при отправке данных на сервер:", error);
+                    //filterTableByProductName();
                 }
             });
         });
