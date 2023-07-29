@@ -11,4 +11,10 @@ public class StorageProduct : BaseEntity
     public double CurrentWeight { get; set; }
     public double CurrentCost { get; set; }
 
+
+    public double WeightConsume{ get; set; }      // Сколько будем потреблять
+    public double WeightRemainsAfter{ get; set; } // Сколько после этого останется
+
+
+
 }

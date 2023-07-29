@@ -13,6 +13,9 @@ public class StorageProductRepository : GenericRepository<StorageProduct>, IStor
         _db = db;
     }
 
+    public async Task<List<StorageProduct>> FilterProducts(Guid productGuid)=>
+        await _db.StorageProducts.Where(x=>x.ProductGuid == productGuid).ToListAsync();
+
     public async Task<double[]> GetStorageRemains(Guid productGuid)
     {
         List<StorageProduct> storageProducts = await _db.StorageProducts.Where(x => x.ProductGuid == productGuid).ToListAsync();

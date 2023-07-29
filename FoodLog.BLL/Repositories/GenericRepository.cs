@@ -32,6 +32,16 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         await _db.SaveChangesAsync();
         return entity;
     }
+    public async Task<IEnumerable<T>> Update(IEnumerable<T> entities)
+    {
+        foreach (var entity in entities)
+        {
+            _db.Entry(entity).State = EntityState.Modified;
+        }
+
+        await _db.SaveChangesAsync();
+        return entities;
+    }
     public async Task Delete(T entity)
     {
         _db.Set<T>().Remove(entity);

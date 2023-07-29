@@ -38,26 +38,26 @@ namespace FoodLog.WebMVC.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost]   
         public async Task<IActionResult> CalculateConsume([FromBody] Consumption consumption)
         {
-            double[] storageRemains = await _uow.StorageProductRepository.GetStorageRemains(consumption.ProductGuid);   // получаем массив со складскими остатками по данному продукту
-            double[] consumeArray = new double[storageRemains.Length];                                                  // создаем пустой массив с таким же размером - в него будем вписывать сколько списывать по факту
+            IEnumerable<StorageProduct> storage = await _uow.StorageProductRepository.FilterProducts(consumption.ProductGuid);
             double consumeWeigth = consumption.Brutto;
-            for (int i = 0; i < storageRemains.Length; i++)
+ 
+            foreach (StorageProduct storageProduct in storage)
             {
-                if (consumeWeigth > storageRemains[i])
-                    consumeArray[i] = storageRemains[i];
-                else consumeArray[i] = consumeWeigth;
-                consumeWeigth -= consumeArray[i];
-                //Console.WriteLine($"{i}й продукт: {consumeArray[i]}/{storageRemains[i]}");
+                if (consumeWeigth > storageProduct.CurrentWeight)
+                    storageProduct.WeightConsume = storageProduct.CurrentWeight;
+                else storageProduct.WeightConsume = consumeWeigth;
+                consumeWeigth -= storageProduct.WeightConsume;
+                storageProduct.WeightRemainsAfter = storageProduct.CurrentWeight - storageProduct.WeightConsume;
             }
-            //Console.WriteLine($"Остаток: {consumeWeigth}");
-            if (consumeWeigth!=0)
-                return Json(new { message = "На складе недостаточно продукта"});
+            await _uow.StorageProductRepository.Update(storage);
 
-            //ViewBag.ConsumeArray = consumeArray;
-            return Json(new { message = consumeArray});
+            IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
+            _mapper.Map(storage, storageLineVMs);
+            return PartialView("_StorageTable", storageLineVMs);
+
         }
 
 
