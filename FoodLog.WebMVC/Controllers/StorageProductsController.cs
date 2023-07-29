@@ -33,7 +33,6 @@ namespace FoodLog.WebMVC.Controllers
             IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
             _mapper.Map(storageProducts, storageLineVMs);
             ViewBag.Filter = filter;
-            ViewBag.ConsumeArray = new double[10] { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
 
             return PartialView("_StorageTable", storageLineVMs);
         }
@@ -57,7 +56,7 @@ namespace FoodLog.WebMVC.Controllers
             if (consumeWeigth!=0)
                 return Json(new { message = "На складе недостаточно продукта"});
 
-            ViewBag.ConsumeArray = consumeArray;
+            //ViewBag.ConsumeArray = consumeArray;
             return Json(new { message = consumeArray});
         }
 

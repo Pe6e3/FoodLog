@@ -23,15 +23,19 @@
                 int count = 0;
                 double[] remain = new double[Model.Count()];
                 double[] cost = new double[Model.Count()];
+                double[] consume = new double[Model.Count()];
                 foreach (var storageProduct in Model)
                 {
-                    cost[count] = (double)storageProduct.CurrentCost * @ViewBag?.ConsumeArray[count] / 100;
-                    remain[count] = (double)storageProduct.CurrentWeight - ViewBag?.ConsumeArray[count];
+
+                    cost[count] = (double)storageProduct.CurrentCost * (@ViewBag?.ConsumeArray  != null ? @ViewBag?.ConsumeArray[count] : 0) / 100;
+                    remain[count] = (double)storageProduct.CurrentWeight - (@ViewBag?.ConsumeArray != null ? @ViewBag?.ConsumeArray[count] : 0);
+                    consume[count] = (@ViewBag?.ConsumeArray != null ? @ViewBag?.ConsumeArray[count] : 0);
+
 
                     <tr data-product-id="@storageProduct.Guid">
                         <td>@storageProduct.ProductName</td>
                         <td>@storageProduct.CurrentWeight</td>
-                        <td>@ViewBag?.ConsumeArray[count] </td>
+                        <td>@consume[count] </td>
                         <td>@remain[count] </td>
                         <td>@cost[count++] </td>
                     </tr>

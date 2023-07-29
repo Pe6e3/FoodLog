@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    filterTableByProductName();  // Функция для фильтрации таблицы по названию продукта. Запускаем загрузке, т.к. могут быть переданы данные для фильтрации сразу
+    filterTableByProductName();  // Функция для фильтрации таблицы по названию продукта. Запускаем при загрузке, т.к. могут быть переданы данные для фильтрации сразу
 
     function filterTableByProductName() {
         var input, filter, table, tr, td, i, txtValue;
