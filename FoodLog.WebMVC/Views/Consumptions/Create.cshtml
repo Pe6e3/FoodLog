@@ -101,20 +101,23 @@
         var netto;
         var trashPercent;
         var trashWeight
+        var productFilter;
+
 
         getStorage();
 
         function getStorage(filter = "") {                   // Обновляем блок Склад
+            console.log("1");
             $.get('@Url.Action("IndexPartial", "StorageProducts")', { filter: filter }, function (content) {
                 $("#storageProductsPartial").html(content);
             });
+            console.log("2");
         }
 
         $("#ProductGuid").change(function () {                // Если выбираем продукт
             selectedProductGuid = $(this).val();
             allProductsJson = @Html.Raw(JsonConvert.SerializeObject(ViewBag.AllProducts));
             selectedProduct = allProductsJson.find(product => product.Guid === selectedProductGuid);
-            var productFilter;
 
             if (selectedProduct == null) {
                 productFilter = "";
@@ -247,6 +250,10 @@
                     });
                 }
             });
+            setTimeout(function () {
+                getStorage(productFilter);
+            }, 700);
+
         });
 
     });
