@@ -27,13 +27,13 @@
                 foreach (var storageProduct in Model)
                 {
 
-                    cost[count] =  storageProduct.CurrentCost * storageProduct.WeightConsume / 1000;
+                    cost[count] = storageProduct.CurrentCost * storageProduct.WeightConsume / 1000;
 
 
                     <tr data-product-id="@storageProduct.Guid">
                         <td>@storageProduct.ProductName</td>
                         <td>@storageProduct.CurrentWeight</td>
-                        <td>@storageProduct.WeightConsume </td>
+                        <td><input type="text" class="form-control text-center" value="@storageProduct.WeightConsume" data-product-id="@storageProduct.Guid" /></td>
                         <td>@storageProduct.WeightRemainsAfter </td>
                         <td> @cost[count] </td>
                     </tr>
@@ -54,3 +54,5 @@
 
 <script src="/js/jquery.min.js"></script>
 <script src="/js/storage.js"></script>
+
+Сделай чтобы вес в 3м столбце был изменяемым полем input
