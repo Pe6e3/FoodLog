@@ -63,17 +63,27 @@ public class ConsumptionsController : Controller
         foreach (StorageProduct storageProduct in storage)
         {
             if (consumeWeigth > storageProduct.CurrentWeight)
-                storageProduct.WeightConsume = storageProduct.CurrentWeight;
-            else storageProduct.WeightConsume = consumeWeigth;
-            consumeWeigth -= storageProduct.WeightConsume;
-            storageProduct.WeightRemainsAfter = storageProduct.CurrentWeight - storageProduct.WeightConsume;
-            await _uow.StorageProductRepository.Update(storageProduct);
+            {
+                consumeWeigth -= storageProduct.CurrentWeight;
+                await _uow.StorageProductRepository.Delete(storageProduct);
+            }
+            else
+            {
+                if (consumeWeigth > 0)
+                {
+                    storageProduct.CurrentWeight -= consumeWeigth;
+                    consumeWeigth = 0;
+                    await _uow.StorageProductRepository.Update(storageProduct);
+                    if (storageProduct.CurrentWeight ==0)
+                        await _uow.StorageProductRepository.Delete(storageProduct);
+
+                }
+            }
         }
 
         IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
         _mapper.Map(storage, storageLineVMs);
         return PartialView("_StorageTable", storageLineVMs);
-
     }
 
 
