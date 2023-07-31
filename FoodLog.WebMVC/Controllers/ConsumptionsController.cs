@@ -66,11 +66,11 @@ public class ConsumptionsController : Controller
             {
                 consumeWeigth -= storageProduct.CurrentWeight;
                 Trash trash = new Trash();
-                trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
-                //trash.TrashWeight = consumption.
                 trash.ProductGuid = storageProduct.ProductGuid;
+                trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
+                trash.TrashWeight = consumption.TrashWeight;
                 trash.Date = DateTime.Now;
-                trash.TrashCost = storageProduct.CurrentCost * storageProduct.CurrentWeight / 1000;
+                trash.TrashCost = storageProduct.CurrentCost * consumption.TrashWeight / 1000;
                 await _uow.TrashRepository.Insert(trash);
                 await _uow.StorageProductRepository.Delete(storageProduct);
             }
@@ -80,11 +80,12 @@ public class ConsumptionsController : Controller
                 {
                     storageProduct.CurrentWeight -= consumeWeigth;
                     Trash trash = new Trash();
-                    trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
-                    trash.TrashWeight = storageProduct.CurrentWeight;
                     trash.ProductGuid = storageProduct.ProductGuid;
+                    trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
+                    trash.TrashWeight = consumption.TrashWeight;
                     trash.Date = DateTime.Now;
                     trash.TrashCost = storageProduct.CurrentCost * storageProduct.CurrentWeight / 1000;
+                    await _uow.TrashRepository.Insert(trash);
                     consumeWeigth = 0;
 
                     await _uow.StorageProductRepository.Update(storageProduct);
