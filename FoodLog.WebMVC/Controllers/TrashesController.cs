@@ -16,7 +16,7 @@ namespace FoodLog.WebMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Trash> trashes = await _uow.TrashRepository.GetEntity();
+            IEnumerable<Trash> trashes = await _uow.TrashRepository.GetEntity(Include: "Product", Include2:"WriteOffReason");
             return View(trashes);
         }
 
@@ -30,6 +30,7 @@ namespace FoodLog.WebMVC.Controllers
 
         public async Task<IActionResult> Create()
         {
+            ViewBag.Reasons = await _uow.ReasonRepository.GetEntity();
             ViewBag.AllProducts = await _uow.ProductRepository.GetEntity();
             return View();
         }
@@ -37,6 +38,8 @@ namespace FoodLog.WebMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Trash trash)
         {
+            trash.Date = DateTime.Now;
+            //trash.TrashCost = trash.TrashWeight * trash.
             await _uow.TrashRepository.Insert(trash);
             return RedirectToAction(nameof(Index));
         }
