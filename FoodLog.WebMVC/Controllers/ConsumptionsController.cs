@@ -65,6 +65,13 @@ public class ConsumptionsController : Controller
             if (consumeWeigth > storageProduct.CurrentWeight)
             {
                 consumeWeigth -= storageProduct.CurrentWeight;
+                Trash trash = new Trash();
+                trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
+                //trash.TrashWeight = consumption.
+                trash.ProductGuid = storageProduct.ProductGuid;
+                trash.Date = DateTime.Now;
+                trash.TrashCost = storageProduct.CurrentCost * storageProduct.CurrentWeight / 1000;
+                await _uow.TrashRepository.Insert(trash);
                 await _uow.StorageProductRepository.Delete(storageProduct);
             }
             else
@@ -72,9 +79,16 @@ public class ConsumptionsController : Controller
                 if (consumeWeigth > 0)
                 {
                     storageProduct.CurrentWeight -= consumeWeigth;
+                    Trash trash = new Trash();
+                    trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
+                    trash.TrashWeight = storageProduct.CurrentWeight;
+                    trash.ProductGuid = storageProduct.ProductGuid;
+                    trash.Date = DateTime.Now;
+                    trash.TrashCost = storageProduct.CurrentCost * storageProduct.CurrentWeight / 1000;
                     consumeWeigth = 0;
+
                     await _uow.StorageProductRepository.Update(storageProduct);
-                    if (storageProduct.CurrentWeight ==0)
+                    if (storageProduct.CurrentWeight == 0)
                         await _uow.StorageProductRepository.Delete(storageProduct);
 
                 }
