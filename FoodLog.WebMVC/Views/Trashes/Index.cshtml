@@ -1,0 +1,39 @@
+﻿@using FoodLog.DAL.Entities;
+@*Список всех списаний List Trash.cs*@
+
+@model List<Trash>
+
+
+<div class="container">
+    <div class="d-flex justify-content-end mb-2">
+        <a class="btn btn-outline-danger" asp-controller="Trashes" asp-action="Create"> Добавить списание</a>
+    </div>
+
+    <table class="cinereousTable">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Название</th>
+                <th>Вес списания</th>
+                <th>Стоимость списания</th>
+                <th>Причина списания</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var trash in Model)
+            {
+                <tr>
+                    <td>@trash.Date.ToShortDateString()</td>
+                    <td>@trash.Product.Name </td>
+                    <td>@trash.TrashWeight</td>
+                    <td>@trash.TrashCost</td>
+                    <td>@trash.WriteOffReason</td>
+                    <td><a asp-action="Delete" asp-route-trashGuid="@trash.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />

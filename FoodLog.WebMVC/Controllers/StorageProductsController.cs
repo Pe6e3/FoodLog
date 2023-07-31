@@ -38,28 +38,6 @@ namespace FoodLog.WebMVC.Controllers
         }
 
 
-        //[HttpPost]   
-        //public async Task<IActionResult> CalculateConsume([FromBody] Consumption consumption)
-        //{
-        //    IEnumerable<StorageProduct> storage = await _uow.StorageProductRepository.FilterProducts(consumption.ProductGuid);
-        //    double consumeWeigth = consumption.Brutto;
- 
-        //    foreach (StorageProduct storageProduct in storage)
-        //    {
-        //        if (consumeWeigth > storageProduct.CurrentWeight)
-        //            storageProduct.WeightConsume = storageProduct.CurrentWeight;
-        //        else storageProduct.WeightConsume = consumeWeigth;
-        //        consumeWeigth -= storageProduct.WeightConsume;
-        //        storageProduct.WeightRemainsAfter = storageProduct.CurrentWeight - storageProduct.WeightConsume;
-        //    }
-        //    await _uow.StorageProductRepository.Update(storage);
-
-        //    IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
-        //    _mapper.Map(storage, storageLineVMs);
-        //    return PartialView("_StorageTable", storageLineVMs);
-
-        //}
-
 
         public async Task<IActionResult> Create()
         {

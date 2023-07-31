@@ -46,9 +46,9 @@ public class ConsumptionsController : Controller
         return RedirectToAction(nameof(Create));
     }
 
-    public async Task<IActionResult> Delete(Guid consumGuid)
+    public async Task<IActionResult> Delete(Guid consumeGuid)
     {
-        await _uow.ConsumptionRepository.Delete(consumGuid);
+        await _uow.ConsumptionRepository.Delete(consumeGuid);
         return RedirectToAction(nameof(Index));
     }
 

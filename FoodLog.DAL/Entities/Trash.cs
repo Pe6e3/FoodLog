@@ -10,9 +10,4 @@ public class Trash : BaseAction
     public double TrashCost { get; set; }   // Стоимость списанных продуктов
 }
 
-
-// Причины списания
-public class WriteOffReason : BaseEntity
-{
-    public string ReasonName { get; set; } = null!;
-}
+ 

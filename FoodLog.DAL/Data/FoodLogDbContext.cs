@@ -16,6 +16,8 @@ public class FoodLogDbContext : DbContext
     public DbSet<Purchase> Purchases { get; set; }
     public DbSet<StorageProduct> StorageProducts { get; set; }
     public DbSet<Trash> Trashes { get; set; }
+    public DbSet<WriteOffReason> WriteOffReasons { get; set; }
+
 
 
 
@@ -46,8 +48,35 @@ public class FoodLogDbContext : DbContext
                 new Category { Guid = Guid.NewGuid(), Name = "Кондитерка" }
             );
 
+        modelBuilder.Entity<WriteOffReason>()
+        .HasData(
+        new WriteOffReason
+        {
+            Guid = Guid.NewGuid(),
+            ReasonName = "Несъедобная часть"
+        },
+
+        new WriteOffReason
+        {
+            Guid = Guid.NewGuid(),
+            ReasonName = "Потеря/усушка"
+        },
+
+        new WriteOffReason
+        {
+            Guid = Guid.NewGuid(),
+            ReasonName = "Угостил"
+        },
+
+        new WriteOffReason
+        {
+            Guid = Guid.NewGuid(),
+            ReasonName = "Испортился"
+        }
+        );
+
         modelBuilder.Entity<Product>()
-    .HasData(
+        .HasData(
         new Product
         {
             Guid = Guid.NewGuid(),
