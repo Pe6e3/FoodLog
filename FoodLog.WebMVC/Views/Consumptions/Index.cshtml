@@ -16,8 +16,6 @@
                 <th>Название</th>
                 <th>Чистый вес</th>
                 <th>Вес с магазина</th>
-                <th>Списано г</th>
-                <th>Списано Списано в %</th>
                 <th></th>
             </tr>
         </thead>
@@ -29,11 +27,7 @@
                     <td>@consumption.Product.Name </td>
                     <td>@consumption.Netto</td>
                     <td>@consumption.Brutto</td>
-                    <td>@consumption.TrashWeight</td>
-                    <td>@consumption.TrashPercentage</td>
-                    <td>
-                        <a asp-action="Delete" asp-route-consumGuid="@consumption.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a>
-                    </td>
+                    <td><a asp-action="Delete" asp-route-consumGuid="@consumption.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a></td>
                 </tr>
             }
         </tbody>
