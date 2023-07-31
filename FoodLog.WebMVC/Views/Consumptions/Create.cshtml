@@ -77,6 +77,8 @@
                             <button type="submit" class="btn btn-outline-primary">Добавить</button>
                         </div>
                     </form>
+ 
+
                 </div>
             </div>
         </div>
@@ -85,6 +87,10 @@
     <div class="rightwindow" id="storageContainer">
         <div id="storageProductsPartial"></div>
     </div>
+</div>
+
+<div class="bottomtwindow" id="consumeContainer">
+    <div id="consumptionPartial"></div>
 </div>
 
 
@@ -105,13 +111,18 @@
 
 
         getStorage();
+        getConsumption();
 
         function getStorage(filter = "") {                   // Обновляем блок Склад
-            console.log("1");
             $.get('@Url.Action("IndexPartial", "StorageProducts")', { filter: filter }, function (content) {
                 $("#storageProductsPartial").html(content);
             });
-            console.log("2");
+        }
+
+        function getConsumption() {                          // Обновляем блок Потребление
+            $.get('@Url.Action("IndexPartial", "Consumptions")',  function (content) {
+                $("#consumptionPartial").html(content);
+            });
         }
 
         $("#ProductGuid").change(function () {                // Если выбираем продукт
@@ -212,49 +223,8 @@
             $("#TrashPercentage").val(trashPercent.toFixed(0));
         }
 
-        // Добавляем обработчик события отправки формы
-        $("form").submit(function (event) {
-            event.preventDefault(); // Предотвращаем отправку формы, чтобы выполнить кастомную обработку
-
-            // Создаем объект модели Consumption и заполняем его данными из формы
-            var consumptionData = {
-                ProductGuid: $("#ProductGuid").val(),
-                Brutto: parseFloat($("#Brutto").val()),
-                TrashPercentage: parseFloat($("#TrashPercentage").val()),
-                TrashWeight: parseFloat($("#TrashWeight").val()),
-                Netto: parseFloat($("#Netto").val()),
-                Date: $("#Date").val()
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("CalculateConsume", "StorageProducts")",
-                data: JSON.stringify(consumptionData), // Преобразуем данные в формат JSON
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-
-
-                    var table = $("#storageProductsTable");      // Получаем таблицу
-                    var rows = table.find("tr");                 // и все строки в ней
-                    rows.each(function () {                      // Перебираем каждую строку таблицы
-                        var row = $(this);
-                        var productId = row.data("product-id");  // Получаем идентификатор продукта из атрибута data
-
-                        if (row.is(":visible")) {                // Проверяем, видима ли текущая строка
-                            var visibleRowIndex = rows.filter(":visible").index(row);  // Получаем индекс текущей строки в видимых строках
-                            var consumeValue = data.message[visibleRowIndex - 1]; // Получаем значение из массива consumeArray по соответствующему индексу
-                            console.log(productId + ": " + consumeValue);
-                            row.find("td:eq(2)").text(consumeValue);   // Находим ячейку в третьем столбце текущей строки и заполняем ее значением из массива consumeArray
-                        }                                              // eq(2) - это индекс 2, который соответствует третьему столбцу
-                    });
-                }
-            });
-            setTimeout(function () {
-                getStorage(productFilter);
-            }, 700);
-
-        });
+       
+        
 
     });
 

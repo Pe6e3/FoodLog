@@ -1,0 +1,45 @@
+﻿@*Список всех потреблений List  Consumption.cs  *@
+@*Partial*@
+@using FoodLog.DAL.Entities;
+
+
+@model List<Consumption>
+
+
+<div class="container">
+    <h2 class="mb-4">Потребление</h2>
+
+
+    <table class="cinereousTable">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Название</th>
+                <th>Чистый вес</th>
+                <th>Вес с магазина</th>
+                <th>Списано г</th>
+                <th>Списано в %</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var consumption in Model)
+            {
+                <tr>
+                    <td>@consumption.Date.ToShortDateString()</td>
+                    <td>@consumption.Product.Name </td>
+                    <td>@consumption.Netto</td>
+                    <td>@consumption.Brutto</td>
+                    <td>@consumption.TrashWeight</td>
+                    <td>@consumption.TrashPercentage</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/storage.js"></script>
+
