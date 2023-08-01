@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using FoodLog.BLL;
 using FoodLog.DAL.Entities;
+using FoodLog.WebMVC.Models;
 using FoodLog.WebMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace FoodLog.WebMVC.Controllers;
 
@@ -52,58 +54,46 @@ public class ConsumptionsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-
-
     [HttpPost]
     public async Task<IActionResult> CalculateConsume(Consumption consumption)
     {
+        double consumptionWeight = consumption.Brutto;
         IEnumerable<StorageProduct> storage = await _uow.StorageProductRepository.FilterProducts(consumption.ProductGuid);
-        double consumeWeigth = consumption.Brutto;
-
+        if (storage.Sum(s => s.CurrentWeight) < consumptionWeight)
+        {
+            ModelState.AddModelError("", "Недостаточно продукта на складе для потребления.");
+            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
         foreach (StorageProduct storageProduct in storage)
         {
-            if (consumeWeigth > storageProduct.CurrentWeight)
+            double currentWeight = storageProduct.CurrentWeight;
+            if (consumptionWeight > 0)
             {
-                consumeWeigth -= storageProduct.CurrentWeight;
-                Trash trash = new Trash();
-                trash.ProductGuid = storageProduct.ProductGuid;
-                trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
-                trash.TrashWeight = consumption.TrashWeight;
-                trash.Date = DateTime.Now;
-                trash.TrashCost = storageProduct.CurrentCost * consumption.TrashWeight / 1000;
-                trash.TrashWeight = consumeWeigth * consumption.TrashPercentage / 100;
-                trash.GuidOfPurchase = storageProduct.GuidOfPurchase;
-                await _uow.TrashRepository.Insert(trash);
-                await _uow.StorageProductRepository.Delete(storageProduct);
-            }
-            else
-            {
-                if (consumeWeigth > 0)
-                {
-                    storageProduct.CurrentWeight -= consumeWeigth;
-                    Trash trash = new Trash();
-                    trash.ProductGuid = storageProduct.ProductGuid;
-                    trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
-                    trash.TrashWeight = consumeWeigth * consumption.TrashPercentage / 100;
-                    trash.Date = DateTime.Now;
-                    trash.TrashCost = storageProduct.CurrentCost * storageProduct.CurrentWeight / 1000;
-                    trash.GuidOfPurchase = storageProduct.GuidOfPurchase;
-                    await _uow.TrashRepository.Insert(trash);
-                    consumeWeigth = 0;
-
-                    await _uow.StorageProductRepository.Update(storageProduct);
-                    if (storageProduct.CurrentWeight == 0)
-                        await _uow.StorageProductRepository.Delete(storageProduct);
-
-                }
+                await WriteOffTrash(storageProduct, consumption, Math.Min(consumptionWeight, storageProduct.CurrentWeight));
+                storageProduct.CurrentWeight -= consumptionWeight;
+                consumptionWeight = Math.Max(consumptionWeight - currentWeight, 0);
+                if (storageProduct.CurrentWeight <= 0)
+                    await _uow.StorageProductRepository.Delete(storageProduct);  // Если вес потребления больше, чем в данной строке на складе (списываем строку полностью)
+                else await _uow.StorageProductRepository.Update(storageProduct); // Если вес потребления меньше, чем в данной строке на складе (списываем строку частично)
             }
         }
-
         IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
         _mapper.Map(storage, storageLineVMs);
         return PartialView("_StorageTable", storageLineVMs);
     }
-
+    private async Task WriteOffTrash(StorageProduct storageProduct, Consumption consumption, double consumeWeight)
+    {
+        Trash trash = new Trash
+        {
+            ProductGuid = storageProduct.ProductGuid,
+            WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason(),
+            Date = DateTime.Now,
+            TrashWeight = consumeWeight * consumption.TrashPercentage / 100,
+            TrashCost = storageProduct.CurrentCost * consumption.TrashWeight / 1000,
+            GuidOfPurchase = storageProduct.GuidOfPurchase
+        };
+        await _uow.TrashRepository.Insert(trash);
+    }
 
 
 
