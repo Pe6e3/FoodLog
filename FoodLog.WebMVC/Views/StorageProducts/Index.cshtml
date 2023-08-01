@@ -10,7 +10,10 @@
             <tr>
                 <th>Наименование продукта</th>
                 <th>Текущий вес</th>
-                <th>Стоимость</th>
+                <th>Цена покупки</th>
+                <th>Стоимость покупки</th>
+                <th>Дата покупки</th>
+                <th>Вес покупки</th>
                 <th><a asp-controller="StorageProducts" asp-action="Create"> <i class="fa-solid fa-circle-plus" style="font-size: 22px; color: green;"></i> </a></th>
             </tr>
         </thead>
@@ -20,7 +23,10 @@
                 <tr>
                     <td>@storageProduct.ProductName</td>
                     <td>@storageProduct.CurrentWeight</td>
-                    <td>@storageProduct.CurrentCost</td>
+                    <td>@storageProduct.Purchase.Price</td>
+                    <td>@storageProduct.Purchase.Cost</td>
+                    <td>@storageProduct.Purchase.Date</td>
+                    <td>@storageProduct.Purchase.Weight</td>
                     <td>
                         <a asp-action="Delete" asp-route-storageProductGuid="@storageProduct.Guid">
                             <i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i>

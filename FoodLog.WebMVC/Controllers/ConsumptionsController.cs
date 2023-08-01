@@ -71,6 +71,8 @@ public class ConsumptionsController : Controller
                 trash.TrashWeight = consumption.TrashWeight;
                 trash.Date = DateTime.Now;
                 trash.TrashCost = storageProduct.CurrentCost * consumption.TrashWeight / 1000;
+                trash.TrashWeight = consumeWeigth * consumption.TrashPercentage / 100;
+                trash.GuidOfPurchase = storageProduct.GuidOfPurchase;
                 await _uow.TrashRepository.Insert(trash);
                 await _uow.StorageProductRepository.Delete(storageProduct);
             }
@@ -82,9 +84,10 @@ public class ConsumptionsController : Controller
                     Trash trash = new Trash();
                     trash.ProductGuid = storageProduct.ProductGuid;
                     trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
-                    trash.TrashWeight = consumption.TrashWeight;
+                    trash.TrashWeight = consumeWeigth * consumption.TrashPercentage / 100;
                     trash.Date = DateTime.Now;
                     trash.TrashCost = storageProduct.CurrentCost * storageProduct.CurrentWeight / 1000;
+                    trash.GuidOfPurchase = storageProduct.GuidOfPurchase;
                     await _uow.TrashRepository.Insert(trash);
                     consumeWeigth = 0;
 

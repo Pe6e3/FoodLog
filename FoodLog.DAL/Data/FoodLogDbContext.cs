@@ -28,6 +28,20 @@ public class FoodLogDbContext : DbContext
             .HasMany(e => e.Products)
             .WithMany(e => e.Categories);
 
+        // Конфигурация для связи между Purchase и StorageProduct
+        modelBuilder.Entity<StorageProduct>()
+            .HasOne(p => p.Purchase)                                // Связь: StorageProduct имеет одну Purchase
+            .WithOne()                                              // Связь: Purchase имеет один StorageProduct 
+            .HasForeignKey<StorageProduct>(p => p.GuidOfPurchase)   // Внешний ключ в StorageProduct для связи с Purchase
+            .OnDelete(DeleteBehavior.NoAction);
+
+
+        // Конфигурация для связи между Trash и Purchase
+        modelBuilder.Entity<Trash>()
+            .HasOne(t => t.Purchase)                // Связь: Trash имеет одну Purchase
+            .WithMany()                             // Связь: Purchase имеет один много Trash (один-ко-многим)
+            .HasForeignKey(t => t.GuidOfPurchase)  // Внешний ключ в Trash для связи с Purchase
+            .OnDelete(DeleteBehavior.NoAction);
 
 
         modelBuilder.Entity<Category>()

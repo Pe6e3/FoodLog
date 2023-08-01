@@ -20,7 +20,8 @@ namespace FoodLog.WebMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<StorageProduct> storageProducts = await _uow.StorageProductRepository.GetEntity("Product");
+            //IEnumerable<StorageProduct> storageProducts = await _uow.StorageProductRepository.GetEntity(Include:"Product",Include2:"Purchase");
+            IEnumerable<StorageProduct> storageProducts = await _uow.StorageProductRepository.GetStorage();
             IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
             _mapper.Map(storageProducts, storageLineVMs);
 
