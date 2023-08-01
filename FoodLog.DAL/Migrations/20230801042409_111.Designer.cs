@@ -4,6 +4,7 @@ using FoodLog.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodLog.DAL.Migrations
 {
     [DbContext(typeof(FoodLogDbContext))]
-    partial class FoodLogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230801042409_111")]
+    partial class _111
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,72 +57,72 @@ namespace FoodLog.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Guid = new Guid("ddb7a868-0c49-4f41-868e-f1bac5224849"),
+                            Guid = new Guid("78341d5c-1575-4d5f-9f36-538da49a1841"),
                             Name = "Фрукты"
                         },
                         new
                         {
-                            Guid = new Guid("01af66b3-fe59-4156-8d89-3635ef794718"),
+                            Guid = new Guid("03387044-19eb-476a-9cb4-7c86dd27d6af"),
                             Name = "Сухофрукты"
                         },
                         new
                         {
-                            Guid = new Guid("fcb57ff1-21ec-42c3-9aa5-ccd6ef1f9bb1"),
+                            Guid = new Guid("8ab2a91e-ccca-4b9e-9c74-aaad5add7959"),
                             Name = "Зелень / Овощи"
                         },
                         new
                         {
-                            Guid = new Guid("ed4d8728-1a5b-4f2c-a32f-c5f3b44599f6"),
+                            Guid = new Guid("666107ba-a731-45c2-aa76-9f188ebb7933"),
                             Name = "Соки / Чай"
                         },
                         new
                         {
-                            Guid = new Guid("6b4a63eb-3858-443b-a3cc-6dcf3d156d73"),
+                            Guid = new Guid("62df2ecd-15b7-467e-ac27-d11587a6510a"),
                             Name = "Вода"
                         },
                         new
                         {
-                            Guid = new Guid("caba1ffc-f8f8-45f2-b283-4a1bf112152d"),
+                            Guid = new Guid("6010096c-4205-4ddb-96bc-519ae1d5361a"),
                             Name = "Орехи / Злаки / Семена"
                         },
                         new
                         {
-                            Guid = new Guid("cde27ad4-5b03-4422-baec-97a818cfd236"),
+                            Guid = new Guid("fca20941-ad37-4490-92d4-b7370f96b610"),
                             Name = "Термичка растительная"
                         },
                         new
                         {
-                            Guid = new Guid("47c22416-8d43-40cb-9c99-44ef42bb2061"),
+                            Guid = new Guid("0a0a5d72-0e7a-46e9-a4dd-c3347d4fde0a"),
                             Name = "Молочка"
                         },
                         new
                         {
-                            Guid = new Guid("5567e454-b246-4387-9195-a3ba05755e1a"),
+                            Guid = new Guid("6364bd27-21ee-4c7c-9ad2-dfb9569a773d"),
                             Name = "Яйцо"
                         },
                         new
                         {
-                            Guid = new Guid("dd6773b9-0fe2-4fb2-8f8c-597935af3681"),
+                            Guid = new Guid("e8b97d52-268e-47e0-a34c-d0c4c21baae1"),
                             Name = "Рыба / Морепродукты"
                         },
                         new
                         {
-                            Guid = new Guid("cb6d55ec-7500-45a2-bff5-d816bd7cd23f"),
+                            Guid = new Guid("be28a394-2056-47e4-a763-d375f2429d3b"),
                             Name = "Мясо"
                         },
                         new
                         {
-                            Guid = new Guid("496fce3b-32d8-49ec-a2ed-a5711227ed0a"),
+                            Guid = new Guid("c7a769d4-1604-429f-b787-bbf14aea5463"),
                             Name = "Термичка на ПЖП"
                         },
                         new
                         {
-                            Guid = new Guid("de15d074-c2b3-43bc-af20-794ae3b7269d"),
+                            Guid = new Guid("d47185ff-34fa-4978-a35f-4bbb1ec85af8"),
                             Name = "Кофе"
                         },
                         new
                         {
-                            Guid = new Guid("0b476e56-a77a-4fcc-9823-49c03e333ccf"),
+                            Guid = new Guid("3e634cc4-d9c4-4ac3-9776-894aa1fdde1f"),
                             Name = "Кондитерка"
                         });
                 });
@@ -142,12 +145,6 @@ namespace FoodLog.DAL.Migrations
                     b.Property<Guid>("ProductGuid")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PurchaseGuid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SourceGuid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<double>("TrashPercentage")
                         .HasColumnType("float");
 
@@ -157,8 +154,6 @@ namespace FoodLog.DAL.Migrations
                     b.HasKey("Guid");
 
                     b.HasIndex("ProductGuid");
-
-                    b.HasIndex("PurchaseGuid");
 
                     b.ToTable("Consumptions");
                 });
@@ -197,7 +192,7 @@ namespace FoodLog.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Guid = new Guid("1e65c16c-fbe2-4c6a-a2c0-bab9f7e1f2ce"),
+                            Guid = new Guid("a0f59496-43d0-4921-bac9-e2555a25829e"),
                             Caloriers = 52.0,
                             Carb = 11.4,
                             Fat = 0.40000000000000002,
@@ -208,7 +203,7 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("10aea75f-0a2d-4c6e-8ac6-9f39eb012eb3"),
+                            Guid = new Guid("1198995d-7ecb-41a7-be77-b001716e44e4"),
                             Caloriers = 576.0,
                             Carb = 6.0,
                             Fat = 49.0,
@@ -219,7 +214,7 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("69380114-0c33-4faa-8a86-326d441d01e7"),
+                            Guid = new Guid("4a427e74-037f-4b00-9563-47ed98f594f9"),
                             Caloriers = 18.0,
                             Carb = 3.8999999999999999,
                             Fat = 0.20000000000000001,
@@ -230,7 +225,7 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("b77aef8d-1d63-4a73-b3d9-5517036b06ea"),
+                            Guid = new Guid("fe468b74-e89a-4431-9724-40130c341c28"),
                             Caloriers = 59.0,
                             Carb = 4.7000000000000002,
                             Fat = 3.0,
@@ -241,7 +236,7 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("31f41442-82a0-4bba-9587-089c2cc51eec"),
+                            Guid = new Guid("d8c0c59a-a04d-411b-a298-bd9ef516445f"),
                             Caloriers = 208.0,
                             Carb = 0.0,
                             Fat = 14.300000000000001,
@@ -252,7 +247,7 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("5401cd75-348d-4899-ac66-15f7fdf91e6b"),
+                            Guid = new Guid("d23f6ff7-9914-4fda-a6b0-a207e99f0061"),
                             Caloriers = 96.0,
                             Carb = 21.0,
                             Fat = 0.20000000000000001,
@@ -263,7 +258,7 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("d971c99b-a519-4ba7-a078-2863c60f7f81"),
+                            Guid = new Guid("e0734383-313d-4182-bd4e-266a76f9c4a7"),
                             Caloriers = 43.0,
                             Carb = 8.1999999999999993,
                             Fat = 0.20000000000000001,
@@ -274,7 +269,7 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("89226c57-7e48-42b9-abac-6bc21ba7a85e"),
+                            Guid = new Guid("82230e1a-230e-4f8c-b0b3-17f865b9188f"),
                             Caloriers = 69.0,
                             Carb = 17.600000000000001,
                             Fat = 0.20000000000000001,
@@ -285,7 +280,7 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("81d352fc-d582-40cf-80bd-3e80f32f558e"),
+                            Guid = new Guid("0a5aec3b-70a4-4073-836c-eb9d2c33061a"),
                             Caloriers = 57.0,
                             Carb = 12.699999999999999,
                             Fat = 0.10000000000000001,
@@ -296,7 +291,7 @@ namespace FoodLog.DAL.Migrations
                         },
                         new
                         {
-                            Guid = new Guid("1b007176-bc63-400e-b3f7-4826cc09a60c"),
+                            Guid = new Guid("54eff23a-f5ea-4b5e-9c1e-ee67a246dd81"),
                             Caloriers = 61.0,
                             Carb = 14.6,
                             Fat = 0.5,
@@ -370,9 +365,6 @@ namespace FoodLog.DAL.Migrations
                     b.Property<Guid>("ProductGuid")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PurchaseGuid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("SourceGuid")
                         .HasColumnType("uniqueidentifier");
 
@@ -385,8 +377,6 @@ namespace FoodLog.DAL.Migrations
                     b.HasKey("Guid");
 
                     b.HasIndex("ProductGuid");
-
-                    b.HasIndex("PurchaseGuid");
 
                     b.ToTable("StorageProducts");
                 });
@@ -403,12 +393,6 @@ namespace FoodLog.DAL.Migrations
                     b.Property<Guid>("ProductGuid")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("PurchaseGuid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SourceGuid")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<double>("TrashCost")
                         .HasColumnType("float");
 
@@ -421,8 +405,6 @@ namespace FoodLog.DAL.Migrations
                     b.HasKey("Guid");
 
                     b.HasIndex("ProductGuid");
-
-                    b.HasIndex("PurchaseGuid");
 
                     b.HasIndex("WriteOffReasonGuid");
 
@@ -446,22 +428,22 @@ namespace FoodLog.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Guid = new Guid("32462b9c-293c-484c-a853-3fd48a4260d7"),
+                            Guid = new Guid("338694e7-12fc-46ae-85df-682623106403"),
                             ReasonName = "Несъедобная часть"
                         },
                         new
                         {
-                            Guid = new Guid("e4f2790b-ab6e-49bf-840c-c139edd4913c"),
+                            Guid = new Guid("f99b3b76-e67c-433d-b118-c9e01b77a16f"),
                             ReasonName = "Потеря/усушка"
                         },
                         new
                         {
-                            Guid = new Guid("46355abb-036f-4c9d-9690-5cf52b84195a"),
+                            Guid = new Guid("e0adb972-f0c0-44e8-a3c0-1c8387ea18d2"),
                             ReasonName = "Угостил"
                         },
                         new
                         {
-                            Guid = new Guid("6f7934dc-6e0e-4e19-9b7a-1cc0eeafe9e6"),
+                            Guid = new Guid("0ddf366a-24f3-4bbd-a349-e7f8591de5ca"),
                             ReasonName = "Испортился"
                         });
                 });
@@ -489,13 +471,7 @@ namespace FoodLog.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodLog.DAL.Entities.Purchase", "Purchase")
-                        .WithMany()
-                        .HasForeignKey("PurchaseGuid");
-
                     b.Navigation("Product");
-
-                    b.Navigation("Purchase");
                 });
 
             modelBuilder.Entity("FoodLog.DAL.Entities.Purchase", b =>
@@ -517,13 +493,7 @@ namespace FoodLog.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodLog.DAL.Entities.Purchase", "Purchase")
-                        .WithMany()
-                        .HasForeignKey("PurchaseGuid");
-
                     b.Navigation("Product");
-
-                    b.Navigation("Purchase");
                 });
 
             modelBuilder.Entity("FoodLog.DAL.Entities.Trash", b =>
@@ -534,10 +504,6 @@ namespace FoodLog.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodLog.DAL.Entities.Purchase", "Purchase")
-                        .WithMany()
-                        .HasForeignKey("PurchaseGuid");
-
                     b.HasOne("FoodLog.DAL.Entities.WriteOffReason", "WriteOffReason")
                         .WithMany("Trashes")
                         .HasForeignKey("WriteOffReasonGuid")
@@ -545,8 +511,6 @@ namespace FoodLog.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
-
-                    b.Navigation("Purchase");
 
                     b.Navigation("WriteOffReason");
                 });

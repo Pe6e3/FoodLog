@@ -7,5 +7,7 @@ public class Consumption : BaseAction
     public double Netto { get; set; }
     public double TrashPercentage { get; set; }
     public double TrashWeight { get; set; }
-        
+
+    public Guid SourceGuid { get; set; } // записываем Guid источника продукта
+    public virtual Purchase? Purchase { get; set; }
 }
