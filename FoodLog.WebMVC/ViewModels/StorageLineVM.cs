@@ -6,7 +6,8 @@ public class StorageLineVM
 {
     public Guid Guid { get; set; }
     public Guid ProductGuid { get; set; }
-
+    public Guid SourceGuid { get; set; } // записываем Guid источника продукта
+    public virtual Purchase? Purchase { get; set; }
 
     public string ProductName { get; set; } = null!;
 
