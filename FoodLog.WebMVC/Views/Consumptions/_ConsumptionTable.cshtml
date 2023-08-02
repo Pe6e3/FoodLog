@@ -17,6 +17,7 @@
                 <th>Название</th>
                 <th>Чистый вес</th>
                 <th>Вес с магазина</th>
+                <th>Стоимость</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +28,7 @@
                     <td>@consumption.Product.Name </td>
                     <td>@consumption.Netto</td>
                     <td>@consumption.Brutto</td>
+                    <td>@(consumption.Purchase?.Cost*consumption.Netto/1000)</td>
                 </tr>
             }
         </tbody>

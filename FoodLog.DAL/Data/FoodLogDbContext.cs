@@ -39,8 +39,15 @@ public class FoodLogDbContext : DbContext
         // Конфигурация для связи между Trash и Purchase
         modelBuilder.Entity<Trash>()
             .HasOne(t => t.Purchase)                // Связь: Trash имеет одну Purchase
-            .WithMany()                             // Связь: Purchase имеет один много Trash (один-ко-многим)
+            .WithMany()                             // Связь: Purchase имеет много Trash (один-ко-многим)
             .HasForeignKey(t => t.GuidOfPurchase)  // Внешний ключ в Trash для связи с Purchase
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // Конфигурация для связи между Consumption и Purchase
+        modelBuilder.Entity<Consumption>()
+            .HasOne(t => t.Purchase)                // Связь: Consumption имеет одну Purchase
+            .WithMany()                             // Связь: Purchase имеет много Consumption (один-ко-многим)
+            .HasForeignKey(t => t.GuidOfPurchase)  // Внешний ключ в Consumption для связи с Purchase
             .OnDelete(DeleteBehavior.NoAction);
 
 
