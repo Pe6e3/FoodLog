@@ -21,8 +21,8 @@ public class ConsumptionsController : Controller
 
     public async Task<IActionResult> Index()
     {
-        IEnumerable<Consumption> consumptions = await _uow.ConsumptionRepository.GetEntity("Product");
-        return View(consumptions);
+        ViewBag.AllProducts = await _uow.ProductRepository.GetEntity();
+        return View();
     }
     public async Task<IActionResult> IndexPartial()
     {
