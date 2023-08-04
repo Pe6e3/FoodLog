@@ -65,14 +65,15 @@ public class ConsumptionsController : Controller
             return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        foreach (StorageProduct storageProduct in storage)  // Перебираем кажду строку с потребляемым продуктом сверху вниз
+        foreach (StorageProduct storageProduct in storage)                                      // Перебираем каждую строку с потребляемым продуктом сверху вниз
         {
-            double lineWeight = storageProduct.CurrentWeight;   // Вес продукта, который указан в строке
+            double lineWeight = storageProduct.CurrentWeight;                                   // Вес продукта, который указан в строке
             if (consumptionWeight > 0)
             {
                 await WriteOffTrash(storageProduct, consumption.TrashPercentage, Math.Min(consumptionWeight, storageProduct.CurrentWeight));
                 await WriteOffStorage(storageProduct, Math.Min(consumptionWeight, lineWeight));
                 await AddConsume(storageProduct.GuidOfPurchase, consumption.Netto);
+                consumptionWeight -= lineWeight;                                                // Вычитаем из общего веса, который необходимо употребить, тот вес, который только что списали
             }
         }
         IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
@@ -104,7 +105,15 @@ public class ConsumptionsController : Controller
 
     private async Task AddConsume(Guid purchaseGuid, double netto)
     {
-
+        Consumption consumption = new Consumption()
+        {
+            Guid = new Guid(),
+            Date = DateTime.Now,
+            GuidOfPurchase = purchaseGuid,
+            ProductGuid = await _uow.ProductRepository.GetProdGuidByPurchaseGuid(purchaseGuid),
+            Netto = netto
+        };
+        await _uow.ConsumptionRepository.Insert(consumption);
     }
 
 
