@@ -72,7 +72,7 @@ public class ConsumptionsController : Controller
             {
                 await WriteOffTrash(storageProduct, consumption.TrashPercentage, Math.Min(consumptionWeight, storageProduct.CurrentWeight));
                 await WriteOffStorage(storageProduct, Math.Min(consumptionWeight, lineWeight));
-                await AddConsume(storageProduct.GuidOfPurchase, consumption.Netto);
+                await AddConsume(storageProduct.GuidOfPurchase, Math.Min(consumptionWeight, storageProduct.CurrentWeight) * (1 - (consumption.TrashPercentage / 100)));
                 consumptionWeight -= lineWeight;                                                // Вычитаем из общего веса, который необходимо употребить, тот вес, который только что списали
             }
         }
@@ -82,12 +82,14 @@ public class ConsumptionsController : Controller
     }
     private async Task WriteOffTrash(StorageProduct storageProduct, double trashPercentage, double consumeWeight)
     {
+        Purchase purchase = await _uow.PurchaseRepository.GetEntity(storageProduct.GuidOfPurchase);
+
         Trash trash = new Trash();
         trash.ProductGuid = storageProduct.ProductGuid;
         trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
         trash.Date = DateTime.Now;
         trash.TrashWeight = consumeWeight * trashPercentage / 100;
-        trash.TrashCost = storageProduct.CurrentCost * trash.TrashWeight / 1000;
+        trash.TrashCost = purchase.Price * trash.TrashWeight / 1000;
         trash.GuidOfPurchase = storageProduct.GuidOfPurchase;
         await _uow.TrashRepository.Insert(trash);
     }

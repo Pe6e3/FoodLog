@@ -16,8 +16,8 @@
                 <th>Дата</th>
                 <th>Название</th>
                 <th>Чистый вес</th>
-                <th>Вес с магазина</th>
                 <th>Стоимость</th>
+                <th> </th>
             </tr>
         </thead>
         <tbody>
@@ -27,8 +27,12 @@
                     <td>@consumption.Date.ToShortDateString()</td>
                     <td>@consumption.Product.Name </td>
                     <td>@consumption.Netto</td>
-                    <td>@consumption.Brutto</td>
-                    <td>@(consumption.Purchase?.Cost*consumption.Netto/1000)</td>
+                    <td>@(consumption.Purchase?.Price * consumption.Netto / 1000)</td>
+                    <td>
+                        <a asp-action="Delete" asp-route-consumeGuid="@consumption.Guid">
+                            <i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i>
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>
