@@ -1,0 +1,41 @@
+﻿@*Список всех потреблений List  Consumption.cs  *@
+@*Partial*@
+@using FoodLog.DAL.Entities;
+
+
+@model List<Consumption>
+
+
+<div class="container">
+    <h2 class="mb-4 text-center">Потребление</h2>
+
+
+    <table class="cinereousTable">
+        <thead>
+            <tr>
+                <th style="height:60px;">Дата</th>
+                <th>Название</th>
+                <th>Чистый вес</th>
+                <th>Стоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var consumption in Model)
+            {
+                <tr>
+                    <td>@consumption.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@consumption.Product.Name </td>
+                    <td>@consumption.Netto</td>
+                    <td>@(Math.Round((decimal)consumption.Purchase?.Price * (decimal)consumption.Netto / 1000))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/storage.js"></script>
+

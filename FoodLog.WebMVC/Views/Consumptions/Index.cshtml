@@ -1,43 +1,261 @@
-﻿@using FoodLog.DAL.Entities;
-@*Список всех съеденных продуктов Consumption.cs*@
+﻿@*Добавить съеденный продукт Consumption.cs*@
 
-@model List<Consumption>
+@using FoodLog.WebMVC.ViewModels;
+@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Mvc;
+@model ConsumptionVM
+
+@{
+    ViewData["Title"] = "Добавить съеденный продукт";
+}
+<div class="doublewindow">
+    <div class="leftwindow">
+        <div class="container createNew" style="max-width:500px;">
+            <div class="row justify-content-center">
+                <div class="col-md">
+                    <h2 class="text-center mb-4">Добавить съеденный продукт</h2>
+
+                    <form asp-action="Create" method="post" style="display:contents">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" id="selectedProductGuid" value="@ViewBag.SelectedProductGuid" />
+
+                        <div class="form-group row my-2">
+                            <label for="ProductGuid" class="col-sm col-form-label">Продукт</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="ProductGuid" name="ProductGuid" required>
+                                    <option value=""> </option>
+                                    @foreach (var product in ViewBag.AllProducts)
+                                    {
+                                        <option value="@product.Guid" data-guid="@product.Guid">@product.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
 
 
-<div class="container">
-    <div class="d-flex justify-content-end mb-2">
-        <a class="btn btn-outline-danger" asp-controller="Consumptions" asp-action="Create"> Добавить съеденный продукт </a>
+
+                        <div class="form-group row my-2">
+                            <label for="Brutto" class="col-sm col-form-label">Вес из магазина</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="Brutto" name="Brutto" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row my-2">
+                            <label for="TrashPercentage" class="col-sm col-form-label">Списано в %</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="TrashPercentage" name="TrashPercentage" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group row my-2">
+                            <label for="TrashWeight" class="col-sm col-form-label">Списано в г</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="TrashWeight" name="TrashWeight">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row my-2">
+                            <label for="Netto" class="col-sm col-form-label">Чистый вес</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="Netto" name="Netto">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row my-2">
+                            <label for="Date" class="col-sm col-form-label">Дата</label>
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="Date" name="Date" value="@DateTime.Now.ToString("yyyy-MM-dd")" required>
+                            </div>
+                        </div>
+
+
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-outline-primary">Добавить</button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
     </div>
 
-    <table class="cinereousTable">
-        <thead>
-            <tr>
-                <th>Дата</th>
-                <th>Название</th>
-                <th>Чистый вес</th>
-                <th>Вес с магазина</th>
-                <th>Списано г</th>
-                <th>Списано Списано в %</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var consumption in Model)
-            {
-                <tr>
-                    <td>@consumption.Date.ToShortDateString()</td>
-                    <td>@consumption.Product.Name </td>
-                    <td>@consumption.Netto</td>
-                    <td>@consumption.Brutto</td>
-                    <td>@consumption.TrashWeight</td>
-                    <td>@consumption.TrashPercentage</td>
-                    <td>
-                        <a asp-action="Delete" asp-route-consumGuid="@consumption.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="rightwindow" id="storageContainer">
+        <div id="storageProductsPartial"></div>
+    </div>
+
+    <div class="bottomwindow1" id="consumeContainer">
+        <div id="consumptionPartial"></div>
+    </div>
+
+    <div class="bottomwindow2" id="trashContainer">
+        <div id="trashPartial"></div>
+    </div>
 
 </div>
-<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
+
+
+
+<script src="/js/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        var selectedProductGuid;
+        var allProductsJson;
+        var selectedProduct;
+        var brutto;
+        var netto;
+        var trashPercent;
+        var trashWeight
+        var productFilter;
+
+
+        getStorage();
+        getConsumption(7);
+        getTrash(7)
+
+      
+
+        $("#ProductGuid").change(function () {                // Если выбираем продукт
+            selectedProductGuid = $(this).val();
+            allProductsJson = @Html.Raw(JsonConvert.SerializeObject(ViewBag.AllProducts));
+            selectedProduct = allProductsJson.find(product => product.Guid === selectedProductGuid);
+
+            if (selectedProduct == null) {
+                productFilter = "";
+                clearAll();
+
+            } else {
+                productFilter = selectedProduct.Name;
+                $("#TrashPercentage").val(selectedProduct.TrashPercentage);
+
+                // Вызываем экшн GetProductRemains с помощью Ajax
+                $.ajax({
+                    url: '@Url.Action("GetProductRemains", "StorageProducts")',
+                    data: { prodGuid: selectedProductGuid },
+                    type: 'GET',
+                    success: function (data) {
+                        $("#Brutto").val(data);  // Используем полученное значение для поля "#Brutto"
+                        updateTrashWeight();
+                    },
+                    error: function () {
+                        // Обработка ошибки
+                    }
+                });
+            }
+
+            updateNetto();
+
+            getStorage(productFilter);
+            if (!isNaN(brutto))
+                updateTrashWeight();
+        });
+
+        // Обработчик события изменения значения поля "Вес из магазина"
+        $("#Brutto").on("input", function () { updateTrashWeight(); });
+
+        // Обработчик события изменения значения поля "Чистый вес"
+        $("#Netto").on("input", function () { updateAllByNetto(); });
+
+        // Обработчик события изменения значения поля "Списано в %"
+        $("#TrashPercentage").on("input", function () { updateTrashWeightFromPercentage(); });
+
+        // Обработчик события изменения значения поля "Списано в г"
+        $("#TrashWeight").on("input", function () {
+            updateTrashPercentage();
+            updateNetto();
+        });
+
+        function clearAll() {
+            $("#TrashWeight").val("");
+            $("#TrashPercentage").val("");
+            $("#Brutto").val("");
+            $("#Netto").val("");
+        }
+
+        function updateTrashWeight() {                                      // Если меняем "Списано в г" (и при выборе продукта)
+            brutto = parseFloat($("#Brutto").val());                        // Получаем "Вес из магазина""
+            trashPercent = parseFloat($("#TrashPercentage").val());         // Получаем "Списание в %"
+
+            if (!isNaN(brutto) && !isNaN(trashPercent)) {                   // Выполняется, если "Вес из Магазина" и "Списание в %" заполнены (и являются числами)
+                trashWeight = (brutto * trashPercent) / 100;
+                $("#TrashWeight").val(trashWeight.toFixed(0));
+                updateNetto();
+            }
+        }
+
+        function updateTrashPercentage() {                                  // Если меняем "Списано в %"
+            brutto = parseFloat($("#Brutto").val());
+            trashWeight = parseFloat($("#TrashWeight").val());
+
+            if (!isNaN(brutto) && !isNaN(trashWeight)) {
+                trashPercent = (trashWeight / brutto) * 100;
+                $("#TrashPercentage").val(trashPercent.toFixed(0));
+            } else {
+                $("#TrashPercentage").val("");
+            }
+        }
+
+        function updateTrashWeightFromPercentage() {                        // Меняем "Списано в г" если изменили "Списано в %"
+            brutto = parseFloat($("#Brutto").val());
+            trashPercent = parseFloat($("#TrashPercentage").val());
+
+            if (!isNaN(brutto) && !isNaN(trashPercent)) {
+                trashWeight = (brutto * trashPercent) / 100;
+                $("#TrashWeight").val(trashWeight.toFixed(0));
+                updateNetto();
+            } else {
+                $("#TrashWeight").val("");
+                updateNetto();
+            }
+        }
+
+        function updateNetto() {
+            brutto = parseFloat($("#Brutto").val());
+            trashWeight = parseFloat($("#TrashWeight").val());
+
+            if (!isNaN(brutto) && !isNaN(trashWeight)) {
+                netto = brutto - trashWeight;
+                $("#Netto").val(netto.toFixed(0));
+            }
+        }
+        function updateAllByNetto() {
+            netto = parseFloat($("#Netto").val());
+            brutto = parseFloat($("#Brutto").val());
+            trashWeight = brutto - netto;
+            trashPercent = trashWeight / brutto * 100;
+            $("#TrashWeight").val(trashWeight.toFixed(0));
+            $("#TrashPercentage").val(trashPercent.toFixed(0));
+        }
+
+        function getStorage(filter = "") {                   // Обновляем блок Склад
+            $.get('@Url.Action("IndexPartial", "StorageProducts")', { filter: filter }, function (content) {
+                $("#storageProductsPartial").html(content);
+            });
+        }
+
+        function getConsumption(count = 5) {                          // Обновляем блок Потребление
+            $.get('@Url.Action("IndexPartial", "Consumptions")', { count: count }, function (content) {
+                $("#consumptionPartial").html(content);
+            });
+        }
+
+        function getTrash(count = 5) {                                // Обновляем блок Списания
+            $.get('@Url.Action("IndexPartial", "Trashes")', { count: count }, function (content) {
+                $("#trashPartial").html(content);
+            });
+        }
+
+
+
+    });
+
+</script>
+
+
+
+

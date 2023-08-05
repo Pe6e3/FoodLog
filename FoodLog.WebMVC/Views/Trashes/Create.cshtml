@@ -1,0 +1,58 @@
+﻿@*Добавить списание Trash.cs *@
+
+@using FoodLog.DAL.Entities;
+@model Trash
+
+@{
+    ViewData["Title"] = "Добавить Списание";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center my-5">Добавить Списание</h2>
+            <form asp-action="Create" method="post">
+
+
+                <div class="form-group row my-2">
+                    <label for="ProductGuid" class="col-sm-4 col-form-label">Продукт</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="ProductGuid" name="ProductGuid" required>
+                            <option value="">Выберите продукт</option>
+                            @foreach (var product in ViewBag.AllProducts)
+                            {
+                                <option value="@product.Guid">@product.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="TrashWeight" class="col-sm-4 col-form-label">Вес списания</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" id="TrashWeight" name="TrashWeight" required>
+                    </div>
+                </div>
+
+ 
+
+                <div class="form-group row my-2">
+                    <label for="WriteOffReasonGuid" class="col-sm-4 col-form-label">Причина списания</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="WriteOffReasonGuid" name="WriteOffReasonGuid" required>
+                            <option value="">Выберите Причину списания</option>
+                            @foreach (WriteOffReason reason in ViewBag.Reasons)
+                            {
+                                <option value="@reason.Guid">@reason.ReasonName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-outline-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

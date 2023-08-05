@@ -16,6 +16,8 @@ public class FoodLogDbContext : DbContext
     public DbSet<Purchase> Purchases { get; set; }
     public DbSet<StorageProduct> StorageProducts { get; set; }
     public DbSet<Trash> Trashes { get; set; }
+    public DbSet<WriteOffReason> WriteOffReasons { get; set; }
+
 
 
 
@@ -26,6 +28,27 @@ public class FoodLogDbContext : DbContext
             .HasMany(e => e.Products)
             .WithMany(e => e.Categories);
 
+        // Конфигурация для связи между Purchase и StorageProduct
+        modelBuilder.Entity<StorageProduct>()
+            .HasOne(p => p.Purchase)                                // Связь: StorageProduct имеет одну Purchase
+            .WithOne()                                              // Связь: Purchase имеет один StorageProduct 
+            .HasForeignKey<StorageProduct>(p => p.GuidOfPurchase)   // Внешний ключ в StorageProduct для связи с Purchase
+            .OnDelete(DeleteBehavior.NoAction);
+
+
+        // Конфигурация для связи между Trash и Purchase
+        modelBuilder.Entity<Trash>()
+            .HasOne(t => t.Purchase)                // Связь: Trash имеет одну Purchase
+            .WithMany()                             // Связь: Purchase имеет много Trash (один-ко-многим)
+            .HasForeignKey(t => t.GuidOfPurchase)  // Внешний ключ в Trash для связи с Purchase
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // Конфигурация для связи между Consumption и Purchase
+        modelBuilder.Entity<Consumption>()
+            .HasOne(t => t.Purchase)                // Связь: Consumption имеет одну Purchase
+            .WithMany()                             // Связь: Purchase имеет много Consumption (один-ко-многим)
+            .HasForeignKey(t => t.GuidOfPurchase)  // Внешний ключ в Consumption для связи с Purchase
+            .OnDelete(DeleteBehavior.NoAction);
 
 
         modelBuilder.Entity<Category>()
@@ -46,14 +69,41 @@ public class FoodLogDbContext : DbContext
                 new Category { Guid = Guid.NewGuid(), Name = "Кондитерка" }
             );
 
+        modelBuilder.Entity<WriteOffReason>()
+        .HasData(
+        new WriteOffReason
+        {
+            Guid = Guid.NewGuid(),
+            ReasonName = "Несъедобная часть"
+        },
+
+        new WriteOffReason
+        {
+            Guid = Guid.NewGuid(),
+            ReasonName = "Потеря/усушка"
+        },
+
+        new WriteOffReason
+        {
+            Guid = Guid.NewGuid(),
+            ReasonName = "Угостил"
+        },
+
+        new WriteOffReason
+        {
+            Guid = Guid.NewGuid(),
+            ReasonName = "Испортился"
+        }
+        );
+
         modelBuilder.Entity<Product>()
-    .HasData(
+        .HasData(
         new Product
         {
             Guid = Guid.NewGuid(),
 
             Name = "Яблоко",
-            Caloriers = 52,
+            Calories = 52,
             Prot = 0.3,
             Carb = 11.4,
             Fat = 0.4,
@@ -64,7 +114,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Миндаль",
-            Caloriers = 576,
+            Calories = 576,
             Prot = 21,
             Carb = 6,
             Fat = 49,
@@ -76,7 +126,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Томат",
-            Caloriers = 18,
+            Calories = 18,
             Prot = 0.9,
             Carb = 3.9,
             Fat = 0.2,
@@ -88,7 +138,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Йогурт",
-            Caloriers = 59,
+            Calories = 59,
             Prot = 3.5,
             Carb = 4.7,
             Fat = 3.0,
@@ -100,7 +150,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Лосось",
-            Caloriers = 208,
+            Calories = 208,
             Prot = 20,
             Carb = 0,
             Fat = 14.3,
@@ -112,7 +162,7 @@ public class FoodLogDbContext : DbContext
        {
            Guid = Guid.NewGuid(),
            Name = "Банан",
-           Caloriers = 96,
+           Calories = 96,
            Prot = 1.0,
            Carb = 21.0,
            Fat = 0.2,
@@ -124,7 +174,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Апельсин",
-            Caloriers = 43,
+            Calories = 43,
             Prot = 0.9,
             Carb = 8.2,
             Fat = 0.2,
@@ -136,7 +186,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Виноград",
-            Caloriers = 69,
+            Calories = 69,
             Prot = 0.6,
             Carb = 17.6,
             Fat = 0.2,
@@ -148,7 +198,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Груша",
-            Caloriers = 57,
+            Calories = 57,
             Prot = 0.4,
             Carb = 12.7,
             Fat = 0.1,
@@ -160,7 +210,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Киви",
-            Caloriers = 61,
+            Calories = 61,
             Prot = 1.1,
             Carb = 14.6,
             Fat = 0.5,

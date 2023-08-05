@@ -17,7 +17,7 @@ namespace FoodLog.DAL.Controllers
         public async Task<IActionResult> Index()
         {
             IEnumerable<Product> products = await _uow.ProductRepository.GetEntity();
-            return View(products.OrderByDescending(x => x.Caloriers));
+            return View(products.OrderByDescending(x => x.Calories));
         }
 
 
@@ -33,6 +33,15 @@ namespace FoodLog.DAL.Controllers
         public async Task<IActionResult> Delete(Guid prodGuid)
         {
             await _uow.ProductRepository.Delete(prodGuid);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Update(Guid prodGuid) => View(await _uow.ProductRepository.GetEntity(prodGuid));
+
+        [HttpPost]
+        public async Task<IActionResult> Update(Product product)
+        {
+            await _uow.ProductRepository.Update(product);
             return RedirectToAction(nameof(Index));
         }
 

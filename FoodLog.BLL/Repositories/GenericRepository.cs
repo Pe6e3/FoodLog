@@ -15,7 +15,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public async Task<IReadOnlyList<T>> GetEntity() => await _db.Set<T>().ToListAsync();
     public async Task<IReadOnlyList<T>> GetEntity(string Include) => await _db.Set<T>().Include(Include).ToListAsync();
-    public async Task<IReadOnlyList<T>> GetEntity(string Include1, string Include2) => await _db.Set<T>().Include(Include1).Include(Include2).ToListAsync();
+    public async Task<IReadOnlyList<T>> GetEntity(string Include, string Include2) => await _db.Set<T>().Include(Include).Include(Include2).ToListAsync();
 
     public async Task<T> GetEntity(Guid Guid) => await _db.Set<T>().FindAsync(Guid);
 
@@ -31,6 +31,16 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         _db.Entry(entity).State = EntityState.Modified;
         await _db.SaveChangesAsync();
         return entity;
+    }
+    public async Task<IEnumerable<T>> Update(IEnumerable<T> entities)
+    {
+        foreach (var entity in entities)
+        {
+            _db.Entry(entity).State = EntityState.Modified;
+        }
+
+        await _db.SaveChangesAsync();
+        return entities;
     }
     public async Task Delete(T entity)
     {

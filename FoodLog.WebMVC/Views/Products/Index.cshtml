@@ -25,7 +25,7 @@
             {
                 <tr>
                     <td>@product.Name</td>
-                    <td>@product.Caloriers</td>
+                    <td>@product.Calories</td>
                     <td>@product.Prot</td>
                     <td>@product.Fat</td>
                     <td>@product.Carb</td>
@@ -33,6 +33,7 @@
                     <td>@product.TrashPercentage</td>
                     <td>
                         <a asp-action="Delete" asp-route-prodGuid="@product.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a>
+                        <a asp-action="Update" asp-route-prodGuid="@product.Guid"><i class="fa-regular fa-pen-to-square" style="font-size: 15px; color: blue;"></i></a>
                     </td>
                 </tr>
             }

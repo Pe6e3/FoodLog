@@ -1,12 +1,12 @@
 :root {
-    --bgColor: gray;
+    /*    --bgColor: gray;
     --navColor: white;
-    --navBgColor: darkslategray;
-    /*    
-    --bgColor: floralwhite
+    --navBgColor: darkslategray;*/
+
+    --bgColor: honeydew;
     --navColor: black;
     --navBgColor: antiquewhite;
-    ;*/
+    ;
 }
 
 html {
@@ -54,19 +54,25 @@ nav, nav *.nav-link {
 .doublewindow {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr;
+    grid-template-rows: repeat(2 );
     grid-column-gap: 0px;
     grid-row-gap: 0px;
 }
 
 .leftwindow {
     grid-area: 1 / 1 / 2 / 2;
-    border: solid 5px red;
 }
 
 .rightwindow {
     grid-area: 1 / 2 / 2 / 3;
-    border: solid 5px blue;
+}
+
+.bottomwindow1 {
+    grid-area: 2 / 1 / 3 / 2;
+}
+
+.bottomwindow2 {
+    grid-area: 2 / 2 / 3 / 3;
 }
 
  
