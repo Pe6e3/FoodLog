@@ -83,16 +83,19 @@ public class ConsumptionsController : Controller
     }
     private async Task WriteOffTrash(StorageProduct storageProduct, double trashPercentage, double consumeWeight)
     {
-        Purchase purchase = await _uow.PurchaseRepository.GetEntity(storageProduct.GuidOfPurchase);
+        if (trashPercentage != 0)
+        {
+            Purchase purchase = await _uow.PurchaseRepository.GetEntity(storageProduct.GuidOfPurchase);
+            Trash trash = new Trash();
 
-        Trash trash = new Trash();
-        trash.ProductGuid = storageProduct.ProductGuid;
-        trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
-        trash.Date = DateTime.Now;
-        trash.TrashWeight = consumeWeight * trashPercentage / 100;
-        trash.TrashCost = purchase.Price * trash.TrashWeight / 1000;
-        trash.GuidOfPurchase = storageProduct.GuidOfPurchase;
-        await _uow.TrashRepository.Insert(trash);
+            trash.ProductGuid = storageProduct.ProductGuid;
+            trash.WriteOffReasonGuid = await _uow.ReasonRepository.ConsumeReason();
+            trash.Date = DateTime.Now;
+            trash.TrashWeight = consumeWeight * trashPercentage / 100;
+            trash.TrashCost = purchase.Price * trash.TrashWeight / 1000;
+            trash.GuidOfPurchase = storageProduct.GuidOfPurchase;
+            await _uow.TrashRepository.Insert(trash);
+        }
     }
 
     private async Task WriteOffStorage(StorageProduct storageProduct, double brutto)
