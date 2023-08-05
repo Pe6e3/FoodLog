@@ -20,6 +20,11 @@ namespace FoodLog.WebMVC.Controllers
             return View(trashes);
         }
 
+        public async Task<IActionResult> IndexPartial(int count = 7)
+        {
+            IEnumerable<Trash> trashes = await _uow.TrashRepository.GetTrashes(count);
+            return PartialView("_TrashTable", trashes);
+        }
 
         public async Task<IActionResult> Delete(Guid trashGuid)
         {

@@ -24,9 +24,9 @@ public class ConsumptionsController : Controller
         ViewBag.AllProducts = await _uow.ProductRepository.GetEntity();
         return View();
     }
-    public async Task<IActionResult> IndexPartial()
+    public async Task<IActionResult> IndexPartial(int count = 7)
     {
-        IEnumerable<Consumption> consumptions = await _uow.ConsumptionRepository.GetConsumptions(7);
+        IEnumerable<Consumption> consumptions = await _uow.ConsumptionRepository.GetConsumptions(count);
         return PartialView("_ConsumptionTable", consumptions);
     }
 

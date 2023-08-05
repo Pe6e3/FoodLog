@@ -1,0 +1,40 @@
+﻿@using FoodLog.DAL.Entities;
+@*Список Списаний List  Trash.cs  *@
+@*Partial*@
+@model List<Trash>
+
+
+<div class="container">
+    <h2 class="mb-4 text-center">Списания</h2>
+
+    <table class="cinereousTable">
+        <thead>
+            <tr>
+                <th style="width: 200px; height:60px;" >Дата</th>
+                <th style="width: 200px;" >Название</th>
+                <th style="width: 100px;" >Вес списания</th>
+                <th style="width: 100px;" >Стоимость списания</th>
+                <th style="width: 200px;" >Причина списания</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var trash in Model)
+            {
+                <tr>
+                    <td>@trash.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@trash.Product.Name </td>
+                    <td>@trash.TrashWeight</td>
+                    <td>@(Math.Round((decimal)trash.TrashCost))</td>
+                    <td>@trash.WriteOffReason?.ReasonName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/storage.js"></script>
+

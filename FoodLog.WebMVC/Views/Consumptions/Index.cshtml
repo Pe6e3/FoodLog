@@ -87,12 +87,16 @@
     <div class="rightwindow" id="storageContainer">
         <div id="storageProductsPartial"></div>
     </div>
-</div>
 
-<div class="bottomtwindow" id="consumeContainer">
-    <div id="consumptionPartial"></div>
-</div>
+    <div class="bottomwindow1" id="consumeContainer">
+        <div id="consumptionPartial"></div>
+    </div>
 
+    <div class="bottomwindow2" id="trashContainer">
+        <div id="trashPartial"></div>
+    </div>
+
+</div>
 
 
 
@@ -111,7 +115,8 @@
 
 
         getStorage();
-        getConsumption();
+        getConsumption(7);
+        getTrash(7)
 
         function getStorage(filter = "") {                   // Обновляем блок Склад
             $.get('@Url.Action("IndexPartial", "StorageProducts")', { filter: filter }, function (content) {
@@ -119,9 +124,15 @@
             });
         }
 
-        function getConsumption() {                          // Обновляем блок Потребление
-            $.get('@Url.Action("IndexPartial", "Consumptions")', function (content) {
+        function getConsumption(count = 5) {                          // Обновляем блок Потребление
+            $.get('@Url.Action("IndexPartial", "Consumptions")', { count: count }, function (content) {
                 $("#consumptionPartial").html(content);
+            });
+        }
+
+        function getTrash(count = 5) {                                // Обновляем блок Списания
+            $.get('@Url.Action("IndexPartial", "Trashes")', { count: count }, function (content) {
+                $("#trashPartial").html(content);
             });
         }
 

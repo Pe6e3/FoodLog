@@ -22,7 +22,7 @@ public class ConsumptionRepository : GenericRepository<Consumption>, IConsumptio
 
         if (count > 0) query = query.Take(count);
 
-        IEnumerable<Consumption> consumptions = await query.ToListAsync();
+        IEnumerable<Consumption> consumptions = await query.OrderByDescending(x => x.Date).ToListAsync();
 
         return consumptions;
     }
