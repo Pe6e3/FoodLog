@@ -103,7 +103,7 @@ public class FoodLogDbContext : DbContext
             Guid = Guid.NewGuid(),
 
             Name = "Яблоко",
-            Caloriers = 52,
+            Calories = 52,
             Prot = 0.3,
             Carb = 11.4,
             Fat = 0.4,
@@ -114,7 +114,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Миндаль",
-            Caloriers = 576,
+            Calories = 576,
             Prot = 21,
             Carb = 6,
             Fat = 49,
@@ -126,7 +126,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Томат",
-            Caloriers = 18,
+            Calories = 18,
             Prot = 0.9,
             Carb = 3.9,
             Fat = 0.2,
@@ -138,7 +138,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Йогурт",
-            Caloriers = 59,
+            Calories = 59,
             Prot = 3.5,
             Carb = 4.7,
             Fat = 3.0,
@@ -150,7 +150,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Лосось",
-            Caloriers = 208,
+            Calories = 208,
             Prot = 20,
             Carb = 0,
             Fat = 14.3,
@@ -162,7 +162,7 @@ public class FoodLogDbContext : DbContext
        {
            Guid = Guid.NewGuid(),
            Name = "Банан",
-           Caloriers = 96,
+           Calories = 96,
            Prot = 1.0,
            Carb = 21.0,
            Fat = 0.2,
@@ -174,7 +174,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Апельсин",
-            Caloriers = 43,
+            Calories = 43,
             Prot = 0.9,
             Carb = 8.2,
             Fat = 0.2,
@@ -186,7 +186,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Виноград",
-            Caloriers = 69,
+            Calories = 69,
             Prot = 0.6,
             Carb = 17.6,
             Fat = 0.2,
@@ -198,7 +198,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Груша",
-            Caloriers = 57,
+            Calories = 57,
             Prot = 0.4,
             Carb = 12.7,
             Fat = 0.1,
@@ -210,7 +210,7 @@ public class FoodLogDbContext : DbContext
         {
             Guid = Guid.NewGuid(),
             Name = "Киви",
-            Caloriers = 61,
+            Calories = 61,
             Prot = 1.1,
             Carb = 14.6,
             Fat = 0.5,
