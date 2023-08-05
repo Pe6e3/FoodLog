@@ -1,0 +1,33 @@
+﻿@* Список связей продукт-категория  *@
+@*Partial*@
+
+@using FoodLog.DAL.Entities
+@model IEnumerable<ProductCategory>
+
+<div class="container">
+ 
+    <table class="cinereousTable">
+        <thead>
+            <tr>
+                <th>Продукт</th>
+                <th>Категория</th>
+                <th>Процент</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prodCat in Model)
+            {
+                <tr>
+                    <td>@prodCat.Product?.Name</td>
+                    <td>@prodCat.Category?.Name</td>
+                    <td>@prodCat.Percent</td>
+                    <td>
+                        <a asp-action="Delete" asp-route-prodCatGuid="@prodCat.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />

@@ -71,14 +71,40 @@
 </div>
 
 
+<div id="_categories" class="mt-4"></div>
+<div id="_createCategory" class="mt-4"></div>
+
+
+
+
+<script src="/js/jquery.min.js"></script>
+<script>
+    getCategories('@Model.Guid');
+    getCreateCategory('@Model.Guid');
+
+    function getCategories(prodGuid) {                                                 // Обновляем блок Категорий
+        $.get('@Url.Action("IndexPartial", "ProductCategories")', { prodGuid: prodGuid }, function (content) {
+            $("#_categories").html(content);
+        });
+    }
+
+    function getCreateCategory(prodGuid) {                                                 // Обновляем блок добавления Категории
+        $.get('@Url.Action("CreatePartial", "ProductCategories")', { prodGuid: prodGuid }, function (content) {
+            $("#_createCategory").html(content);
+        });
+    }
+</script>
+
+
 <style>
     .createNew * input {
         min-width: 60px;
-        max-width:300px;   }
+        max-width: 300px;
+    }
 
     /*.createNew * label {
-        min-width: 300px;
-    }*/
+                min-width: 300px;
+            }*/
 
     .createNew * form {
         min-width: 600px;
