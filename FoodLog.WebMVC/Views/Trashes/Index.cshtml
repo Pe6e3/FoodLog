@@ -27,7 +27,7 @@
                     <td>@trash.Date.ToShortDateString()</td>
                     <td>@trash.Product.Name </td>
                     <td>@trash.TrashWeight</td>
-                    <td>@trash.TrashCost</td>
+                    <td>@(Math.Round((decimal)trash.TrashCost))</td>
                     <td>@trash.WriteOffReason?.ReasonName</td>
                     <td><a asp-action="Delete" asp-route-trashGuid="@trash.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a></td>
                 </tr>
