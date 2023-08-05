@@ -30,7 +30,7 @@ namespace FoodLog.WebMVC.Controllers
 
         public async Task<IActionResult> IndexPartial(string filter = "")
         {
-            IEnumerable<StorageProduct> storageProducts = await _uow.StorageProductRepository.GetEntity("Product");
+            IEnumerable<StorageProduct> storageProducts = await _uow.StorageProductRepository.GetEntity("Product", "Purchase");
             IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
             _mapper.Map(storageProducts, storageLineVMs);
             ViewBag.Filter = filter;

@@ -13,8 +13,6 @@
             <tr>
                 <th>Наименование продукта</th>
                 <th>Текущий вес</th>
-                <th>Потребляем</th>
-                <th>Останется</th>
                 <th>Стоимость</th>
             </tr>
         </thead>
@@ -22,20 +20,12 @@
             @{
                 int count = 0;
                 double[] cost = new double[Model.Count()];
-                //double[] remain = new double[Model.Count()];
-                //double[] consume = new double[Model.Count()];
                 foreach (var storageProduct in Model)
                 {
-
-                    cost[count] = storageProduct.CurrentCost * storageProduct.WeightConsume / 1000;
-
-
                     <tr data-product-id="@storageProduct.Guid">
                         <td>@storageProduct.ProductName</td>
                         <td>@storageProduct.CurrentWeight</td>
-                        <td>@storageProduct.WeightConsume</td>
-                        <td>@storageProduct.WeightRemainsAfter </td>
-                        <td> @cost[count] </td>
+                        <td>@storageProduct.CurrentCost </td>
                     </tr>
                 }
             // TODO: суммы по столбцам
@@ -43,8 +33,6 @@
             <tr>
                 <td><strong>Итого:</strong></td>
                 <td><strong><span id="totalWeight">0</span> г</strong></td>
-                <td><strong><span id="totalConsume">0</span> г</strong></td>
-                <td><strong><span id="totalRemain">0</span> г</strong></td>
                 <td><strong><span id="totalCost">0</span> т</strong></td>
             </tr>
         </tbody>

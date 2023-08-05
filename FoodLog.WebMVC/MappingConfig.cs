@@ -20,7 +20,7 @@ namespace Portal.Web
 
             CreateMap<StorageProduct, StorageLineVM>()
                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.Guid))
-               .ForMember(dest => dest.CurrentCost, opt => opt.MapFrom(src => src.CurrentCost))
+               .ForMember(dest => dest.CurrentCost, opt => opt.MapFrom(src => src.Purchase.Price * src.CurrentWeight/1000))
                .ForMember(dest => dest.CurrentWeight, opt => opt.MapFrom(src => src.CurrentWeight))
                .ForMember(dest => dest.ProductGuid, opt => opt.MapFrom(src => src.ProductGuid))
                .ForMember(dest => dest.WeightConsume, opt => opt.MapFrom(src => src.WeightConsume))
