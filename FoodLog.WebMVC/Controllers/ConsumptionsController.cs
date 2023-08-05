@@ -68,11 +68,12 @@ public class ConsumptionsController : Controller
         foreach (StorageProduct storageProduct in storage)                                      // Перебираем каждую строку с потребляемым продуктом сверху вниз
         {
             double lineWeight = storageProduct.CurrentWeight;                                   // Вес продукта, который указан в строке
-            if (consumptionWeight > 0)
+            if (consumptionWeight > 0)                                                          // Вес продукта, который собираемся съесть
             {
-                await WriteOffTrash(storageProduct, consumption.TrashPercentage, Math.Min(consumptionWeight, storageProduct.CurrentWeight));
-                await WriteOffStorage(storageProduct, Math.Min(consumptionWeight, lineWeight));
-                await AddConsume(storageProduct.GuidOfPurchase, Math.Min(consumptionWeight, storageProduct.CurrentWeight) * (1 - (consumption.TrashPercentage / 100)));
+                double tempWeight = consumptionWeight;  // локальная переменная, которая не изменится до того, как начнет выполнятся асинхронный метод (в отличие от consumptionWeight)
+                await WriteOffTrash(storageProduct, consumption.TrashPercentage, Math.Min(tempWeight, storageProduct.CurrentWeight));
+                await WriteOffStorage(storageProduct, Math.Min(tempWeight, lineWeight));
+                await AddConsume(storageProduct.GuidOfPurchase, Math.Min(tempWeight, lineWeight) * (1 - (consumption.TrashPercentage / 100)));
                 consumptionWeight -= lineWeight;                                                // Вычитаем из общего веса, который необходимо употребить, тот вес, который только что списали
             }
         }
