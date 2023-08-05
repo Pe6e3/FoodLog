@@ -19,6 +19,7 @@ public class UnitOfWork
     private StorageProductRepository _storageProductRepository;
     private TrashRepository _trashRepository;
     private ReasonRepository _reasonRepository;
+    private ProductCategoryRepository _productCategoryRepository;
 
     public ProductRepository ProductRepository => _productRepository ??= new ProductRepository(_db);
     public CategoryRepository CategoryRepository => _categoryRepository ??= new CategoryRepository(_db);
@@ -27,6 +28,7 @@ public class UnitOfWork
     public StorageProductRepository StorageProductRepository => _storageProductRepository ??= new StorageProductRepository(_db);
     public TrashRepository TrashRepository => _trashRepository ??= new TrashRepository(_db);
     public ReasonRepository ReasonRepository => _reasonRepository ??= new ReasonRepository(_db);
+    public ProductCategoryRepository ProdCatRepository => _productCategoryRepository ??= new ProductCategoryRepository(_db);
 
 
 
