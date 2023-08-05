@@ -60,5 +60,8 @@ namespace FoodLog.WebMVC.Controllers
             await _uow.StorageProductRepository.Delete(storageProductGuid);
             return RedirectToAction(nameof(Index));
         }
+
+
+        public async Task<double> GetProductRemains(Guid prodGuid) => (await _uow.StorageProductRepository.GetStorageRemains(prodGuid)).Sum();
     }
 }

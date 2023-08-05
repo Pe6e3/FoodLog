@@ -148,6 +148,19 @@
             } else {
                 productFilter = selectedProduct.Name;
                 $("#TrashPercentage").val(selectedProduct.TrashPercentage);
+
+                // Вызываем экшн GetProductRemains с помощью Ajax
+                $.ajax({
+                    url: '@Url.Action("GetProductRemains", "StorageProducts")',
+                    data: { prodGuid: selectedProductGuid },
+                    type: 'GET',
+                    success: function (data) {
+                        $("#Brutto").val(data);  // Используем полученное значение для поля "#Brutto"
+                    },
+                    error: function () {
+                        // Обработка ошибки
+                    }
+                });
             }
 
             updateNetto();
