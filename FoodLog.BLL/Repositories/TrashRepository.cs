@@ -17,11 +17,12 @@ public class TrashRepository : GenericRepository<Trash>, ITrashRepository
     {
         IQueryable<Trash> query = _db.Trashes
          .Include(x => x.Product)
-         .Include(x => x.WriteOffReason);
+         .Include(x => x.WriteOffReason)
+         .OrderByDescending(x => x.Date);
 
         if (count > 0) query = query.Take(count);
 
-        IEnumerable<Trash> consumptions = await query.OrderByDescending(x=>x.Date).ToListAsync();
+        IEnumerable<Trash> consumptions = await query.ToListAsync();
 
         return consumptions;
     }

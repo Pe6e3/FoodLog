@@ -18,11 +18,12 @@ public class ConsumptionRepository : GenericRepository<Consumption>, IConsumptio
     {
         IQueryable<Consumption> query = _db.Consumptions
             .Include(x => x.Product)
-            .Include(x => x.Purchase);
+            .Include(x => x.Purchase)
+            .OrderByDescending(x => x.Date);
 
         if (count > 0) query = query.Take(count);
 
-        IEnumerable<Consumption> consumptions = await query.OrderByDescending(x => x.Date).ToListAsync();
+        IEnumerable<Consumption> consumptions = await query.ToListAsync();
 
         return consumptions;
     }
