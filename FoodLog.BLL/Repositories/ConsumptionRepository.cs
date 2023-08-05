@@ -12,14 +12,19 @@ public class ConsumptionRepository : GenericRepository<Consumption>, IConsumptio
     {
         _db = db;
     }
+ 
 
-    public async Task<IEnumerable<Consumption>> GetConsumptions()
+    public async Task<IEnumerable<Consumption>> GetConsumptions(int count = 0)
     {
-        IEnumerable<Consumption> consumptions = await 
-            _db.Consumptions
-            .Include(x=>x.Product)
-            .Include(x=>x.Purchase)
-            .ToListAsync();
+        IQueryable<Consumption> query = _db.Consumptions
+            .Include(x => x.Product)
+            .Include(x => x.Purchase);
+
+        if (count > 0) query = query.Take(count);
+
+        IEnumerable<Consumption> consumptions = await query.ToListAsync();
+
         return consumptions;
     }
+
 }

@@ -26,7 +26,7 @@ public class ConsumptionsController : Controller
     }
     public async Task<IActionResult> IndexPartial()
     {
-        IEnumerable<Consumption> consumptions = await _uow.ConsumptionRepository.GetConsumptions();
+        IEnumerable<Consumption> consumptions = await _uow.ConsumptionRepository.GetConsumptions(7);
         return PartialView("_ConsumptionTable", consumptions);
     }
 
