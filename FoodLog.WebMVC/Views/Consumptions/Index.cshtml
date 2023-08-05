@@ -118,23 +118,7 @@
         getConsumption(7);
         getTrash(7)
 
-        function getStorage(filter = "") {                   // Обновляем блок Склад
-            $.get('@Url.Action("IndexPartial", "StorageProducts")', { filter: filter }, function (content) {
-                $("#storageProductsPartial").html(content);
-            });
-        }
-
-        function getConsumption(count = 5) {                          // Обновляем блок Потребление
-            $.get('@Url.Action("IndexPartial", "Consumptions")', { count: count }, function (content) {
-                $("#consumptionPartial").html(content);
-            });
-        }
-
-        function getTrash(count = 5) {                                // Обновляем блок Списания
-            $.get('@Url.Action("IndexPartial", "Trashes")', { count: count }, function (content) {
-                $("#trashPartial").html(content);
-            });
-        }
+      
 
         $("#ProductGuid").change(function () {                // Если выбираем продукт
             selectedProductGuid = $(this).val();
@@ -156,6 +140,7 @@
                     type: 'GET',
                     success: function (data) {
                         $("#Brutto").val(data);  // Используем полученное значение для поля "#Brutto"
+                        updateTrashWeight();
                     },
                     error: function () {
                         // Обработка ошибки
@@ -247,6 +232,23 @@
             $("#TrashPercentage").val(trashPercent.toFixed(0));
         }
 
+        function getStorage(filter = "") {                   // Обновляем блок Склад
+            $.get('@Url.Action("IndexPartial", "StorageProducts")', { filter: filter }, function (content) {
+                $("#storageProductsPartial").html(content);
+            });
+        }
+
+        function getConsumption(count = 5) {                          // Обновляем блок Потребление
+            $.get('@Url.Action("IndexPartial", "Consumptions")', { count: count }, function (content) {
+                $("#consumptionPartial").html(content);
+            });
+        }
+
+        function getTrash(count = 5) {                                // Обновляем блок Списания
+            $.get('@Url.Action("IndexPartial", "Trashes")', { count: count }, function (content) {
+                $("#trashPartial").html(content);
+            });
+        }
 
 
 

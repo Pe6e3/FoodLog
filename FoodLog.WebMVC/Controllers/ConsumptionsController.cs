@@ -21,7 +21,7 @@ public class ConsumptionsController : Controller
 
     public async Task<IActionResult> Index()
     {
-        ViewBag.AllProducts = await _uow.ProductRepository.GetEntity();
+        ViewBag.AllProducts = await _uow.ProductRepository.ProdListFromStorage();
         return View();
     }
     public async Task<IActionResult> IndexPartial(int count = 7)
