@@ -27,7 +27,7 @@
                     <td>@consumption.Date.ToShortDateString()</td>
                     <td>@consumption.Product.Name </td>
                     <td>@consumption.Netto</td>
-                    <td>@(consumption.Purchase?.Price * consumption.Netto / 1000)</td>
+                    <td>@(Math.Round((decimal)consumption.Purchase?.Price * (decimal)consumption.Netto / 1000))</td>
                     <td>
                         <a asp-action="Delete" asp-route-consumeGuid="@consumption.Guid">
                             <i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i>
