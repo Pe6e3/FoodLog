@@ -13,7 +13,9 @@ public class ProductCategoryRepository : GenericRepository<ProductCategory>, IPr
         _db = db;
     }
 
- 
-
-
+    public async Task<Guid> GetProdGuid(Guid prodCatGuid)
+    {
+        ProductCategory prodCat = await _db.ProductCategories.FirstOrDefaultAsync(x=>x.Guid == prodCatGuid);
+        return prodCat == null ? Guid.Empty : prodCat.ProductGuid;
+    }
 }

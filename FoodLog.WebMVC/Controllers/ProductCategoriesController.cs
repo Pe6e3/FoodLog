@@ -46,16 +46,18 @@ namespace FoodLog.DAL.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductCategory prodCat)
+        public async Task<IActionResult> Create(ProductCategory prodCat )
         {
             await _uow.ProdCatRepository.Insert(prodCat);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Update", "Products", new { prodGuid = prodCat.ProductGuid });
         }
 
         public async Task<IActionResult> Delete(Guid prodCatGuid)
         {
+            Guid prodGuid = await _uow.ProdCatRepository.GetProdGuid(prodCatGuid);
             await _uow.ProdCatRepository.Delete(prodCatGuid);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Update", "Products", new { prodGuid = prodGuid });
+
         }
 
         public async Task<IActionResult> Update(Guid prodCatGuid) => View(await _uow.ProdCatRepository.GetEntity(prodCatGuid));

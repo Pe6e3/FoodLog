@@ -55,31 +55,34 @@
 
 
 .cinereousTable .column1 {
-    width: 180px;
+    width: 200px;
 }
 
 .cinereousTable .column2 {
-    width: 230px;
+    width: 260px;
+ 
 }
 
 .cinereousTable .column3 {
-    width: 80px;
+    width: 100px;
+ 
 }
 
 .cinereousTable .column4 {
-    width: 60px;
+    width: 80px;
 }
 
-.cinereousTable  {
+.cinereousTable {
     text-align: center;
     margin: 0 auto; /* Центрирование полей ввода */
 }
 
-.cinereousTable .column2 .form-control {
-    max-width: 250px; /* Желаемая максимальная ширина для полей ввода */
-}
+    .cinereousTable .column2 .form-control {
+        text-align: center;
+        max-width: 250px;
+    }
 
-.cinereousTable .column3 .form-control {
-    max-width: 60px; /* Желаемая максимальная ширина для полей ввода */
-}
-
+    .cinereousTable .column3 .form-control {
+        text-align: center;
+        max-width: 60px;
+    }
