@@ -4,48 +4,38 @@
 @using FoodLog.DAL.Entities;
 @model ProductCategory
 
-<div class="container createNew">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
 
-            <form asp-action="Create" method="post">
-                <input type="hidden" id="ProductGuid" name="ProductGuid" value="@ViewBag.ProdGuid">
+<form asp-action="Create" method="post">
 
-                <div class="form-group row my-2">
-                    <label for="CategoryGuid" class="col-sm-4 col-form-label">Категория</label>
-                    <div class="col-sm-5">
-                        <select class="form-control" id="CategoryGuid" name="CategoryGuid" required>
-                            <option value="">Выберите Категорию</option>
-                            @foreach (var category in ViewBag.AllCategories)
-                            {
-                                <option value="@category.Guid">@category.Name</option>
-                            }
-                        </select>
-                    </div>
-                </div>
+    <table class="cinereousTable " style="border-top:0;max-width: 800px ">
+        <input type="hidden" id="ProductGuid" name="ProductGuid" value="@ViewBag.ProdGuid">
 
-                <div class="form-group row my-2">
-                    <label for="Percent" class="col-sm-4 col-form-label">Процент</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="Percent" name="Percent" required>
-                    </div>
-                </div>
+        <tbody>
+            <tr>
+                <td class="column1">Добавить категорию</td>
+                <td class="column2">
+                    <select class="form-control" id="CategoryGuid" name="CategoryGuid" required>
+                        <option value="">Выберите Категорию</option>
+                        @foreach (var category in ViewBag.AllCategories)
+                        {
+                            <option value="@category.Guid">@category.Name</option>
+                        }
+                    </select>
+                </td>
 
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-outline-primary">Добавить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+                <td class="column3">
+                    <input type="text" class="form-control" id="Percent" name="Percent" required>
+                </td>
 
-<style>
-    .createNew * input {
-        min-width: 60px;
-        max-width: 300px;
-    }
+                <td class="column4">
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="fa-regular fa-add" style="font-size: 15px; color: blue;"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
 
-    .createNew * form {
-        min-width: 600px;
-    }
-</style>
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
+ 

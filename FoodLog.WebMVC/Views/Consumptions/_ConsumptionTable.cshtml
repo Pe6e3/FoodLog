@@ -25,7 +25,7 @@
                 <tr>
                     <td>@consumption.Date.ToString("dd.MM.yyyy HH:mm")</td>
                     <td>@consumption.Product.Name </td>
-                    <td>@consumption.Netto</td>
+                    <td>@(Math.Round((decimal)consumption.Netto))</td>
                     <td>@(Math.Round((decimal)consumption.Purchase?.Price * (decimal)consumption.Netto / 1000))</td>
                 </tr>
             }

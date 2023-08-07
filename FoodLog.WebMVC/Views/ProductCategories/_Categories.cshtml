@@ -4,30 +4,28 @@
 @using FoodLog.DAL.Entities
 @model IEnumerable<ProductCategory>
 
-<div class="container">
- 
-    <table class="cinereousTable">
-        <thead>
+
+<table class="cinereousTable" style=" max-width: 800px; border-bottom:0;">
+    <thead>
+        <tr>
+            <th class="column1">Продукт</th>
+            <th class="column2">Категория</th>
+            <th class="column3">Процент</th>
+            <th class="column4"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var prodCat in Model)
+        {
             <tr>
-                <th>Продукт</th>
-                <th>Категория</th>
-                <th>Процент</th>
-                <th></th>
+                <td>@prodCat.Product?.Name</td>
+                <td>@prodCat.Category?.Name</td>
+                <td>@(prodCat.Percent)%</td>
+                <td>
+                    <a asp-action="Delete" asp-route-prodCatGuid="@prodCat.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var prodCat in Model)
-            {
-                <tr>
-                    <td>@prodCat.Product?.Name</td>
-                    <td>@prodCat.Category?.Name</td>
-                    <td>@prodCat.Percent</td>
-                    <td>
-                        <a asp-action="Delete" asp-route-prodCatGuid="@prodCat.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+        }
+    </tbody>
+</table>
 <link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />

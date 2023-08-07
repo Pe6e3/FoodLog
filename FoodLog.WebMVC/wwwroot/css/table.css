@@ -52,3 +52,34 @@
         table.cinereousTable tfoot td {
             font-size: 16px;
         }
+
+
+.cinereousTable .column1 {
+    width: 180px;
+}
+
+.cinereousTable .column2 {
+    width: 230px;
+}
+
+.cinereousTable .column3 {
+    width: 80px;
+}
+
+.cinereousTable .column4 {
+    width: 60px;
+}
+
+.cinereousTable  {
+    text-align: center;
+    margin: 0 auto; /* Центрирование полей ввода */
+}
+
+.cinereousTable .column2 .form-control {
+    max-width: 250px; /* Желаемая максимальная ширина для полей ввода */
+}
+
+.cinereousTable .column3 .form-control {
+    max-width: 60px; /* Желаемая максимальная ширина для полей ввода */
+}
+
