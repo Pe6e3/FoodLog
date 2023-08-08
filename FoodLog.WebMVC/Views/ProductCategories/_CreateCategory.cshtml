@@ -14,7 +14,8 @@
             <tr>
                 <td class="categoryColumn">
                     <select class="form-control" id="CategoryGuid" name="CategoryGuid" required>
-                        <option value="">Выберите Категорию</option>
+                        <option value=""> </option>
+
                         @foreach (var category in ViewBag.AllCategories)
                         {
                             <option value="@category.Guid">@category.Name</option>
@@ -40,31 +41,30 @@
 
 <script>
 
-    window.addEventListener('load', updatePercentValue);                                     // Вызываем функцию при загрузке страницы
-    //document.getElementById('CategoryGuid').addEventListener('change', updatePercentValue);  // Вызываем функцию при изменении значения в поле выбора категории
-    document.getElementById('Percent').addEventListener('change', afterUpdatingPercent);     // Вызываем функцию при изменении значения в поле Процент
-    var totalPercent = 0;                                                                    // Переменная, в которой хранится сумма всех процентов по данной категории
-    var prodCats = @Html.Raw(Json.Serialize(ViewBag.ProdCats));                              // Получение всех категорий данного продукта из ViewBag.ProdCats
+    window.addEventListener('load', updatePercentValue);                                       // Вызываем функцию при загрузке страницы
+    document.getElementById('Percent').addEventListener('change', afterUpdatingPercent);       // Вызываем функцию при изменении значения в поле Процент
+    var totalPercent = 0;                                                                      // Переменная, в которой хранится сумма всех процентов по данной категории
+    var prodCats = @Html.Raw(Json.Serialize(ViewBag.ProdCats));                                // Получение всех категорий данного продукта из ViewBag.ProdCats
 
     // Функция для обновления % содержания в категории
     function updatePercentValue() {
         updateTotalPercent()
 
-        const percentField = document.querySelector('.percentColumn input');      // Получаем значение из поля percentColumn
+        const percentField = document.querySelector('.percentColumn input');         // Получаем значение из поля percentColumn
         percentField.value = `${100 - totalPercent.toFixed(0)}`;
         afterUpdatingPercent()
     }
 
-    function updateTotalPercent() {                                        // Суммирование значений Percent у категорий данного продукта
+    function updateTotalPercent() {                                                  // Суммирование значений Percent у категорий данного продукта
         totalPercent = 0;
         prodCats.forEach(function (prodCat) {
             totalPercent += prodCat.percent;
         });
     }
 
-    function afterUpdatingPercent() {                                          // действия после обновления поля с Процентом
+    function afterUpdatingPercent() {                                                // действия после обновления поля с Процентом
         const percentField = document.querySelector('.percentColumn input');         // Получаем значение из поля percentColumn
-        const enteredPercent = parseFloat(percentField.value);                 // Получаем введенное пользователем значение
+        const enteredPercent = parseFloat(percentField.value);                       // Получаем введенное пользователем значение
         const remainingPercent = 100 - totalPercent;
         const submitButton = document.getElementById('submitButton');
         const CategoryGuid = document.getElementById('CategoryGuid');

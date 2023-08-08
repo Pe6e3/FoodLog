@@ -29,20 +29,11 @@ namespace FoodLog.DAL.Controllers
         public async Task<IActionResult> CreatePartial(Guid prodGuid)
         {
             ViewBag.ProdGuid = prodGuid;
-            ViewBag.AllCategories = await _uow.CategoryRepository.GetEntity();
+            ViewBag.AllCategories = await _uow.CategoryRepository.GetUnusedCats(prodGuid);
+
             ViewBag.ProdCats = await _uow.ProdCatRepository.GetProdCatsByProdGuid(prodGuid);
 
             return PartialView("_CreateCategory");
-        }
-
-        public async Task<IActionResult> Create(Guid prodGuid)
-        {
-            ViewBag.ProdGuid = prodGuid;
-            Product product = await _uow.ProductRepository.GetEntity(prodGuid);
-
-            ViewBag.ProdName = product.Name;
-            ViewBag.AllCategories = await _uow.CategoryRepository.GetEntity();
-            return View();
         }
 
         [HttpPost]
