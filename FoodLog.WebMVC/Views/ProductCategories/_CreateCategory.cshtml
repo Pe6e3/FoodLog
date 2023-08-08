@@ -12,8 +12,7 @@
 
         <tbody>
             <tr>
-                <td class="column1"> </td>
-                <td class="column2">
+                <td class="categoryColumn">
                     <select class="form-control" id="CategoryGuid" name="CategoryGuid" required>
                         <option value="">Выберите Категорию</option>
                         @foreach (var category in ViewBag.AllCategories)
@@ -23,11 +22,11 @@
                     </select>
                 </td>
 
-                <td class="column3 ">
+                <td class="percentColumn ">
                     <input type="text" class="form-control" id="Percent" name="Percent" style="display:initial" required>
                 </td>
 
-                <td class="column4">
+                <td class="buttonColumn">
                     <button type="submit" class="btn btn-outline-primary" id="submitButton">
                         <i class="fa-regular fa-add" style="font-size: 15px; color: blue;"></i>
                     </button>
@@ -51,7 +50,7 @@
     function updatePercentValue() {
         updateTotalPercent()
 
-        const percentField = document.querySelector('.column3 input');      // Получаем значение из поля column3
+        const percentField = document.querySelector('.percentColumn input');      // Получаем значение из поля percentColumn
         percentField.value = `${100 - totalPercent.toFixed(0)}`;
         afterUpdatingPercent()
     }
@@ -64,7 +63,7 @@
     }
 
     function afterUpdatingPercent() {                                          // действия после обновления поля с Процентом
-        const percentField = document.querySelector('.column3 input');         // Получаем значение из поля column3
+        const percentField = document.querySelector('.percentColumn input');         // Получаем значение из поля percentColumn
         const enteredPercent = parseFloat(percentField.value);                 // Получаем введенное пользователем значение
         const remainingPercent = 100 - totalPercent;
         const submitButton = document.getElementById('submitButton');
@@ -72,7 +71,7 @@
         const Percent = document.getElementById('Percent');
 
         // Если уже набрано 100% или пользователь собирается набрать больше 100% - отключается поле выбора Категории и кнопка добавить
-        if (enteredPercent > remainingPercent || totalPercent === 100) {
+        if (enteredPercent > remainingPercent || totalPercent === 100 || enteredPercent === 0) {
             submitButton.style.display = 'none';;
             CategoryGuid.style.display = 'none';;
         }
@@ -84,7 +83,6 @@
         if (totalPercent === 100) {  // Только если уже набрано 100% - пропадает поле для ввода процентов. Чтобы добавить - нужно удалить какую-то из добавленных категорий
             Percent.style.display = 'none';;
         }
-
     }
 
 </script>
