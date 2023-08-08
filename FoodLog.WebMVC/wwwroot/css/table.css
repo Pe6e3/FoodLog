@@ -65,7 +65,7 @@
 
 .cinereousTable .column3 {
     width: 100px;
- 
+    text-align: -webkit-center;
 }
 
 .cinereousTable .column4 {

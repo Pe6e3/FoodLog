@@ -22,8 +22,7 @@ namespace FoodLog.DAL.Controllers
 
         public async Task<IActionResult> IndexPartial(Guid prodGuid)
         {
-            IEnumerable<ProductCategory> prodCats = await _uow.ProdCatRepository.GetEntity("Product", "Category");
-            prodCats = prodCats.Where(x => x.Product?.Guid == prodGuid);
+            IEnumerable<ProductCategory> prodCats = await _uow.ProdCatRepository.GetProdCatsByProdGuid(prodGuid);
             return PartialView("_Categories", prodCats);
         }
 
@@ -31,8 +30,9 @@ namespace FoodLog.DAL.Controllers
         {
             ViewBag.ProdGuid = prodGuid;
             ViewBag.AllCategories = await _uow.CategoryRepository.GetEntity();
+            ViewBag.ProdCats = await _uow.ProdCatRepository.GetProdCatsByProdGuid(prodGuid);
 
-            return PartialView("_CreateCategory"  );
+            return PartialView("_CreateCategory");
         }
 
         public async Task<IActionResult> Create(Guid prodGuid)
@@ -46,7 +46,7 @@ namespace FoodLog.DAL.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductCategory prodCat )
+        public async Task<IActionResult> Create(ProductCategory prodCat)
         {
             await _uow.ProdCatRepository.Insert(prodCat);
             return RedirectToAction("Update", "Products", new { prodGuid = prodCat.ProductGuid });
