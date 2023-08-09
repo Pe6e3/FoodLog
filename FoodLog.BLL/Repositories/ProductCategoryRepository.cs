@@ -13,6 +13,11 @@ public class ProductCategoryRepository : GenericRepository<ProductCategory>, IPr
         _db = db;
     }
 
+    public async Task<double> GetCatsSum(Guid productGuid) => await
+        _db.ProductCategories
+        .Where(x => x.ProductGuid == productGuid)
+        .SumAsync(x => x.Percent);
+
     public async Task<IEnumerable<ProductCategory>> GetProdCatsByProdGuid(Guid prodGuid) => await
             _db.ProductCategories
             .Where(x => x.ProductGuid == prodGuid)

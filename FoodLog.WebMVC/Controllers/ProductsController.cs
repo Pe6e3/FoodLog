@@ -3,21 +3,33 @@ using Microsoft.AspNetCore.Mvc;
 using FoodLog.DAL.Data;
 using FoodLog.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using FoodLog.WebMVC.ViewModels;
+using AutoMapper;
 
 namespace FoodLog.DAL.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly UnitOfWork _uow;
-        public ProductsController(UnitOfWork uow)
+        private readonly IMapper _mapper;
+
+        public ProductsController(UnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Product> products = await _uow.ProductRepository.GetEntity();
-            return View(products.OrderByDescending(x => x.Calories));
+            //IEnumerable<Product> products = await _uow.ProductRepository.GetEntity();
+            IEnumerable<Product> products = await _uow.ProductRepository.GetProductsWithCatPercent();
+            IEnumerable<ProductCatPercentVM> productsVM = new List<ProductCatPercentVM>();
+            _mapper.Map(products, productsVM);
+
+            foreach (ProductCatPercentVM productVM in productsVM)
+                productVM.PercentSum = await _uow.ProdCatRepository.GetCatsSum(productVM.ProductGuid);
+
+            return View(productsVM.OrderByDescending(x => x.Calories));
         }
 
 
