@@ -91,10 +91,9 @@
         });
     }
 
-    function getCreateCategory(prodGuid) {                                                 // Обновляем блок добавления Категории
+    function getCreateCategory(prodGuid) {                                             // Обновляем блок добавления Категории
         $.get('@Url.Action("CreatePartial", "ProductCategories")', { prodGuid: prodGuid }, function (content) {
             $("#_createCategory").html(content);
         });
     }
-
 </script>
