@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FoodLog.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class cascade : Migration
+    public partial class Dish : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,35 +26,28 @@ namespace FoodLog.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductCategories",
-                columns: table => new
-                {
-                    Guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProductGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoryGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Percent = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductCategories", x => x.Guid);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
                     Guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Caloriers = table.Column<double>(type: "float", nullable: false),
+                    Calories = table.Column<double>(type: "float", nullable: false),
                     Prot = table.Column<double>(type: "float", nullable: false),
                     Carb = table.Column<double>(type: "float", nullable: false),
                     Fat = table.Column<double>(type: "float", nullable: false),
                     HarmScore = table.Column<double>(type: "float", nullable: false),
-                    TrashPercentage = table.Column<double>(type: "float", nullable: false)
+                    TrashPercentage = table.Column<double>(type: "float", nullable: false),
+                    DishGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DishProductGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Guid);
+                    table.ForeignKey(
+                        name: "FK_Products_Products_DishProductGuid",
+                        column: x => x.DishProductGuid,
+                        principalTable: "Products",
+                        principalColumn: "Guid");
                 });
 
             migrationBuilder.CreateTable(
@@ -94,6 +87,32 @@ namespace FoodLog.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductCategories",
+                columns: table => new
+                {
+                    Guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Percent = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductCategories", x => x.Guid);
+                    table.ForeignKey(
+                        name: "FK_ProductCategories_Categories_CategoryGuid",
+                        column: x => x.CategoryGuid,
+                        principalTable: "Categories",
+                        principalColumn: "Guid",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductCategories_Products_ProductGuid",
+                        column: x => x.ProductGuid,
+                        principalTable: "Products",
+                        principalColumn: "Guid",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Purchases",
                 columns: table => new
                 {
@@ -122,10 +141,7 @@ namespace FoodLog.DAL.Migrations
                     Guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Brutto = table.Column<double>(type: "float", nullable: false),
                     Netto = table.Column<double>(type: "float", nullable: false),
-                    TrashPercentage = table.Column<double>(type: "float", nullable: false),
-                    TrashWeight = table.Column<double>(type: "float", nullable: false),
                     GuidOfPurchase = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PurchaseGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProductGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -139,8 +155,8 @@ namespace FoodLog.DAL.Migrations
                         principalColumn: "Guid",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Consumptions_Purchases_PurchaseGuid",
-                        column: x => x.PurchaseGuid,
+                        name: "FK_Consumptions_Purchases_GuidOfPurchase",
+                        column: x => x.GuidOfPurchase,
                         principalTable: "Purchases",
                         principalColumn: "Guid");
                 });
@@ -153,9 +169,7 @@ namespace FoodLog.DAL.Migrations
                     ProductGuid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     GuidOfPurchase = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CurrentWeight = table.Column<double>(type: "float", nullable: false),
-                    CurrentCost = table.Column<double>(type: "float", nullable: false),
-                    WeightConsume = table.Column<double>(type: "float", nullable: false),
-                    WeightRemainsAfter = table.Column<double>(type: "float", nullable: false)
+                    CurrentCost = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,37 +226,37 @@ namespace FoodLog.DAL.Migrations
                 columns: new[] { "Guid", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("09bfc9a6-cdd5-466f-89e0-f1dcf5b78d14"), "Яйцо" },
-                    { new Guid("26fd5306-bf0b-43d4-ba44-4cdd9b2656f4"), "Фрукты" },
-                    { new Guid("27220565-ed98-4539-a058-ab3052a87a10"), "Кондитерка" },
-                    { new Guid("3acae9b6-8506-4a9c-bd32-34db36702df4"), "Сухофрукты" },
-                    { new Guid("44278d56-c9f4-497f-a70c-45dd40fea258"), "Орехи / Злаки / Семена" },
-                    { new Guid("4a027cbc-3002-4314-b163-8d0b8fed8b3c"), "Рыба / Морепродукты" },
-                    { new Guid("7a53d1d2-c51f-4f96-a1bd-0d152a8a23a8"), "Термичка на ПЖП" },
-                    { new Guid("7c46c288-9dab-4ab8-a844-6ae9f994f679"), "Молочка" },
-                    { new Guid("965ed878-64e9-4ce2-a193-e2fce9dd57be"), "Зелень / Овощи" },
-                    { new Guid("9bc89530-48a3-4a29-ac22-899ac95deee5"), "Кофе" },
-                    { new Guid("9d42513a-2dd6-4cc5-8bc6-8c8b92d58e4a"), "Термичка растительная" },
-                    { new Guid("a9e27af0-b138-4ad3-a690-1b73e3c05e8b"), "Вода" },
-                    { new Guid("b8d52205-7775-4478-9aac-95249b4078cb"), "Соки / Чай" },
-                    { new Guid("cefd207a-2189-4511-b561-860c4432a7ac"), "Мясо" }
+                    { new Guid("07c78969-f5bb-4068-9015-8a72bae20a43"), "Кофе" },
+                    { new Guid("0f75939b-52a1-42d2-8733-955ffcfef745"), "Молочка" },
+                    { new Guid("14b98281-5bd2-437f-89c7-319f010cc139"), "Термичка растительная" },
+                    { new Guid("234fb3d5-7f1e-45f4-837b-7a1f3481cee9"), "Кондитерка" },
+                    { new Guid("23baa3ed-071d-4f84-9c72-63862b896547"), "Соки / Чай" },
+                    { new Guid("38206c24-d635-4b04-9139-c37bc72e8545"), "Фрукты" },
+                    { new Guid("40d96637-b7fd-4cdf-9d73-e9b793784e21"), "Зелень / Овощи" },
+                    { new Guid("4f342060-ef44-4685-ad2c-ba5ae019419f"), "Орехи / Злаки / Семена" },
+                    { new Guid("6d5c5245-0bd6-4388-bebd-2027afabde66"), "Сухофрукты" },
+                    { new Guid("72498c82-02ca-4d89-b31b-5f3ec3a99795"), "Рыба / Морепродукты" },
+                    { new Guid("83575475-c98b-4d7e-a40f-cebe7527650a"), "Мясо" },
+                    { new Guid("b3421f98-ce21-4432-96ef-9764fb2ce9f9"), "Вода" },
+                    { new Guid("b4f81e13-1d95-4f8f-864b-8fa739c3529a"), "Яйцо" },
+                    { new Guid("baa2ceae-130f-477a-8238-ae543438910e"), "Термичка на ПЖП" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Guid", "Caloriers", "Carb", "Fat", "HarmScore", "Name", "Prot", "TrashPercentage" },
+                columns: new[] { "Guid", "Calories", "Carb", "DishGuid", "DishProductGuid", "Fat", "HarmScore", "Name", "Prot", "TrashPercentage" },
                 values: new object[,]
                 {
-                    { new Guid("0628b102-16cc-4faa-b688-21cd5d8c2332"), 59.0, 4.7000000000000002, 3.0, 15.0, "Йогурт", 3.5, 0.0 },
-                    { new Guid("34511e28-683e-4740-8b87-0396c74f246b"), 576.0, 6.0, 49.0, 20.0, "Миндаль", 21.0, 0.0 },
-                    { new Guid("37b75af3-8cfa-4933-aa33-a5b279128c20"), 69.0, 17.600000000000001, 0.20000000000000001, 8.0, "Виноград", 0.59999999999999998, 10.0 },
-                    { new Guid("4660dc27-419c-4923-afa8-435632dff217"), 96.0, 21.0, 0.20000000000000001, 10.0, "Банан", 1.0, 36.0 },
-                    { new Guid("49d83145-4fca-4816-b785-446734a6372d"), 52.0, 11.4, 0.40000000000000002, 10.0, "Яблоко", 0.29999999999999999, 10.0 },
-                    { new Guid("58809d41-a01d-4795-81ad-1148caab64aa"), 208.0, 0.0, 14.300000000000001, 25.0, "Лосось", 20.0, 0.0 },
-                    { new Guid("b66dcaf8-0634-40f9-99ac-d19022cad85e"), 61.0, 14.6, 0.5, 6.0, "Киви", 1.1000000000000001, 12.0 },
-                    { new Guid("c0d37cca-514c-419a-aefa-8004ea6f7490"), 57.0, 12.699999999999999, 0.10000000000000001, 7.0, "Груша", 0.40000000000000002, 3.0 },
-                    { new Guid("d3dc68aa-9d55-4c88-a291-57623a8b4638"), 43.0, 8.1999999999999993, 0.20000000000000001, 5.0, "Апельсин", 0.90000000000000002, 40.0 },
-                    { new Guid("db33e6e2-fc02-4247-8fd2-574960fd6165"), 18.0, 3.8999999999999999, 0.20000000000000001, 5.0, "Томат", 0.90000000000000002, 5.0 }
+                    { new Guid("08404a72-21b0-4bbf-bdea-1ca067b31f83"), 43.0, 8.1999999999999993, null, null, 0.20000000000000001, 5.0, "Апельсин", 0.90000000000000002, 40.0 },
+                    { new Guid("67012f03-f4bb-4037-b54e-6cfbb27080cc"), 208.0, 0.0, null, null, 14.300000000000001, 25.0, "Лосось", 20.0, 0.0 },
+                    { new Guid("6dfc429a-5163-4dcb-8e0d-d0903fcf6579"), 18.0, 3.8999999999999999, null, null, 0.20000000000000001, 5.0, "Томат", 0.90000000000000002, 5.0 },
+                    { new Guid("862e7aec-de07-447c-a280-e4e1ddfd1d4e"), 52.0, 11.4, null, null, 0.40000000000000002, 10.0, "Яблоко", 0.29999999999999999, 10.0 },
+                    { new Guid("932d3943-7c05-4a8a-9f85-79b3d3edd768"), 61.0, 14.6, null, null, 0.5, 6.0, "Киви", 1.1000000000000001, 12.0 },
+                    { new Guid("a01eef5e-0010-4b02-84a7-7659fb4d1819"), 59.0, 4.7000000000000002, null, null, 3.0, 15.0, "Йогурт", 3.5, 0.0 },
+                    { new Guid("a8d35511-96d3-4483-8e38-c3c2779e7149"), 96.0, 21.0, null, null, 0.20000000000000001, 10.0, "Банан", 1.0, 36.0 },
+                    { new Guid("e12e3243-4320-4bad-b07e-24f93d31f2e8"), 57.0, 12.699999999999999, null, null, 0.10000000000000001, 7.0, "Груша", 0.40000000000000002, 3.0 },
+                    { new Guid("ee06e4e0-1b3c-475c-b8f1-eb29005cd3d2"), 576.0, 6.0, null, null, 49.0, 20.0, "Миндаль", 21.0, 0.0 },
+                    { new Guid("f3e2babe-ef45-481a-86cd-7f5a9fde4ce2"), 69.0, 17.600000000000001, null, null, 0.20000000000000001, 8.0, "Виноград", 0.59999999999999998, 10.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -250,10 +264,10 @@ namespace FoodLog.DAL.Migrations
                 columns: new[] { "Guid", "ReasonName" },
                 values: new object[,]
                 {
-                    { new Guid("2944c545-ce79-4fc4-a92b-300747d0bf94"), "Испортился" },
-                    { new Guid("41abc6f0-d046-4995-8b16-65905e4de9dc"), "Угостил" },
-                    { new Guid("8ad473da-1b07-4aba-8c29-a7a572096c2d"), "Несъедобная часть" },
-                    { new Guid("c7f208bf-5b51-4d95-8c0f-39b526d91ff4"), "Потеря/усушка" }
+                    { new Guid("225b09a1-031e-49de-9c86-dd47a1e2af7b"), "Угостил" },
+                    { new Guid("76a12b60-6556-4fd5-8570-a98c1e91f80a"), "Потеря/усушка" },
+                    { new Guid("a34f0039-884f-4d18-8c8d-4972553d199f"), "Испортился" },
+                    { new Guid("c9a62be9-f680-4567-ab2f-3b5a9dcd3abc"), "Несъедобная часть" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -262,14 +276,29 @@ namespace FoodLog.DAL.Migrations
                 column: "ProductsGuid");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Consumptions_GuidOfPurchase",
+                table: "Consumptions",
+                column: "GuidOfPurchase");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Consumptions_ProductGuid",
                 table: "Consumptions",
                 column: "ProductGuid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Consumptions_PurchaseGuid",
-                table: "Consumptions",
-                column: "PurchaseGuid");
+                name: "IX_ProductCategories_CategoryGuid",
+                table: "ProductCategories",
+                column: "CategoryGuid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductCategories_ProductGuid",
+                table: "ProductCategories",
+                column: "ProductGuid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_DishProductGuid",
+                table: "Products",
+                column: "DishProductGuid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Purchases_ProductGuid",

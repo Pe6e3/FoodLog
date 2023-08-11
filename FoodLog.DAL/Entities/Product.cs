@@ -12,4 +12,8 @@ public class Product : BaseEntity
 
     public virtual List<Category>? Categories { get; set; }
 
+
+    public Guid? DishGuid { get; set; }
+    public virtual Product? DishProduct { get; set; } // Ссылка на родительский продукт, который является назваанием блюда
+
 }

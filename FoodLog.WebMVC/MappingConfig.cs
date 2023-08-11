@@ -13,8 +13,6 @@ namespace Portal.Web
                 .ForMember(dest => dest.GuidOfPurchase, opt => opt.MapFrom(src => src.Guid))
                 .ForMember(dest => dest.CurrentCost, opt => opt.MapFrom(src => src.CurrentCost))
                 .ForMember(dest => dest.CurrentWeight, opt => opt.MapFrom(src => src.CurrentWeight))
-                .ForMember(dest => dest.WeightConsume, opt => opt.MapFrom(src => src.WeightConsume))
-                .ForMember(dest => dest.WeightRemainsAfter, opt => opt.MapFrom(src => src.WeightRemainsAfter))
                 .ForMember(dest => dest.GuidOfPurchase, opt => opt.MapFrom(src => src.GuidOfPurchase))
                 .ForMember(dest => dest.ProductGuid, opt => opt.MapFrom(src => src.ProductGuid));
 
@@ -23,9 +21,7 @@ namespace Portal.Web
                .ForMember(dest => dest.CurrentCost, opt => opt.MapFrom(src => src.Purchase.Price * src.CurrentWeight / 1000))
                .ForMember(dest => dest.CurrentWeight, opt => opt.MapFrom(src => src.CurrentWeight))
                .ForMember(dest => dest.ProductGuid, opt => opt.MapFrom(src => src.ProductGuid))
-               .ForMember(dest => dest.WeightConsume, opt => opt.MapFrom(src => src.WeightConsume))
                .ForMember(dest => dest.GuidOfPurchase, opt => opt.MapFrom(src => src.GuidOfPurchase))
-               .ForMember(dest => dest.WeightRemainsAfter, opt => opt.MapFrom(src => src.WeightRemainsAfter))
                .ForPath(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name));
 
 

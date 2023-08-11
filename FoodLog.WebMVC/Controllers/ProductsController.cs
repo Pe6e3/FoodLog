@@ -57,5 +57,21 @@ namespace FoodLog.DAL.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        public async Task<IActionResult> CreateDish(Product product)
+        {
+
+
+
+            return View();
+        }
+        public async Task<IActionResult> AddProductToDish(Guid dishGuid, Product product)
+        {
+            product.DishGuid = dishGuid;
+            await _uow.ProductRepository.Update(product);
+
+            return View(nameof(Index));
+        }
+
     }
 }
