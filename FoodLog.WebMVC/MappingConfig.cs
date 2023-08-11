@@ -9,14 +9,14 @@ namespace Portal.Web
 
         public MappingConfig()
         {
-            CreateMap<StorageLineVM, StorageProduct>()
+            CreateMap<StorageLineVM, ProductStorage>()
                 .ForMember(dest => dest.GuidOfPurchase, opt => opt.MapFrom(src => src.Guid))
                 .ForMember(dest => dest.CurrentCost, opt => opt.MapFrom(src => src.CurrentCost))
                 .ForMember(dest => dest.CurrentWeight, opt => opt.MapFrom(src => src.CurrentWeight))
                 .ForMember(dest => dest.GuidOfPurchase, opt => opt.MapFrom(src => src.GuidOfPurchase))
                 .ForMember(dest => dest.ProductGuid, opt => opt.MapFrom(src => src.ProductGuid));
 
-            CreateMap<StorageProduct, StorageLineVM>()
+            CreateMap<ProductStorage, StorageLineVM>()
                .ForMember(dest => dest.Guid, opt => opt.MapFrom(src => src.Guid))
                .ForMember(dest => dest.CurrentCost, opt => opt.MapFrom(src => src.Purchase.Price * src.CurrentWeight / 1000))
                .ForMember(dest => dest.CurrentWeight, opt => opt.MapFrom(src => src.CurrentWeight))

@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FoodLog.WebMVC.Controllers
 {
-    public class StorageProductsController : Controller
+    public class DishStorageesController : Controller
     {
         private readonly UnitOfWork _uow;
         private readonly IMapper _mapper;
 
-        public StorageProductsController(UnitOfWork uow, IMapper mapper)
+        public DishStorageesController(UnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
             _mapper = mapper;
@@ -20,8 +20,7 @@ namespace FoodLog.WebMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //IEnumerable<StorageProduct> storageProducts = await _uow.StorageProductRepository.GetEntity(Include:"Product",Include2:"Purchase");
-            IEnumerable<StorageProduct> storageProducts = await _uow.StorageProductRepository.GetStorage();
+            IEnumerable<ProductStorage> storageProducts = await _uow.ProductStorageRepository.GetStorage();
             IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
             _mapper.Map(storageProducts, storageLineVMs);
 
@@ -30,7 +29,7 @@ namespace FoodLog.WebMVC.Controllers
 
         public async Task<IActionResult> IndexPartial(string filter = "")
         {
-            IEnumerable<StorageProduct> storageProducts = await _uow.StorageProductRepository.GetEntity("Product", "Purchase");
+            IEnumerable<ProductStorage> storageProducts = await _uow.ProductStorageRepository.GetEntity("Product", "Purchase");
             IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
             _mapper.Map(storageProducts, storageLineVMs);
             ViewBag.Filter = filter;
@@ -49,19 +48,19 @@ namespace FoodLog.WebMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(StorageLineVM storageLineVM)
         {
-            var storageProduct = new StorageProduct();
+            var storageProduct = new ProductStorage();
             _mapper.Map(storageLineVM, storageProduct);
-            await _uow.StorageProductRepository.Insert(storageProduct);
+            await _uow.ProductStorageRepository.Insert(storageProduct);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(Guid storageProductGuid)
         {
-            await _uow.StorageProductRepository.Delete(storageProductGuid);
+            await _uow.ProductStorageRepository.Delete(storageProductGuid);
             return RedirectToAction(nameof(Index));
         }
 
 
-        public async Task<double> GetProductRemains(Guid prodGuid) => (await _uow.StorageProductRepository.GetStorageRemains(prodGuid)).Sum();
+        public async Task<double> GetProductRemains(Guid prodGuid) => (await _uow.ProductStorageRepository.GetStorageRemains(prodGuid)).Sum();
     }
 }

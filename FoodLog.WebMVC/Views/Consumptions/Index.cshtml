@@ -135,7 +135,7 @@
 
                 // Вызываем экшн GetProductRemains с помощью Ajax
                 $.ajax({
-                    url: '@Url.Action("GetProductRemains", "StorageProducts")',
+                    url: '@Url.Action("GetProductRemains", "ProductStorages")',
                     data: { prodGuid: selectedProductGuid },
                     type: 'GET',
                     success: function (data) {
@@ -233,7 +233,7 @@
         }
 
         function getStorage(filter = "") {                   // Обновляем блок Склад
-            $.get('@Url.Action("IndexPartial", "StorageProducts")', { filter: filter }, function (content) {
+            $.get('@Url.Action("IndexPartial", "ProductStorages")', { filter: filter }, function (content) {
                 $("#storageProductsPartial").html(content);
             });
         }

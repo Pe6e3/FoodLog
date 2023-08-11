@@ -58,14 +58,14 @@ public class ConsumptionsController : Controller
     public async Task<IActionResult> CalculateConsume(ConsumptionVM consumptionVM)
     {
         double consumptionWeight = consumptionVM.Brutto;
-        IEnumerable<StorageProduct> storage = await _uow.StorageProductRepository.FilterProducts(consumptionVM.ProductGuid);  // Получаем все строки с данным продуктом
+        IEnumerable<ProductStorage> storage = await _uow.ProductStorageRepository.FilterProducts(consumptionVM.ProductGuid);  // Получаем все строки с данным продуктом
         if (storage.Sum(s => s.CurrentWeight) < consumptionWeight)                                                          // Проверяем: если хотим употребить больше чем есть, то вывести ошибку
         {
             ModelState.AddModelError("", "Недостаточно продукта на складе для потребления.");
             return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        foreach (StorageProduct storageProduct in storage)                                      // Перебираем каждую строку с потребляемым продуктом сверху вниз
+        foreach (ProductStorage storageProduct in storage)                                      // Перебираем каждую строку с потребляемым продуктом сверху вниз
         {
             double lineWeight = storageProduct.CurrentWeight;                                   // Вес продукта, который указан в строке
             if (consumptionWeight > 0)                                                          // Вес продукта, который собираемся съесть
@@ -81,7 +81,7 @@ public class ConsumptionsController : Controller
         _mapper.Map(storage, storageLineVMs);
         return PartialView("_StorageTable", storageLineVMs);
     }
-    private async Task WriteOffTrash(StorageProduct storageProduct, double trashPercentage, double consumeWeight)
+    private async Task WriteOffTrash(ProductStorage storageProduct, double trashPercentage, double consumeWeight)
     {
         if (trashPercentage != 0)
         {
@@ -98,15 +98,15 @@ public class ConsumptionsController : Controller
         }
     }
 
-    private async Task WriteOffStorage(StorageProduct storageProduct, double brutto)
+    private async Task WriteOffStorage(ProductStorage storageProduct, double brutto)
     {
         if (storageProduct.CurrentWeight == brutto)
         {
-            await _uow.StorageProductRepository.Delete(storageProduct);
+            await _uow.ProductStorageRepository.Delete(storageProduct);
             return;
         }
         storageProduct.CurrentWeight -= brutto;
-        await _uow.StorageProductRepository.Update(storageProduct);
+        await _uow.ProductStorageRepository.Update(storageProduct);
     }
 
     private async Task AddConsume(Guid purchaseGuid, double netto)
@@ -124,13 +124,13 @@ public class ConsumptionsController : Controller
 
 
 
-    public async Task<IActionResult> StorageProductsPartial()
+    public async Task<IActionResult> ProductStoragesPartial()
     {
-        IEnumerable<StorageProduct> storageProducts = await _uow.StorageProductRepository.GetEntity("Product", "Purchase");
+        IEnumerable<ProductStorage> storageProducts = await _uow.ProductStorageRepository.GetEntity("Product", "Purchase");
         IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
         _mapper.Map(storageProducts, storageLineVMs);
 
-        return PartialView("StorageProductsPartial", storageLineVMs);
+        return PartialView("ProductStoragesPartial", storageLineVMs);
     }
 
 

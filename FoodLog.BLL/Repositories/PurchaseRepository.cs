@@ -19,9 +19,9 @@ public class PurchaseRepository : GenericRepository<Purchase>, IPurchaseReposito
         if (purchase != null)
             _db.Purchases.Remove(purchase);
 
-        var storageProduct = await _db.StorageProducts.FindAsync(purchaseGuid);
+        var storageProduct = await _db.ProductStorages.FindAsync(purchaseGuid);
         if (storageProduct != null)
-            _db.StorageProducts.Remove(storageProduct);
+            _db.ProductStorages.Remove(storageProduct);
 
         await _db.SaveChangesAsync();
 

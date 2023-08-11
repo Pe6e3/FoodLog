@@ -2,7 +2,7 @@
 
 namespace FoodLog.DAL.Entities
 {
-    public class StorageDish : BaseEntity
+    public class DishStorage : BaseEntity
     {
         public Guid ProductGuid { get; set; }
         public virtual Product Product { get; set; } = null!;

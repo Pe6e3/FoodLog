@@ -2,7 +2,7 @@
 
 namespace FoodLog.DAL.Entities;
 
-public class StorageProduct : StorageDish
+public class ProductStorage : DishStorage
 {
 
    Guid DishGuid { get; set; }
