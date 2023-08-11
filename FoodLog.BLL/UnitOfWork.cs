@@ -12,6 +12,7 @@ public class UnitOfWork
         _db = db;
     }
 
+    private DishProductRepository _dishProductRepository;
     private ProductRepository _productRepository;
     private CategoryRepository _categoryRepository;
     private ConsumptionRepository _consumptionRepository;
@@ -21,6 +22,7 @@ public class UnitOfWork
     private ReasonRepository _reasonRepository;
     private ProductCategoryRepository _productCategoryRepository;
 
+    public DishProductRepository DishProductRepository => _dishProductRepository ??= new DishProductRepository(_db);
     public ProductRepository ProductRepository => _productRepository ??= new ProductRepository(_db);
     public CategoryRepository CategoryRepository => _categoryRepository ??= new CategoryRepository(_db);
     public ConsumptionRepository ConsumptionRepository => _consumptionRepository ??= new ConsumptionRepository(_db);

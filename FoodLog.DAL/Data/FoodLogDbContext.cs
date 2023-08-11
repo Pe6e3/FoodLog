@@ -1,6 +1,5 @@
 ﻿using FoodLog.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace FoodLog.DAL.Data;
 
@@ -17,6 +16,7 @@ public class FoodLogDbContext : DbContext
     public DbSet<ProductStorage> ProductsStorage { get; set; }
     public DbSet<Trash> Trashes { get; set; }
     public DbSet<WriteOffReason> WriteOffReasons { get; set; }
+    public DbSet<DishProduct> DishProducts { get; set; }
 
 
 
