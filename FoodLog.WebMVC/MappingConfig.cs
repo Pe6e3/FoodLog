@@ -25,6 +25,7 @@ namespace Portal.Web
                .ForPath(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name));
 
 
+
             CreateMap<Product, ProductCatPercentVM>()
                .ForMember(dest => dest.ProductGuid, opt => opt.MapFrom(src => src.Guid))
                .ForMember(dest => dest.PercentSum, opt => opt.Ignore())
