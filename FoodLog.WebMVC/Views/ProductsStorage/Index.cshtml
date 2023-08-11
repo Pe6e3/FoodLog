@@ -1,4 +1,4 @@
-﻿@*Список продуктов на складе List  StorageProduct.cs  *@
+﻿@*Список продуктов на складе List  ProductStorage.cs  *@
 @using FoodLog.WebMVC.ViewModels;
 @model IEnumerable<StorageLineVM>
 
@@ -14,7 +14,7 @@
                 <th>Стоимость покупки</th>
                 <th>Дата покупки</th>
                 <th>Вес остатка</th>
-                <th><a asp-controller="StorageProducts" asp-action="Create"> <i class="fa-solid fa-circle-plus" style="font-size: 22px; color: green;"></i> </a></th>
+                <th><a asp-controller="ProductsStorage" asp-action="Create"> <i class="fa-solid fa-circle-plus" style="font-size: 22px; color: green;"></i> </a></th>
             </tr>
         </thead>
         <tbody>

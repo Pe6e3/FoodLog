@@ -1,30 +1,39 @@
 ﻿@using FoodLog.DAL.Entities
-@model IEnumerable<Product>
-
+@using FoodLog.WebMVC.ViewModels;
+@model IEnumerable<ProductCatPercentVM>
 
 <div class="container">
-<div class="d-flex justify-content-end mb-2">
-    <a class="btn btn-outline-danger" asp-controller="Products" asp-action="Create"> Новый продукт </a>
-</div>
+    <div class="d-flex justify-content-end mb-2">
+        <a class="btn btn-outline-danger" asp-controller="Products" asp-action="Create"> Новый продукт </a>
+    </div>
 
     <table class="cinereousTable">
         <thead>
             <tr>
-                <th>Название</th>
-                <th>Калории</th>
-                <th>Белки</th>
-                <th>Жиры</th>
-                <th>Углеводы</th>
-                <th>Оценка вреда</th>
-                <th>Процент на списание</th>
-                <th></th>
+                <th class="columnM" >Название</th>
+                <th class="columnS">Калории</th>
+                <th class="columnS">Белки</th>
+                <th class="columnS">Жиры</th>
+                <th class="columnS">Углеводы</th>
+                <th class="columnS">Оценка вреда</th>
+                <th class="columnS">Процент на списание</th>
+                <th class="columnMini"></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var product in Model)
             {
                 <tr>
-                    <td>@product.Name</td>
+                    @{
+                        if (product.PercentSum == 100)
+                        {
+                            <td><a asp-action="Update" asp-route-prodGuid="@product.Guid" class="btn btn-outline-secondary w-100">@product.Name</a></td>
+                        }
+                        else
+                        {
+                            <td><a asp-action="Update" asp-route-prodGuid="@product.Guid" class="btn btn-outline-danger w-100">@product.Name (@(product.PercentSum)%)</a></td>
+                        }
+                    }
                     <td>@product.Calories</td>
                     <td>@product.Prot</td>
                     <td>@product.Fat</td>
@@ -32,8 +41,7 @@
                     <td>@product.HarmScore</td>
                     <td>@product.TrashPercentage</td>
                     <td>
-                        <a asp-action="Delete" asp-route-prodGuid="@product.Guid"><i class="fa-regular fa-trash-can" style="font-size: 15px; color: red;"></i></a>
-                        <a asp-action="Update" asp-route-prodGuid="@product.Guid"><i class="fa-regular fa-pen-to-square" style="font-size: 15px; color: blue;"></i></a>
+                        <a asp-action="Delete" asp-route-prodGuid="@product.Guid"><i class="fa-regular fa-trash-can" style="font-size: 20px; color: red;"></i></a>
                     </td>
                 </tr>
             }

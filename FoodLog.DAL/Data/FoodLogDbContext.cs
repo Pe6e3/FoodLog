@@ -14,7 +14,8 @@ public class FoodLogDbContext : DbContext
     public DbSet<Consumption> Consumptions { get; set; }
     public DbSet<ProductCategory> ProductCategories { get; set; }
     public DbSet<Purchase> Purchases { get; set; }
-    public DbSet<StorageProduct> StorageProducts { get; set; }
+    public DbSet<ProductStorage> ProductsStorage { get; set; }
+    public DbSet<DishStorage> DishesStorage { get; set; }
     public DbSet<Trash> Trashes { get; set; }
     public DbSet<WriteOffReason> WriteOffReasons { get; set; }
 
@@ -28,11 +29,11 @@ public class FoodLogDbContext : DbContext
             .HasMany(e => e.Products)
             .WithMany(e => e.Categories);
 
-        // Конфигурация для связи между Purchase и StorageProduct
-        modelBuilder.Entity<StorageProduct>()
-            .HasOne(p => p.Purchase)                                // Связь: StorageProduct имеет одну Purchase
-            .WithOne()                                              // Связь: Purchase имеет один StorageProduct 
-            .HasForeignKey<StorageProduct>(p => p.GuidOfPurchase)   // Внешний ключ в StorageProduct для связи с Purchase
+        // Конфигурация для связи между Purchase и ProductStorage
+        modelBuilder.Entity<ProductStorage>()
+            .HasOne(p => p.Purchase)                                // Связь: ProductStorage имеет одну Purchase
+            .WithOne()                                              // Связь: Purchase имеет один ProductStorage 
+            .HasForeignKey<ProductStorage>(p => p.GuidOfPurchase)   // Внешний ключ в ProductStorage для связи с Purchase
             .OnDelete(DeleteBehavior.NoAction);
 
 

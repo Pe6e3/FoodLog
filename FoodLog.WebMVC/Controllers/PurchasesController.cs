@@ -43,12 +43,12 @@ namespace FoodLog.DAL.Controllers
             await _uow.PurchaseRepository.Insert(purchase);
 
             // добавляем купленный товар на склад
-            var storageProduct = new StorageProduct();
+            var storageProduct = new ProductStorage();
             storageProduct.GuidOfPurchase = purchase.Guid;
             storageProduct.ProductGuid = purchase.ProductGuid;
             storageProduct.CurrentWeight = purchase.Weight;
             storageProduct.CurrentCost = purchase.Cost;
-            await _uow.StorageProductRepository.Insert(storageProduct);
+            await _uow.ProductStorageRepository.Insert(storageProduct);
 
             return RedirectToAction(nameof(Index));
         }

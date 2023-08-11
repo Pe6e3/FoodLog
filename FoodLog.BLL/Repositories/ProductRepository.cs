@@ -16,12 +16,23 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     public async Task<Guid> GetProdGuidByPurchaseGuid(Guid purchaseGuid)
     {
         Purchase? purchase = await _db.Purchases.FirstOrDefaultAsync(x => x.Guid == purchaseGuid);
+
         return purchase == null ? Guid.Empty : purchase.ProductGuid;
+    }
+
+    public async Task<IEnumerable<Product>> GetProductsWithCatPercent()
+    {
+        List<Product> products = await
+            _db.Products
+            .ToListAsync();
+
+        return products;
+
     }
 
     public async Task<List<Product>> ProdListFromStorage()
     {
-        List<StorageProduct> storageProducts = await _db.StorageProducts.ToListAsync();
+        List<ProductStorage> storageProducts = await _db.ProductsStorage.ToListAsync();
         List<Product> allProducts = await _db.Products.ToListAsync();
         List<Product> products = allProducts
             .Where(p => storageProducts.Any(sp => sp.ProductGuid == p.Guid))

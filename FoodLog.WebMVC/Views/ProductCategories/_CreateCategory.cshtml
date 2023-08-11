@@ -1,0 +1,88 @@
+﻿@*Создание связи Продукт - Категория*@
+@*Partial*@
+
+@using FoodLog.DAL.Entities;
+@model ProductCategory
+
+
+<form asp-action="Create" method="post">
+
+    <table class="cinereousTable " style="border-top:0;max-width: 800px ">
+        <input type="hidden" id="ProductGuid" name="ProductGuid" value="@ViewBag.ProdGuid">
+
+        <tbody>
+            <tr>
+                <td class="categoryColumn">
+                    <select class="form-control" id="CategoryGuid" name="CategoryGuid" required>
+                        <option value=""> </option>
+
+                        @foreach (var category in ViewBag.AllCategories)
+                        {
+                            <option value="@category.Guid">@category.Name</option>
+                        }
+                    </select>
+                </td>
+
+                <td class="percentColumn ">
+                    <input type="text" class="form-control" id="Percent" name="Percent" style="display:initial" required>
+                </td>
+
+                <td class="buttonColumn">
+                    <button type="submit" class="btn btn-outline-primary" id="submitButton">
+                        <i class="fa-regular fa-add" style="font-size: 15px; color: blue;"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
+
+<script>
+
+    window.addEventListener('load', updatePercentValue);                                       // Вызываем функцию при загрузке страницы
+    document.getElementById('Percent').addEventListener('change', afterUpdatingPercent);       // Вызываем функцию при изменении значения в поле Процент
+    var totalPercent = 0;                                                                      // Переменная, в которой хранится сумма всех процентов по данной категории
+    var prodCats = @Html.Raw(Json.Serialize(ViewBag.ProdCats));                                // Получение всех категорий данного продукта из ViewBag.ProdCats
+
+    // Функция для обновления % содержания в категории
+    function updatePercentValue() {
+        updateTotalPercent()
+
+        const percentField = document.querySelector('.percentColumn input');         // Получаем значение из поля percentColumn
+        percentField.value = `${100 - totalPercent.toFixed(0)}`;
+        afterUpdatingPercent()
+    }
+
+    function updateTotalPercent() {                                                  // Суммирование значений Percent у категорий данного продукта
+        totalPercent = 0;
+        prodCats.forEach(function (prodCat) {
+            totalPercent += prodCat.percent;
+        });
+    }
+
+    function afterUpdatingPercent() {                                                // действия после обновления поля с Процентом
+        const percentField = document.querySelector('.percentColumn input');         // Получаем значение из поля percentColumn
+        const enteredPercent = parseFloat(percentField.value);                       // Получаем введенное пользователем значение
+        const remainingPercent = 100 - totalPercent;
+        const submitButton = document.getElementById('submitButton');
+        const CategoryGuid = document.getElementById('CategoryGuid');
+        const Percent = document.getElementById('Percent');
+
+        // Если уже набрано 100% или пользователь собирается набрать больше 100% - отключается поле выбора Категории и кнопка добавить
+        if (enteredPercent > remainingPercent || totalPercent === 100 || enteredPercent === 0) {
+            submitButton.style.display = 'none';;
+            CategoryGuid.style.display = 'none';;
+        }
+        else {
+            submitButton.style.display = '';
+            CategoryGuid.style.display = '';
+            Percent.style.display = '';
+        }
+        if (totalPercent === 100) {  // Только если уже набрано 100% - пропадает поле для ввода процентов. Чтобы добавить - нужно удалить какую-то из добавленных категорий
+            Percent.style.display = 'none';;
+        }
+    }
+
+</script>

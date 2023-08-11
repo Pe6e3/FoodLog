@@ -63,32 +63,37 @@
                 </div>
 
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-outline-primary">Изменить</button>
+                    <button id="editButton" type="submit" class="btn btn-outline-primary">Изменить</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
+<div class="container d-grid justify-content-center">
 
-<style>
-    .createNew * input {
-        min-width: 60px;
-        max-width:300px;   }
+    <div id="_categories" class="mt-4"></div>
+    <div id="_createCategory"></div>
+</div>
 
-    /*.createNew * label {
-        min-width: 300px;
-    }*/
 
-    .createNew * form {
-        min-width: 600px;
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/editedButton.js"></script>
+<script>
+    getCategories('@Model.Guid');
+    getCreateCategory('@Model.Guid');
+
+    function getCategories(prodGuid) {                                                 // Обновляем блок Категорий
+        $.get('@Url.Action("IndexPartial", "ProductCategories")', { prodGuid: prodGuid }, function (content) {
+            $("#_categories").html(content);
+        });
     }
-</style>
 
-
-
-
-
-
-
-
+    function getCreateCategory(prodGuid) {                                             // Обновляем блок добавления Категории
+        $.get('@Url.Action("CreatePartial", "ProductCategories")', { prodGuid: prodGuid }, function (content) {
+            $("#_createCategory").html(content);
+        });
+    }
+</script>

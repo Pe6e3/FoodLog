@@ -12,11 +12,11 @@
 
     <table class="cinereousTable">
         <thead>
-            <tr>
-                <th style="height:60px;">Дата</th>
-                <th>Название</th>
-                <th>Чистый вес</th>
-                <th>Стоимость</th>
+            <tr style="height:70px;">
+                <th class="columnM">Дата</th>
+                <th class="columnM">Название</th>
+                <th class="columnS">Чистый вес</th>
+                <th class="columnS">Стоимость</th>
             </tr>
         </thead>
         <tbody>
@@ -25,7 +25,7 @@
                 <tr>
                     <td>@consumption.Date.ToString("dd.MM.yyyy HH:mm")</td>
                     <td>@consumption.Product.Name </td>
-                    <td>@consumption.Netto</td>
+                    <td>@(Math.Round((decimal)consumption.Netto))</td>
                     <td>@(Math.Round((decimal)consumption.Purchase?.Price * (decimal)consumption.Netto / 1000))</td>
                 </tr>
             }

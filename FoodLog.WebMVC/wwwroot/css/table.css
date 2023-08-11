@@ -1,7 +1,7 @@
 ﻿table.cinereousTable {
     border: 6px solid #948473;
     background-color: #FFE3C6;
-    width: 100%;
+    /*width: 100%;*/
     text-align: center;
 }
 
@@ -52,3 +52,47 @@
         table.cinereousTable tfoot td {
             font-size: 16px;
         }
+
+
+ 
+
+.cinereousTable .categoryColumn {
+    width: 260px;
+}
+
+.cinereousTable .percentColumn {
+    width: 100px;
+    text-align: -webkit-center;
+}
+
+.cinereousTable .buttonColumn {
+    width: 80px;
+}
+
+.cinereousTable {
+    text-align: center;
+    margin: 0 auto; /* Центрирование полей ввода */
+}
+
+    .cinereousTable .categoryColumn .form-control {
+        text-align: center;
+        max-width: 250px;
+    }
+
+    .cinereousTable .percentColumn .form-control {
+        text-align: center;
+        max-width: 60px;
+    }
+
+.columnMini {
+    width: 50px;
+}
+.columnS {
+    width: 80px;
+}
+.columnM {
+    width: 200px;
+}
+.columnL {
+    width: 300px;
+}
