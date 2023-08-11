@@ -20,18 +20,18 @@ namespace FoodLog.WebMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<ProductStorage> storageProducts = await _uow.ProductStorageRepository.GetStorage();
+            IEnumerable<DishStorage> storageDishes = await _uow.DishStorageRepository.GetStorage();
             IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
-            _mapper.Map(storageProducts, storageLineVMs);
+            _mapper.Map(storageDishes, storageLineVMs);
 
             return View(storageLineVMs);
         }
 
         public async Task<IActionResult> IndexPartial(string filter = "")
         {
-            IEnumerable<ProductStorage> storageProducts = await _uow.ProductStorageRepository.GetEntity("Product", "Purchase");
+            IEnumerable<DishStorage> storageDishes = await _uow.DishStorageRepository.GetEntity("Dish", "Purchase");
             IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
-            _mapper.Map(storageProducts, storageLineVMs);
+            _mapper.Map(storageDishes, storageLineVMs);
             ViewBag.Filter = filter;
 
             return PartialView("_StorageTable", storageLineVMs);
@@ -41,26 +41,26 @@ namespace FoodLog.WebMVC.Controllers
 
         public async Task<IActionResult> Create()
         {
-            ViewBag.AllProducts = await _uow.ProductRepository.GetEntity();
+            ViewBag.AllDishes = await _uow.DishStorageRepository.GetEntity();
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(StorageLineVM storageLineVM)
         {
-            var storageProduct = new ProductStorage();
-            _mapper.Map(storageLineVM, storageProduct);
-            await _uow.ProductStorageRepository.Insert(storageProduct);
+            var storageDish = new DishStorage();
+            _mapper.Map(storageLineVM, storageDish);
+            await _uow.DishStorageRepository.Insert(storageDish);
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete(Guid storageProductGuid)
+        public async Task<IActionResult> Delete(Guid storageDishGuid)
         {
-            await _uow.ProductStorageRepository.Delete(storageProductGuid);
+            await _uow.DishStorageRepository.Delete(storageDishGuid);
             return RedirectToAction(nameof(Index));
         }
 
 
-        public async Task<double> GetProductRemains(Guid prodGuid) => (await _uow.ProductStorageRepository.GetStorageRemains(prodGuid)).Sum();
+        public async Task<double> GetDishRemains(Guid prodGuid) => (await _uow.DishStorageRepository.GetStorageRemains(prodGuid)).Sum();
     }
 }

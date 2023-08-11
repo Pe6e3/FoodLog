@@ -162,7 +162,7 @@ namespace FoodLog.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DishStorages",
+                name: "DishesStorage",
                 columns: table => new
                 {
                     Guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -174,15 +174,15 @@ namespace FoodLog.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DishStorages", x => x.Guid);
+                    table.PrimaryKey("PK_DishesStorage", x => x.Guid);
                     table.ForeignKey(
-                        name: "FK_DishStorages_Products_ProductGuid",
+                        name: "FK_DishesStorage_Products_ProductGuid",
                         column: x => x.ProductGuid,
                         principalTable: "Products",
                         principalColumn: "Guid",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DishStorages_Purchases_GuidOfPurchase",
+                        name: "FK_DishesStorage_Purchases_GuidOfPurchase",
                         column: x => x.GuidOfPurchase,
                         principalTable: "Purchases",
                         principalColumn: "Guid");
@@ -227,20 +227,20 @@ namespace FoodLog.DAL.Migrations
                 columns: new[] { "Guid", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("003cf935-53f4-40fc-8f96-53d9ddeb1ffa"), "Рыба / Морепродукты" },
-                    { new Guid("200f30ce-8479-460d-b7bf-a4bb36f064dd"), "Кофе" },
-                    { new Guid("261c026c-085a-467b-9b2f-5e58b169d84f"), "Термичка растительная" },
-                    { new Guid("456ddb2d-10aa-4551-8dcf-5792b99250f3"), "Термичка на ПЖП" },
-                    { new Guid("6caddd64-3c55-4b63-9943-039b7803399e"), "Орехи / Злаки / Семена" },
-                    { new Guid("82651452-7830-4621-ae38-9fa0db9c0118"), "Вода" },
-                    { new Guid("94cb3b5c-5b47-427b-ac45-02d2b47f5cef"), "Кондитерка" },
-                    { new Guid("9be3c474-4710-4228-8f3c-42cfed08fddb"), "Яйцо" },
-                    { new Guid("c98895fa-aacc-4171-8a8c-804320838c37"), "Сухофрукты" },
-                    { new Guid("cf15b8f1-a461-4bb5-8fdc-831b525f5cbd"), "Соки / Чай" },
-                    { new Guid("d516c9bb-3af9-499a-9264-d92b1e3c45b4"), "Молочка" },
-                    { new Guid("d818d171-0e7e-4e13-b276-87823096e730"), "Зелень / Овощи" },
-                    { new Guid("f1eaf9aa-ed39-4176-abee-893cf8d8df82"), "Фрукты" },
-                    { new Guid("f792c423-f8a2-4854-8b2b-6cc11d2208de"), "Мясо" }
+                    { new Guid("0c53dae6-50b7-414a-b275-c9fd402334ab"), "Вода" },
+                    { new Guid("1320890b-e6e7-437f-a125-394ac855524b"), "Орехи / Злаки / Семена" },
+                    { new Guid("1691dfb2-d1aa-475e-9adc-c3a13da7b182"), "Фрукты" },
+                    { new Guid("182fd3d0-f29c-441c-b9fe-d3ec4925419e"), "Кондитерка" },
+                    { new Guid("2479d5a4-e57b-49e0-9935-a15f4c7f1558"), "Яйцо" },
+                    { new Guid("2fdee237-5795-4c2d-b336-63b7b140c94f"), "Сухофрукты" },
+                    { new Guid("47ecdb52-aae3-428d-9bf4-12641550519b"), "Зелень / Овощи" },
+                    { new Guid("57f649de-3f20-4772-93a7-9f4ef430cd6f"), "Молочка" },
+                    { new Guid("7092b1be-99ba-4c89-ae17-c4b534337aad"), "Термичка на ПЖП" },
+                    { new Guid("7d314380-d310-49d0-966b-4301f0fc0a12"), "Термичка растительная" },
+                    { new Guid("93348858-202e-42b0-9298-5b60b6b43745"), "Мясо" },
+                    { new Guid("a6db4a4a-4024-4a43-a1b3-5643410a0360"), "Соки / Чай" },
+                    { new Guid("f7680e78-ab47-4357-9bc4-ed90cf541684"), "Рыба / Морепродукты" },
+                    { new Guid("fb8bd159-d7ba-4dd4-ae38-5108f2630a01"), "Кофе" }
                 });
 
             migrationBuilder.InsertData(
@@ -248,16 +248,16 @@ namespace FoodLog.DAL.Migrations
                 columns: new[] { "Guid", "Calories", "Carb", "DishGuid", "DishProductGuid", "Fat", "HarmScore", "Name", "Prot", "TrashPercentage" },
                 values: new object[,]
                 {
-                    { new Guid("066da8a8-c3f1-4684-accf-09bfcfa81445"), 96.0, 21.0, null, null, 0.20000000000000001, 10.0, "Банан", 1.0, 36.0 },
-                    { new Guid("727ecdb2-a935-459f-9fa7-26933e054b82"), 208.0, 0.0, null, null, 14.300000000000001, 25.0, "Лосось", 20.0, 0.0 },
-                    { new Guid("8f61d987-1397-4573-8c6b-e971e47532fb"), 43.0, 8.1999999999999993, null, null, 0.20000000000000001, 5.0, "Апельсин", 0.90000000000000002, 40.0 },
-                    { new Guid("93d28aa8-0921-45b9-b62b-ea7b25a5c8c9"), 576.0, 6.0, null, null, 49.0, 20.0, "Миндаль", 21.0, 0.0 },
-                    { new Guid("981b1685-bda3-4e24-9244-0d5343eea109"), 59.0, 4.7000000000000002, null, null, 3.0, 15.0, "Йогурт", 3.5, 0.0 },
-                    { new Guid("a6d7d539-cc4f-4046-a9a7-c4994d6d4b6e"), 69.0, 17.600000000000001, null, null, 0.20000000000000001, 8.0, "Виноград", 0.59999999999999998, 10.0 },
-                    { new Guid("c25fd486-4fd5-4078-b3c1-9805296c3559"), 52.0, 11.4, null, null, 0.40000000000000002, 10.0, "Яблоко", 0.29999999999999999, 10.0 },
-                    { new Guid("d2983fe7-00d1-4756-88bc-9d4061800b1f"), 57.0, 12.699999999999999, null, null, 0.10000000000000001, 7.0, "Груша", 0.40000000000000002, 3.0 },
-                    { new Guid("df2970b6-5dd9-4d38-8a56-e7845554855d"), 61.0, 14.6, null, null, 0.5, 6.0, "Киви", 1.1000000000000001, 12.0 },
-                    { new Guid("f0e45ad2-6748-403d-be46-727645864aa2"), 18.0, 3.8999999999999999, null, null, 0.20000000000000001, 5.0, "Томат", 0.90000000000000002, 5.0 }
+                    { new Guid("011375b6-ce9f-4fdb-b870-0dff43655a36"), 52.0, 11.4, null, null, 0.40000000000000002, 10.0, "Яблоко", 0.29999999999999999, 10.0 },
+                    { new Guid("0dba265c-4c17-4bfd-befc-16c2187c5100"), 61.0, 14.6, null, null, 0.5, 6.0, "Киви", 1.1000000000000001, 12.0 },
+                    { new Guid("2fcea8b5-0086-4490-9876-9f718bc9840f"), 43.0, 8.1999999999999993, null, null, 0.20000000000000001, 5.0, "Апельсин", 0.90000000000000002, 40.0 },
+                    { new Guid("3757c61d-b669-4d6f-888f-124ccd274095"), 59.0, 4.7000000000000002, null, null, 3.0, 15.0, "Йогурт", 3.5, 0.0 },
+                    { new Guid("5a0e72a9-b593-4dc8-992e-a6cfc30f24cd"), 96.0, 21.0, null, null, 0.20000000000000001, 10.0, "Банан", 1.0, 36.0 },
+                    { new Guid("6c5714a8-31ad-4dbe-929a-dbb78e490752"), 69.0, 17.600000000000001, null, null, 0.20000000000000001, 8.0, "Виноград", 0.59999999999999998, 10.0 },
+                    { new Guid("8a08057c-845e-44b0-a474-0e3fe0c72d26"), 208.0, 0.0, null, null, 14.300000000000001, 25.0, "Лосось", 20.0, 0.0 },
+                    { new Guid("bfd33b14-f18e-41aa-bb20-338f213e39f8"), 576.0, 6.0, null, null, 49.0, 20.0, "Миндаль", 21.0, 0.0 },
+                    { new Guid("c314b094-bf95-48eb-a389-b9cbbe18fe51"), 18.0, 3.8999999999999999, null, null, 0.20000000000000001, 5.0, "Томат", 0.90000000000000002, 5.0 },
+                    { new Guid("ce8dc8ff-151a-43f9-8384-e4c4890ed405"), 57.0, 12.699999999999999, null, null, 0.10000000000000001, 7.0, "Груша", 0.40000000000000002, 3.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -265,10 +265,10 @@ namespace FoodLog.DAL.Migrations
                 columns: new[] { "Guid", "ReasonName" },
                 values: new object[,]
                 {
-                    { new Guid("118b4b5f-42a2-4332-90a1-045724f75884"), "Потеря/усушка" },
-                    { new Guid("225d5e58-4937-46c0-b020-2dc07f470ae7"), "Испортился" },
-                    { new Guid("58e3e602-58a1-418d-8547-f423f3c6cc1b"), "Угостил" },
-                    { new Guid("af08a24a-eab9-4ea0-ae08-025e98f6bed5"), "Несъедобная часть" }
+                    { new Guid("16b1d6bf-da90-41a3-95e9-c98c86db6539"), "Потеря/усушка" },
+                    { new Guid("2e18dba7-333b-4692-bac6-2f30f3f50669"), "Угостил" },
+                    { new Guid("406c6d0c-5231-4693-8251-e6d29ea70bbb"), "Несъедобная часть" },
+                    { new Guid("9c7f6c98-bc6f-47c6-9643-190250d0347c"), "Испортился" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -287,14 +287,14 @@ namespace FoodLog.DAL.Migrations
                 column: "ProductGuid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DishStorages_GuidOfPurchase",
-                table: "DishStorages",
+                name: "IX_DishesStorage_GuidOfPurchase",
+                table: "DishesStorage",
                 column: "GuidOfPurchase",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_DishStorages_ProductGuid",
-                table: "DishStorages",
+                name: "IX_DishesStorage_ProductGuid",
+                table: "DishesStorage",
                 column: "ProductGuid");
 
             migrationBuilder.CreateIndex(
@@ -343,7 +343,7 @@ namespace FoodLog.DAL.Migrations
                 name: "Consumptions");
 
             migrationBuilder.DropTable(
-                name: "DishStorages");
+                name: "DishesStorage");
 
             migrationBuilder.DropTable(
                 name: "ProductCategories");

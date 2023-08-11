@@ -14,8 +14,8 @@ public class FoodLogDbContext : DbContext
     public DbSet<Consumption> Consumptions { get; set; }
     public DbSet<ProductCategory> ProductCategories { get; set; }
     public DbSet<Purchase> Purchases { get; set; }
-    public DbSet<ProductStorage> ProductStorages { get; set; }
-    public DbSet<DishStorage> DishStorages { get; set; }
+    public DbSet<ProductStorage> ProductsStorage { get; set; }
+    public DbSet<DishStorage> DishesStorage { get; set; }
     public DbSet<Trash> Trashes { get; set; }
     public DbSet<WriteOffReason> WriteOffReasons { get; set; }
 

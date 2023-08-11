@@ -124,13 +124,13 @@ public class ConsumptionsController : Controller
 
 
 
-    public async Task<IActionResult> ProductStoragesPartial()
+    public async Task<IActionResult> ProductsStoragePartial()
     {
         IEnumerable<ProductStorage> storageProducts = await _uow.ProductStorageRepository.GetEntity("Product", "Purchase");
         IEnumerable<StorageLineVM> storageLineVMs = new List<StorageLineVM>();
         _mapper.Map(storageProducts, storageLineVMs);
 
-        return PartialView("ProductStoragesPartial", storageLineVMs);
+        return PartialView("ProductsStoragePartial", storageLineVMs);
     }
 
 

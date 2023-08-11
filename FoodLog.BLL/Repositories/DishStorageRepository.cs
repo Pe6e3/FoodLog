@@ -14,12 +14,12 @@ public class DishStorageRepository : GenericRepository<DishStorage>, IDishStorag
     }
 
     public async Task<List<DishStorage>> FilterDishes(Guid productGuid)=>
-        await _db.DishStorages.Where(x=>x.ProductGuid == productGuid).ToListAsync();
+        await _db.DishesStorage.Where(x=>x.ProductGuid == productGuid).ToListAsync();
 
     public async Task<IEnumerable<DishStorage>> GetStorage()
     {
         IEnumerable<DishStorage> storageDishes = await
-            _db.DishStorages
+            _db.DishesStorage
             .Include(x => x.Product)
             .Include(y => y.Purchase)
             .ToListAsync();
@@ -28,7 +28,7 @@ public class DishStorageRepository : GenericRepository<DishStorage>, IDishStorag
 
     public async Task<double[]> GetStorageRemains(Guid productGuid)
     {
-        List<DishStorage> storageDishes = await _db.DishStorages.Where(x => x.ProductGuid == productGuid).ToListAsync();
+        List<DishStorage> storageDishes = await _db.DishesStorage.Where(x => x.ProductGuid == productGuid).ToListAsync();
         double[] storageRemains = new double[storageDishes.Count];
         int count = 0;
         foreach (DishStorage storageDish in storageDishes)

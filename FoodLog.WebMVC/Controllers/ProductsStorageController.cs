@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FoodLog.WebMVC.Controllers
 {
-    public class ProductStoragesController : Controller
+    public class ProductsStorageController : Controller
     {
         private readonly UnitOfWork _uow;
         private readonly IMapper _mapper;
 
-        public ProductStoragesController(UnitOfWork uow, IMapper mapper)
+        public ProductsStorageController(UnitOfWork uow, IMapper mapper)
         {
             _uow = uow;
             _mapper = mapper;

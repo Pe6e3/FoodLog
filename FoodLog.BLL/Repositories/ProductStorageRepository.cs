@@ -14,12 +14,12 @@ public class ProductStorageRepository : GenericRepository<ProductStorage>, IProd
     }
 
     public async Task<List<ProductStorage>> FilterProducts(Guid productGuid)=>
-        await _db.ProductStorages.Where(x=>x.ProductGuid == productGuid).ToListAsync();
+        await _db.ProductsStorage.Where(x=>x.ProductGuid == productGuid).ToListAsync();
 
     public async Task<IEnumerable<ProductStorage>> GetStorage()
     {
         IEnumerable<ProductStorage> storageProducts = await
-            _db.ProductStorages
+            _db.ProductsStorage
             .Include(x => x.Product)
             .Include(y => y.Purchase)
             .ToListAsync();
@@ -28,7 +28,7 @@ public class ProductStorageRepository : GenericRepository<ProductStorage>, IProd
 
     public async Task<double[]> GetStorageRemains(Guid productGuid)
     {
-        List<ProductStorage> storageProducts = await _db.ProductStorages.Where(x => x.ProductGuid == productGuid).ToListAsync();
+        List<ProductStorage> storageProducts = await _db.ProductsStorage.Where(x => x.ProductGuid == productGuid).ToListAsync();
         double[] storageRemains = new double[storageProducts.Count];
         int count = 0;
         foreach (ProductStorage storageProduct in storageProducts)
