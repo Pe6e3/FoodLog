@@ -58,17 +58,30 @@ namespace FoodLog.DAL.Controllers
         }
 
 
-        public async Task<IActionResult> CreateDish(Product product)
+        public async Task<IActionResult> Production(Product product)
         {
 
-
-
-            return View();
+            IEnumerable<ProductStorage> productsStorage = await _uow.ProductStorageRepository.GetEntity("Product", "Purchase");
+            var storageLineVM = new List<StorageLineVM>();
+            _mapper.Map(productsStorage, storageLineVM);
+            return View(storageLineVM);
         }
-        public async Task<IActionResult> AddProductToDish(Guid dishGuid, Product product)
+
+
+
+        public async Task<IActionResult> AddProductToDish(Consumption consumption,  Guid dishGuid )
         {
-            product.DishGuid = dishGuid;
-            await _uow.ProductRepository.Update(product);
+            ConsumptionVM consumptionVM = new ConsumptionVM();
+            _mapper.Map(consumption, consumptionVM);
+
+            RedirectToAction("CalculateConsume", "Consumptions", consumptionVM);
+            // TODO:
+            // 1. Списываем продукт в том количестве, которое указали:
+                // а. Убавляем со склада
+                // б. Создаем списание
+                // в. НЕ создаем потребление
+            // 2. Заполняем промежуточную таблицу DishProduct
+            // 3. Добавляем продукту с Guid = dishGuid данные: БЖУ, цена, стоимость, количество
 
             return View(nameof(Index));
         }

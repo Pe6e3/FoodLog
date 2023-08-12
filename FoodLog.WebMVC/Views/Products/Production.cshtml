@@ -1,0 +1,44 @@
+﻿@*Список продуктов на складе List  ProductStorage.cs  *@
+    
+@using FoodLog.WebMVC.ViewModels;
+@model IEnumerable<StorageLineVM>
+
+<div class="container">
+    <h2 class="mb-4 text-center">Продукты на складе</h2>
+
+    <table class="cinereousTable" id="storageProductsTable">
+        <thead>
+            <tr>
+                <th class="columnM">Наименование продукта</th>
+                <th class="columnS">Текущий вес</th>
+                <th class="columnS">Стоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int count = 0;
+                double[] cost = new double[Model.Count()];
+                foreach (var storageProduct in Model)
+                {
+                    <tr data-product-id="@storageProduct.Guid">
+                        <td>@storageProduct.ProductName</td>
+                        <td>@storageProduct.CurrentWeight</td>
+                        <td>@storageProduct.CurrentCost </td>
+                    </tr>
+                }
+                // TODO: суммы по столбцам
+            }
+            <tr>
+                <td><strong>Итого:</strong></td>
+                <td><strong><span id="totalWeight">0</span> г</strong></td>
+                <td><strong><span id="totalCost">0</span> т</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
+
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/storage.js"></script>
+
