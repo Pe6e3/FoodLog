@@ -17,7 +17,6 @@ builder.Services.AddDbContext<FoodLogDbContext>(options =>
 
 
 
-
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<UnitOfWork>();
 
