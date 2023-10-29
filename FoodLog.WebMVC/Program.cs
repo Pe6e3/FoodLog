@@ -8,8 +8,13 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+//builder.Services.AddDbContext<FoodLogDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("FoodLogContext")));
 builder.Services.AddDbContext<FoodLogDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("FoodLogContext")));
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("FoodLogContext"));
+});
+
 
 
 
