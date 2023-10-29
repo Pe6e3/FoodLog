@@ -59,21 +59,22 @@ public class ConsumptionsController : Controller
     {
         double consumptionWeight = consumptionVM.Brutto;
         IEnumerable<ProductStorage> storage = await _uow.ProductStorageRepository.FilterProducts(consumptionVM.ProductGuid);  // Получаем все строки с данным продуктом
-        if (storage.Sum(s => s.CurrentWeight) < consumptionWeight)                                                          // Проверяем: если хотим употребить больше чем есть, то вывести ошибку
+        if (storage.Sum(s => s.CurrentWeight) < consumptionWeight)                                                            // Проверяем: если хотим употребить больше чем есть, то вывести ошибку
         {
             ModelState.AddModelError("", "Недостаточно продукта на складе для потребления.");
             return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        foreach (ProductStorage storageProduct in storage)                                      // Перебираем каждую строку с потребляемым продуктом сверху вниз
+        foreach (ProductStorage productStorage in storage)                                      // Перебираем каждую строку с потребляемым продуктом сверху вниз
         {
-            double lineWeight = storageProduct.CurrentWeight;                                   // Вес продукта, который указан в строке
+            double lineWeight = productStorage.CurrentWeight;                                   // Вес продукта, который указан в строке
             if (consumptionWeight > 0)                                                          // Вес продукта, который собираемся съесть
             {
                 double tempWeight = consumptionWeight;  // локальная переменная, которая не изменится до того, как начнет выполнятся асинхронный метод (в отличие от consumptionWeight)
-                await WriteOffTrash(storageProduct, consumptionVM.TrashPercentage, Math.Min(tempWeight, storageProduct.CurrentWeight));
-                await WriteOffStorage(storageProduct, Math.Min(tempWeight, lineWeight));
-                await AddConsume(storageProduct.GuidOfPurchase, Math.Min(tempWeight, lineWeight) * (1 - (consumptionVM.TrashPercentage / 100)));
+                double netto = Math.Min(tempWeight, lineWeight) * (1 - (consumptionVM.TrashPercentage / 100));
+                await WriteOffTrash(productStorage, consumptionVM.TrashPercentage, Math.Min(tempWeight, productStorage.CurrentWeight));
+                await WriteOffStorage(productStorage, Math.Min(tempWeight, lineWeight));
+                await AddConsume(productStorage.GuidOfPurchase, netto);
                 consumptionWeight -= lineWeight;                                                // Вычитаем из общего веса, который необходимо употребить, тот вес, который только что списали
             }
         }

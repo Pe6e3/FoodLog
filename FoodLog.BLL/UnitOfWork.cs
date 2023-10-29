@@ -12,22 +12,22 @@ public class UnitOfWork
         _db = db;
     }
 
+    private DishProductRepository _dishProductRepository;
     private ProductRepository _productRepository;
     private CategoryRepository _categoryRepository;
     private ConsumptionRepository _consumptionRepository;
     private PurchaseRepository _purchaseRepository;
     private ProductStorageRepository _storageProductRepository;
-    private DishStorageRepository _storageDishRepository;
     private TrashRepository _trashRepository;
     private ReasonRepository _reasonRepository;
     private ProductCategoryRepository _productCategoryRepository;
 
+    public DishProductRepository DishProductRepository => _dishProductRepository ??= new DishProductRepository(_db);
     public ProductRepository ProductRepository => _productRepository ??= new ProductRepository(_db);
     public CategoryRepository CategoryRepository => _categoryRepository ??= new CategoryRepository(_db);
     public ConsumptionRepository ConsumptionRepository => _consumptionRepository ??= new ConsumptionRepository(_db);
     public PurchaseRepository PurchaseRepository => _purchaseRepository ??= new PurchaseRepository(_db);
     public ProductStorageRepository ProductStorageRepository => _storageProductRepository ??= new ProductStorageRepository(_db);
-    public DishStorageRepository DishStorageRepository => _storageDishRepository ??= new DishStorageRepository(_db);
     public TrashRepository TrashRepository => _trashRepository ??= new TrashRepository(_db);
     public ReasonRepository ReasonRepository => _reasonRepository ??= new ReasonRepository(_db);
     public ProductCategoryRepository ProdCatRepository => _productCategoryRepository ??= new ProductCategoryRepository(_db);

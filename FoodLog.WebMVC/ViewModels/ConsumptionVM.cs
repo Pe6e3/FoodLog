@@ -11,7 +11,7 @@ namespace FoodLog.WebMVC.ViewModels
         public double TrashWeight { get; set; }
 
         [ForeignKey(nameof(Purchase))]
-        public Guid GuidOfPurchase { get; set; } // записываем Guid источника продукта
+        public Guid GuidOfPurchase { get; set; } // Guid источника продукта
         public virtual Purchase? Purchase { get; set; }
     }
 }
