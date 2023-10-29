@@ -39,6 +39,80 @@
 <link rel="stylesheet" href="~/css/table.css" asp-append-version="true" />
 
 
+<div class="container createNew" style="max-width:500px;">
+    <div class="row justify-content-center">
+        <div class="col-md">
+            <h2 class="text-center mb-4">Добавить съеденный продукт</h2>
+
+            <form asp-action="Create" method="post" style="display:contents">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group row my-2">
+                    <label for="ProductGuid" class="col-sm col-form-label">Продукт</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" id="ProductGuid" name="ProductGuid" required>
+                            <option value=""> </option>
+                            @foreach (var product in @Model)
+                            {
+                                <option value="@product.ProductGuid" data-guid="@product.Guid">@product.ProductName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row my-2">
+                    <label for="Brutto" class="col-sm col-form-label">Вес из магазина</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="Brutto" name="Brutto" required>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="TrashPercentage" class="col-sm col-form-label">Списано в %</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="TrashPercentage" name="TrashPercentage" value="">
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="TrashWeight" class="col-sm col-form-label">Списано в г</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="TrashWeight" name="TrashWeight">
+                    </div>
+                </div>
+
+
+                <div class="form-group row my-2">
+                    <label for="Netto" class="col-sm col-form-label">Чистый вес</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="Netto" name="Netto">
+                    </div>
+                </div>
+
+
+                <div class="form-group row my-2">
+                    <label for="Date" class="col-sm col-form-label">Дата</label>
+                    <div class="col-sm-4">
+                        <input type="date" class="form-control" id="Date" name="Date" value="@DateTime.Now.ToString("yyyy-MM-dd")" required>
+                    </div>
+                </div>
+
+
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-outline-primary">Добавить</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+
+
 <script src="/js/jquery.min.js"></script>
 <script src="/js/storage.js"></script>
 
